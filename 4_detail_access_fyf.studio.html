@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance Check: FYF Edition - Köln</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        :root {
+            --fyf-noir: #0A0A0A;
+            --fyf-carbon: #1A1A1A;
+            --fyf-charcoal: #2D2D3F;
+            --fyf-coral: #FF6B6B;
+            --fyf-mint: #4ECDC4;
+            --fyf-cream: #FFF8E7;
+            --fyf-steel: #B8BCC8;
+            --fyf-purple: #8B7FD6;
+            --fyf-orange: #FFB84D;
+            --fyf-pink: #FF69B4;
+            
+            --gradient-dark: linear-gradient(135deg, #0A0A0A 0%, #2D2D3F 100%);
+            --gradient-coral-mint: linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%);
+            --gradient-rainbow: linear-gradient(90deg, #FF6B6B, #FFB84D, #4ECDC4, #8B7FD6);
+            --gradient-mesh: radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.2) 0%, transparent 50%),
+                             radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.2) 0%, transparent 50%),
+                             radial-gradient(circle at 40% 40%, rgba(139, 127, 214, 0.1) 0%, transparent 50%);
+            
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-display);
+            background: var(--fyf-noir);
+            color: var(--fyf-cream);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: var(--gradient-mesh);
+            opacity: 0.4;
+            z-index: -1;
+            animation: meshFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes meshFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Event Navigation */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 12px 30px;
+            border-bottom: 2px solid var(--fyf-coral);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--fyf-cream);
+        }
+
+        .nav-logo::after {
+            content: ' .studio';
+            font-size: 0.8rem;
+            color: var(--fyf-coral);
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--fyf-steel);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--fyf-cream);
+        }
+
+        .nav-cta {
+            padding: 10px 20px;
+            background: var(--gradient-coral-mint);
+            color: var(--fyf-noir);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Main Hero - Git Merge Style */
+        .hero-container {
+            padding: 120px 20px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, #1A1A1A 0%, #2D2D3F 100%);
+            border-radius: 24px;
+            padding: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: var(--gradient-rainbow);
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        .hero-content {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            border-radius: 20px;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-visual {
+            background: var(--gradient-coral-mint);
+            border-radius: 16px;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--fyf-noir);
+            font-weight: 900;
+        }
+
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="30" r="1.5" fill="white" opacity="0.1"/><circle cx="60" cy="70" r="1" fill="white" opacity="0.1"/><circle cx="30" cy="80" r="2.5" fill="white" opacity="0.1"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom Icons */
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .icon-lg {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Hero Badge */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid var(--fyf-coral);
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--fyf-coral);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .hero-title .highlight {
+            background: var(--gradient-coral-mint);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--fyf-steel);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .hero-text-content {
+            font-size: 1.1rem;
+            color: var(--fyf-steel);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .hero-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 30px 0;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .meta-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fyf-mint);
+        }
+
+        .meta-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--fyf-steel);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--fyf-cream);
+        }
+
+        /* CTA Buttons */
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-coral-mint);
+            color: var(--fyf-noir);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--fyf-mint);
+            border: 2px solid var(--fyf-mint);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        /* Konfrontation Section - Redesigned */
+        .confrontation-section {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .confrontation-container {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.03), rgba(78, 205, 196, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confrontation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .confrontation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+            gap: 40px;
+        }
+
+        .confrontation-title-section {
+            flex: 1;
+        }
+
+        .confrontation-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--fyf-cream);
+            line-height: 1.2;
+        }
+
+        .confrontation-subtitle {
+            font-size: 1.1rem;
+            color: var(--fyf-steel);
+            opacity: 0.8;
+        }
+
+        .countdown-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 107, 107, 0.08);
+            border: 2px solid var(--fyf-coral);
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 140px;
+            position: relative;
+        }
+
+        .countdown-display::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: var(--gradient-coral-mint);
+            border-radius: 16px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .countdown-display:hover::before {
+            opacity: 0.3;
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--fyf-coral);
+            font-family: var(--font-mono);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .countdown-label {
+            color: var(--fyf-steel);
+            font-size: 0.85rem;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .confrontation-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .confrontation-text-block > * + * {
+            margin-top: 20px;
+        }
+
+        .confrontation-text {
+            color: var(--fyf-steel);
+            line-height: 1.7;
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+        }
+
+        .confrontation-text strong {
+            color: var(--fyf-coral);
+            font-weight: 600;
+        }
+
+        .confrontation-highlight {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 3px solid var(--fyf-coral);
+            padding: 20px 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .confrontation-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .reality-check-badge {
+            background: linear-gradient(135deg, rgba(139, 127, 214, 0.1), rgba(78, 205, 196, 0.1));
+            border: 1px solid rgba(139, 127, 214, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .reality-check-badge h4 {
+            color: var(--fyf-cream);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .reality-check-badge p {
+            color: var(--fyf-steel);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .time-visual {
+            background: var(--fyf-coral);
+            border-radius: 12px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--fyf-cream);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 1rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .time-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="white" opacity="0.2"/><circle cx="80" cy="30" r="1.5" fill="white" opacity="0.2"/><circle cx="60" cy="70" r="1" fill="white" opacity="0.2"/><circle cx="30" cy="80" r="1.5" fill="white" opacity="0.2"/></svg>');
+            opacity: 0.4;
+        }
+
+        /* Agenda Timeline */
+        .agenda-section {
+            background: linear-gradient(180deg, transparent, rgba(139, 127, 214, 0.02), transparent);
+            padding: 80px 20px;
+        }
+
+        .agenda-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--fyf-coral);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-coral-mint);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-column {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-column::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--fyf-coral), var(--fyf-mint));
+        }
+
+        .timeline-column:nth-child(2)::before {
+            background: linear-gradient(180deg, var(--fyf-mint), var(--fyf-coral));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: slideInLeft 0.6s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+        .timeline-item:nth-child(8) { animation-delay: 0.8s; }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -41px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--fyf-coral);
+            border: 3px solid var(--fyf-noir);
+            border-radius: 50%;
+        }
+
+        .timeline-time {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--fyf-mint);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--fyf-cream);
+            margin-bottom: 8px;
+        }
+
+        .timeline-desc {
+            color: var(--fyf-steel);
+            line-height: 1.5;
+        }
+
+        /* Speaker Grid */
+        .speakers-section {
+            padding: 80px 20px;
+        }
+
+        .speakers-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Speaker Grid - V2 Style */
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .speaker-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--fyf-coral);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .speaker-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            background: var(--gradient-coral-mint);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .speaker-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            filter: grayscale(100%) contrast(1.1);
+            transition: all 0.4s ease;
+        }
+
+        .speaker-placeholder {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--fyf-noir);
+            font-family: var(--font-display);
+        }
+
+        .speaker-card:hover .speaker-image {
+            filter: grayscale(0%) contrast(1.1);
+        }
+
+        .speaker-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 107, 107, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 6px 10px;
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.7rem;
+            color: white;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .speaker-card:hover .speaker-tag {
+            opacity: 1;
+        }
+
+        .speaker-info {
+            padding: 25px;
+        }
+
+        .speaker-name {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--fyf-cream);
+            margin-bottom: 6px;
+        }
+
+        .speaker-role {
+            font-size: 0.8rem;
+            color: var(--fyf-mint);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .speaker-why {
+            font-size: 0.9rem;
+            color: var(--fyf-steel);
+            line-height: 1.5;
+        }
+
+        /* Takeaways Grid - 4 Cards */
+        .takeaways-section {
+            background: linear-gradient(180deg, transparent, rgba(139, 127, 214, 0.02));
+            padding: 50px 20px;
+        }
+
+        .takeaways-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 30px auto 0;
+        }
+
+        .takeaway-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .takeaway-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--fyf-coral);
+            transform: translateY(-3px);
+        }
+
+        .takeaway-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .takeaway-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--fyf-cream);
+            margin-bottom: 8px;
+        }
+
+        .takeaway-desc {
+            color: var(--fyf-steel);
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+
+        /* RSVP Section */
+        .rsvp-section {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, transparent, rgba(255, 107, 107, 0.02));
+        }
+
+        .rsvp-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .rsvp-card {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(78, 205, 196, 0.05));
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            border-image: var(--gradient-coral-mint) 1;
+            border-radius: 24px;
+            padding: 50px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--fyf-cream);
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--fyf-cream);
+            font-family: var(--font-display);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--fyf-mint);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-submit {
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        /* Venue Section */
+        .venue-section {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .venue-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .venue-info {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .venue-map {
+            background: linear-gradient(135deg, rgba(139, 127, 214, 0.1), rgba(78, 205, 196, 0.1));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            font-size: 1.2rem;
+            color: var(--fyf-steel);
+        }
+
+        /* Scroll Animations CSS */
+        :root {
+            --scroll-progress: 0;
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-animate-in {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Parallax Elements */
+        [data-parallax] {
+            will-change: transform;
+        }
+
+        /* Sticky Sections */
+        .sticky-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sticky-content > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .sticky-animate {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* Transform on Scroll */
+        .transform-scroll {
+            will-change: transform, opacity;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Hero Visual Parallax */
+        .hero-visual {
+            transform: translateY(calc(var(--scroll-progress) * -30px));
+        }
+
+        /* Background Mesh Parallax */
+        body::before {
+            transform: scale(1) rotate(0deg) translateY(calc(var(--scroll-progress) * -20px));
+        }
+
+        /* Timeline Parallax Effects */
+        .timeline-column:nth-child(1) {
+            transform: translateY(calc(var(--scroll-progress) * 10px));
+        }
+
+        .timeline-column:nth-child(2) {
+            transform: translateY(calc(var(--scroll-progress) * -10px));
+        }
+
+        /* Speaker Cards Stagger */
+        .speaker-card:nth-child(1) { transition-delay: 0ms; }
+        .speaker-card:nth-child(2) { transition-delay: 200ms; }
+        .speaker-card:nth-child(3) { transition-delay: 400ms; }
+
+        /* Takeaway Cards Stagger */
+        .takeaway-card:nth-child(1) { transition-delay: 0ms; }
+        .takeaway-card:nth-child(2) { transition-delay: 150ms; }
+        .takeaway-card:nth-child(3) { transition-delay: 300ms; }
+
+        /* Performance Optimizations */
+        .scroll-animate,
+        [data-parallax],
+        .transform-scroll {
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-animate,
+            [data-parallax],
+            .transform-scroll,
+            .hero-visual,
+            body::before {
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .confrontation-header {
+                flex-direction: column;
+                gap: 25px;
+                align-items: center;
+                text-align: center;
+            }
+
+            .confrontation-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .confrontation-container {
+                padding: 30px 25px;
+            }
+
+            .countdown-number {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                padding: 40px 30px;
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .hero-visual {
+                height: 200px;
+                font-size: 3rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .confrontation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .speakers-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .speaker-image-wrapper {
+                height: 200px;
+            }
+
+            .speaker-info {
+                padding: 20px;
+            }
+
+            .takeaways-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .venue-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-container">
+            <div class="nav-logo">FYF</div>
+            <div class="nav-links">
+                <a href="#agenda" class="nav-link">Programm</a>
+                <a href="#people" class="nav-link">Speaker</a>
+                <a href="#rsvp" class="nav-link">Ticket</a>
+                <a href="#rsvp" class="nav-cta"> →</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Hero -->
+    <section class="hero-container">
+        <div class="hero-card">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        <span>LIVE EVENT · KÖLN</span>
+                    </div>
+
+                    <h1 class="hero-title">
+                        Balance Check:<br><span class="highlight">Zeit-Edition</span>
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        Dein wichtigstes Konto <span class="highlight">ist im Minus</span>. Und es ist nicht dein Bankkonto.<br>
+                        3h Reality Check + Beats bis Open End.
+                    </p>
+
+                    <p class="hero-text-content">
+                        <strong>Sa, 22. Nov · 18:30</strong> im Alten Pfandhaus Köln<br>
+                        Live-Audit deines Zeit-Vermögens mit Experten, die deine Illusionen zerstören.
+                        Danach: DJ, Drinks, Menschen, die checken, was Zeit wirklich kostet.
+                    </p>
+                </div>
+
+                <div class="hero-visual" data-parallax="0.3">
+                    ⏱
+                </div>
+
+                <div class="hero-meta" style="grid-column: 1 / -1;">
+                    <div class="meta-item">
+                        <div class="meta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                                <path d="M3 9H21"/>
+                                <path d="M8 2V6M16 2V6"/>
+                            </svg>
+                        </div>
+                        <div class="meta-content">
+                            <span class="meta-label">WANN</span>
+                            <span class="meta-value">Sa, 22. November 2025</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <circle cx="12" cy="11" r="3"/>
+                                <path d="M12 2V8M12 14V22"/>
+                                <path d="M19.07 4.93L14.83 9.17M9.17 14.83L4.93 19.07"/>
+                                <path d="M22 12H18M6 12H2"/>
+                                <path d="M19.07 19.07L14.83 14.83M9.17 9.17L4.93 4.93"/>
+                            </svg>
+                        </div>
+                        <div class="meta-content">
+                            <span class="meta-label">WO</span>
+                            <span class="meta-value">Altes Pfandhaus Köln</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6V12L16 14"/>
+                            </svg>
+                        </div>
+                        <div class="meta-content">
+                            <span class="meta-label">START</span>
+                            <span class="meta-value">18:30 Uhr</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <circle cx="9" cy="9" r="2"/>
+                                <circle cx="15" cy="9" r="2"/>
+                                <circle cx="9" cy="15" r="2"/>
+                                <circle cx="15" cy="15" r="2"/>
+                            </svg>
+                        </div>
+                        <div class="meta-content">
+                            <span class="meta-label">LIMIT</span>
+                            <span class="meta-value">40 bis 50 Plätze</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <a href="#rsvp" class="btn btn-primary">
+                        Access
+                        <svg class="icon" style="width: 20px; height: 20px;" viewBox="0 0 24 24">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19"/>
+                        </svg>
+                    </a>
+                    <a href="#agenda" class="btn btn-secondary">
+                        Agenda ansehen
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Konfrontation Section -->
+    <section class="confrontation-section sticky-section">
+        <div class="sticky-content">
+            <div class="confrontation-container">
+                <div class="confrontation-header">
+                    <div class="confrontation-title-section">
+                        <h2 class="confrontation-title">Wie viel Autopilot steckt in deinem Leben?</h2>
+                        <p class="confrontation-subtitle">
+                            Der Reality Check für dein Zeit-Vermögen
+                        </p>
+                    </div>
+                </div>
+
+                <div class="confrontation-content">
+                    <div class="confrontation-text-block">
+                        <p class="confrontation-text">
+                            Wir reden nicht über dein Bankkonto.
+                            Wir reden über dein <strong>Zeit-Konto</strong>. Dein einziges. Der Saldo sinkt jeden Tag.
+                            Sommer vergehen, Wochenenden verschwinden. Wie viele bleiben dir noch?
+                        </p>
+
+                        <div class="confrontation-highlight">
+                            <strong>Für deine Zukunft gibt es keinen Kredit.</strong> Finde heraus, wo du überziehst und
+                            welche zwei Dinge du in den nächsten 90 Tagen streichen musst, um endlich schwarze Zahlen zu schreiben.
+                        </div>
+
+                        <p class="confrontation-text">
+                            <strong>Balance Check: FYF Edition</strong> ist kein Seminar. Es ist eine Abrechnung.
+                            Drei Stunden voller klarer Impulse und harter Fragen zu deiner persönlichen Bilanz:
+                            <strong>Zeit, Geld und Kultur</strong> (deine Identität als Kapital).
+                            Keine PowerPoints, kein Business-Bullshit. Nur Menschen mit Haltung und ein Setting,
+                            das dich zwingt, Position zu beziehen.
+                        </p>
+                    </div>
+
+                    <div class="confrontation-sidebar">
+                        <div class="reality-check-badge">
+                            <h4>Reality Check</h4>
+                            <p>Live-Audit deines Zeit-Vermögens mit Experten, die deine Illusionen zerstören.</p>
+                        </div>
+
+                        <div class="time-visual">
+                            14 Samstage bis Silvester. Wie verbringst du deinen nächsten?
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agenda Timeline -->
+    <section class="agenda-section" id="agenda">
+        <div class="agenda-container">
+            <div class="section-header">
+                <div class="section-label">// AGENDA</div>
+                <h2 class="section-title">3h Input + Open End</h2>
+            </div>
+
+            <div class="timeline-grid">
+                <!-- Spalte 1: Bis Pause (4 Items) -->
+                <div class="timeline-column">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">18:30</div>
+                        <div class="timeline-title">Doors & Ankommen</div>
+                        <div class="timeline-desc">Check-in, Balance-Card Ausgabe, Countdown-Visuals</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">19:00</div>
+                        <div class="timeline-title">Reality Check: Dein Zeitkonto</div>
+                        <div class="timeline-desc">Moderation, Restzeit-Reflexion, Live-Nudge</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">19:20</div>
+                        <div class="timeline-title">Impulse Block I: Drei Konten</div>
+                        <div class="timeline-desc">Zeit-Konto (Zeitgestaltungs-Berater), Fokus-Konto (Zeitmanagement-Experte), Balance-Konto (Achtsamkeits-Expertin)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">20:00</div>
+                        <div class="timeline-title">Pause</div>
+                        <div class="timeline-desc">Drinks, Begegnungen, Downtempo</div>
+                    </div>
+                </div>
+
+                <!-- Spalte 2: Ab Block II (4 Items) -->
+                <div class="timeline-column">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">20:20</div>
+                        <div class="timeline-title">Impulse Block II: Konfrontation</div>
+                        <div class="timeline-desc">Debatte: 'Balance oder Bankrott' + Soapbox</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">20:50</div>
+                        <div class="timeline-title">Salon-Diskussion</div>
+                        <div class="timeline-desc">Offene Runde, Leitfragen, Widerspruch willkommen</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">21:20</div>
+                        <div class="timeline-title">Balance Commit</div>
+                        <div class="timeline-desc">Persönlicher nächster Schritt auf die Karte</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-time">21:30</div>
+                        <div class="timeline-title">Beats & Begegnung (Open End)</div>
+                        <div class="timeline-desc">DJ, House/Techno, Bar, keine Namensschilder</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speakers Section -->
+    <section class="speakers-section" id="people">
+        <div class="speakers-container">
+            <div class="section-header">
+                <div class="section-label">// PEOPLE ON STAGE</div>
+                <h2 class="section-title">Stimmen mit Haltung</h2>
+            </div>
+
+            <!-- Speaker Grid -->
+            <div class="speakers-grid">
+                <div class="speaker-card">
+                    <div class="speaker-image-wrapper">
+                        <div class="speaker-placeholder">JG</div>
+                        <div class="speaker-tag">Zeit-Experte</div>
+                    </div>
+                    <div class="speaker-info">
+                        <div class="speaker-name">Jonas Geißler</div>
+                        <div class="speaker-role">Zeitgestaltungs-Berater</div>
+                        <div class="speaker-why">Kritisiert die 'Zeit ist Geld'-Logik; denkt Zeit systemisch.</div>
+                    </div>
+                </div>
+
+                <div class="speaker-card">
+                    <div class="speaker-image-wrapper">
+                        <div class="speaker-placeholder">LS</div>
+                        <div class="speaker-tag">Hauptkeynote</div>
+                    </div>
+                    <div class="speaker-info">
+                        <div class="speaker-name">Prof. Dr. Lothar Seiwert</div>
+                        <div class="speaker-role">Zeitmanagement-Experte</div>
+                        <div class="speaker-why">Bietet Tools & Strategien, um das Zeitkonto bewusst zu 'buchen'.</div>
+                    </div>
+                </div>
+
+                <div class="speaker-card">
+                    <div class="speaker-image-wrapper">
+                        <div class="speaker-placeholder">CS</div>
+                        <div class="speaker-tag">Achtsamkeit</div>
+                    </div>
+                    <div class="speaker-info">
+                        <div class="speaker-name">Céleste Spahić</div>
+                        <div class="speaker-role">Achtsamkeits-Expertin</div>
+                        <div class="speaker-why">Brücke zwischen innerer Klarheit und äußerer Entscheidung.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Takeaways Section -->
+    <section class="takeaways-section">
+        <div class="section-header">
+            <div class="section-label">// TAKEAWAYS</div>
+            <h2 class="section-title">Was du mitnimmst</h2>
+        </div>
+
+        <div class="takeaways-grid">
+            <div class="takeaway-card">
+                <div class="takeaway-icon">⏱</div>
+                <h3 class="takeaway-title">Die Restzeit-Formel</h3>
+                <p class="takeaway-desc">
+                    Ein klarer Blick auf dein Zeit-Konto. Die Basis für bewusste Entscheidungen.
+                </p>
+            </div>
+            <div class="takeaway-card">
+                <div class="takeaway-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 30px; height: 30px; stroke: currentColor; fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round;">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1V9"/>
+                        <path d="M21 12L13 12"/>
+                        <path d="M12 15V23"/>
+                        <path d="M3 12L11 12"/>
+                        <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-dasharray="3 3" opacity="0.3"/>
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-dasharray="2 2" opacity="0.2"/>
+                    </svg>
+                </div>
+                <h3 class="takeaway-title">3 Perspektiven für mehr Balance</h3>
+                <p class="takeaway-desc">
+                    Impulse von Gründerinnen, Investoren und Kreativen, die zeigen, wie man Zeit neu bewerten und nutzen kann.
+                </p>
+            </div>
+            <div class="takeaway-card">
+                <div class="takeaway-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 30px; height: 30px; stroke: currentColor; fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round;">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M7 12L10 15L17 8" stroke-width="1.5"/>
+                        <circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-dasharray="2 2" opacity="0.2"/>
+                    </svg>
+                </div>
+                <h3 class="takeaway-title">Dein Commitment</h3>
+                <p class="takeaway-desc">
+                    Du formulierst einen konkreten nächsten Schritt und gehst mit einer Entscheidung nach Hause, die sofort umsetzbar ist.
+                </p>
+            </div>
+            <div class="takeaway-card">
+                <div class="takeaway-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 30px; height: 30px; stroke: currentColor; fill: none; stroke-width: 1.25; stroke-linecap: round; stroke-linejoin: round;">
+                        <circle cx="12" cy="4" r="2"/>
+                        <path d="M12 7C10 7 8 9 8 11V14"/>
+                        <path d="M12 7C14 7 16 9 16 11V14"/>
+                        <circle cx="6" cy="14" r="2"/>
+                        <circle cx="18" cy="14" r="2"/>
+                        <path d="M6 17C4 17 2 19 2 21"/>
+                        <path d="M18 17C20 17 22 19 22 21"/>
+                        <path d="M12 7V11" opacity="0.3"/>
+                        <path d="M12 11L6 14M12 11L18 14" stroke-dasharray="2 2" opacity="0.4"/>
+                    </svg>
+                </div>
+                <h3 class="takeaway-title">Echte Begegnungen</h3>
+                <p class="takeaway-desc">
+                    Ab 21:30 Uhr Beats, Drinks und neue Kontakte. Gespräche, die bleiben.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Anmeldung Section -->
+    <section class="rsvp-section" id="rsvp">
+        <div class="rsvp-container">
+            <div class="section-header">
+                <div class="section-label">// ACCESS</div>
+                <h2 class="section-title">Dein Platz wartet</h2>
+            </div>
+
+            <div class="rsvp-card">
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Vorname</label>
+                            <input type="text" name="firstName" class="form-input" placeholder="z.B. Lina" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nachname</label>
+                            <input type="text" name="lastName" class="form-input" placeholder="z.B. König" required>
+                        </div>
+                        <div class="form-group full">
+                            <label class="form-label">E-Mail</label>
+                            <input type="email" name="email" class="form-input" placeholder="du@beispiel.de" required>
+                        </div>
+                        <div class="form-group full">
+                            <label class="form-label">Warum ist der Balance Check jetzt für dich unverzichtbar? (1 Satz)</label>
+                            <textarea name="motivation" class="form-textarea" placeholder="Ein Satz. Kein Bullshit." required></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary form-submit">Request your Ticket</button>
+                    <p style="text-align: center; margin-top: 20px; color: var(--fyf-steel); font-size: 0.9rem;">
+                        Persönlich ausgewählt. Authentizität schlägt Lebenslauf.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Venue Section -->
+    <section class="venue-section">
+        <div class="section-header">
+            <div class="section-label">// VENUE</div>
+            <h2 class="section-title">Location</h2>
+        </div>
+
+        <div class="venue-grid">
+            <div class="venue-info">
+                <h3 style="font-size: 1.5rem; margin-bottom: 20px;">Altes Pfandhaus</h3>
+                <p style="color: var(--fyf-steel); margin-bottom: 15px;">
+                    <strong style="color: var(--fyf-cream);">Kartäuserwall 20, 50678 Köln</strong>
+                </p>
+                <p style="color: var(--fyf-steel); line-height: 1.6;">
+                    Urban, zentral, Galerie-Vibe. Halbkreis-Setup, Projektionen, Bar, DJ-Pult.
+                </p>
+                <p style="color: var(--fyf-mint); margin-top: 20px; font-size: 0.9rem;">
+                    <strong>Tipp:</strong> Öffis: U-Bahn Kartäuserhof; Parken: Umgebung Südstadt.
+                </p>
+            </div>
+            <div class="venue-map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2514.0856899999995!2d6.9276088!3d50.9227788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf25a4a4b4b4b4%3A0x4b4b4b4b4b4b4b4b!2sKart%C3%A4userwall%2020%2C%2050678%20K%C3%B6ln!5e0!3m2!1sde!2sde!4v1234567890!5m2!1sde!2sde"
+                    width="100%"
+                    height="300"
+                    style="border:0; border-radius: 16px;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--fyf-noir); padding: 30px 20px 20px; border-top: 1px solid rgba(255,255,255,0.03);">
+        <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <p style="color: var(--fyf-steel); font-size: 0.85rem; margin: 0 0 15px 0;">
+                © 2025 Fuck...Your Future · hello@fyf.de
+            </p>
+            <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+                <a href="#" style="color: var(--fyf-steel); text-decoration: none; font-size: 0.8rem; opacity: 0.7;">Impressum</a>
+                <a href="#" style="color: var(--fyf-steel); text-decoration: none; font-size: 0.8rem; opacity: 0.7;">Datenschutz</a>
+                <a href="#" style="color: var(--fyf-steel); text-decoration: none; font-size: 0.8rem; opacity: 0.7;">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Progress Variable
+        let scrollProgress = 0;
+
+        // Update scroll progress
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            scrollProgress = scrollTop / docHeight;
+
+            // Update CSS custom property
+            document.documentElement.style.setProperty('--scroll-progress', scrollProgress);
+        }
+
+        // Parallax Multi-Layer Scrolling
+        function initParallax() {
+            const parallaxElements = document.querySelectorAll('[data-parallax]');
+
+            parallaxElements.forEach(element => {
+                const speed = element.dataset.parallax || 0.5;
+                const yPos = -(scrollProgress * window.innerHeight * speed);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+        }
+
+        // Scroll-Triggered Animations
+        const scrollAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('scroll-animate-in');
+                    }, index * 200); // 200ms delay between elements
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Sticky Sections with Internal Animations
+        function initStickyAnimations() {
+            const stickyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('sticky-active');
+
+                        // Animate children within sticky section
+                        const children = entry.target.querySelectorAll('.sticky-content > *');
+                        children.forEach((child, index) => {
+                            setTimeout(() => {
+                                child.classList.add('sticky-animate');
+                            }, index * 150);
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.sticky-section').forEach(section => {
+                stickyObserver.observe(section);
+            });
+        }
+
+        // Transform on Scroll for specific elements
+        function updateTransformOnScroll() {
+            const transformElements = document.querySelectorAll('.transform-scroll');
+
+            transformElements.forEach(element => {
+                const elementTop = element.offsetTop;
+                const elementHeight = element.offsetHeight;
+                const windowHeight = window.innerHeight;
+                const scrollTop = window.pageYOffset;
+
+                // Calculate if element is in viewport
+                if (scrollTop + windowHeight > elementTop && scrollTop < elementTop + elementHeight) {
+                    const progress = (scrollTop + windowHeight - elementTop) / (windowHeight + elementHeight);
+
+                    element.style.transform = `translateY(${progress * -50}px)`;
+                    element.style.opacity = Math.max(0, 1 - progress * 0.5);
+                }
+            });
+        }
+
+        // Master scroll handler
+        function handleScroll() {
+            updateScrollProgress();
+            initParallax();
+            updateTransformOnScroll();
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            // Get form data
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            // Show loading state
+            const submitBtn = form.querySelector('.form-submit');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Wird gesendet...';
+            submitBtn.disabled = true;
+
+            // Simulate form submission (replace with actual API call)
+            setTimeout(() => {
+                // Reset form
+                form.reset();
+
+                // Show success message
+                showNotification('Danke! Deine Bewerbung ist eingegangen. Wir kuratieren die Gästeliste und melden uns innerhalb von 48h.', 'success');
+
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+
+        function showNotification(message, type = 'success') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 30px;
+                background: ${type === 'success' ? 'var(--fyf-mint)' : 'var(--fyf-coral)'};
+                color: var(--fyf-noir);
+                padding: 20px 30px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                max-width: 400px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            `;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            // Remove after delay
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 5000);
+        }
+
+        // Countdown Animation on Scroll
+        const countdownObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const countdownDisplay = document.getElementById('countdownDisplay');
+        if (countdownDisplay) {
+            countdownObserver.observe(countdownDisplay);
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Initialize all scroll animations
+        function initScrollAnimations() {
+            // Setup scroll-triggered animations
+            document.querySelectorAll('.speaker-card, .takeaway-card, .timeline-item, .confrontation-main').forEach((el, index) => {
+                el.classList.add('scroll-animate');
+                scrollAnimationObserver.observe(el);
+            });
+
+            // Initialize sticky sections
+            initStickyAnimations();
+
+            // Add scroll event listener
+            window.addEventListener('scroll', handleScroll, { passive: true });
+
+            // Initial call
+            handleScroll();
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initScrollAnimations);
+    </script>
+</body>
+</html>

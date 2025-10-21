@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FYF - People</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            /* FYF Color System */
+            --fyf-noir: #0A0A0A;
+            --fyf-carbon: #1A1A1A;
+            --fyf-charcoal: #2D2D3F;
+            --fyf-coral: #FF6B6B;
+            --fyf-mint: #4ECDC4;
+            --fyf-cream: #FFF8E7;
+            --fyf-steel: #B8BCC8;
+
+            /* Gradients */
+            --gradient-dark: linear-gradient(135deg, #0A0A0A 0%, #2D2D3F 100%);
+            --gradient-coral-mint: linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%);
+
+            /* Typography */
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--fyf-noir);
+            color: var(--fyf-cream);
+            min-height: 100vh;
+            padding: 60px 20px 40px;
+            overflow-x: hidden;
+        }
+
+        /* Layout Container */
+        .main-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Title */
+        .about-title {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 8vw, 7rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            background: var(--gradient-coral-mint);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* Recommendation Card - No Dating Vibes */
+        .recommendation-card {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(45, 45, 63, 0.9) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 20px;
+            padding: 32px 36px;
+            margin-bottom: 60px;
+            animation: slideDown 0.6s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-coral-mint);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .recommendation-card.hidden {
+            display: none;
+        }
+
+        .rec-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .rec-icon-wrapper {
+            width: 52px;
+            height: 52px;
+            background: var(--gradient-coral-mint);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .rec-icon-wrapper i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .rec-content {
+            flex: 1;
+        }
+
+        .rec-label {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--fyf-coral);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .rec-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fyf-cream);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .rec-reasoning {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .reason-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border-left: 2px solid var(--fyf-mint);
+        }
+
+        .reason-icon {
+            color: var(--fyf-mint);
+            font-size: 1.1rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .reason-text {
+            flex: 1;
+        }
+
+        .reason-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--fyf-mint);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .reason-value {
+            font-size: 0.9rem;
+            color: var(--fyf-cream);
+            line-height: 1.4;
+        }
+
+        .rec-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .rec-action {
+            font-size: 0.9rem;
+            color: var(--fyf-mint);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+            background: rgba(78, 205, 196, 0.05);
+            font-weight: 600;
+        }
+
+        .rec-action:hover {
+            color: var(--fyf-noir);
+            background: var(--fyf-mint);
+            border-color: var(--fyf-mint);
+        }
+
+        .rec-close-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--fyf-steel);
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rec-close-btn:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: var(--fyf-coral);
+            color: var(--fyf-coral);
+        }
+
+        /* People Grid Container */
+        .people-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 80px auto;
+            perspective: 1000px;
+        }
+
+        /* Portrait Card with Placeholder */
+        .portrait-card {
+            position: relative;
+            width: 320px;
+            height: 420px;
+            background: var(--fyf-carbon);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 70px 63px -60px #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        /* Card States */
+        .portrait-card.left {
+            transform: translateX(-50px) scale(0.85) rotateY(15deg);
+            opacity: 0.7;
+        }
+
+        .portrait-card.center {
+            transform: scale(1) translateZ(50px);
+            z-index: 10;
+        }
+
+        .portrait-card.right {
+            transform: translateX(50px) scale(0.85) rotateY(-15deg);
+            opacity: 0.7;
+        }
+
+        /* Border Glow */
+        .border {
+            position: absolute;
+            inset: 5px;
+            background: transparent;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            transition: border 0.5s ease;
+            z-index: 2;
+        }
+
+        .portrait-card:hover .border {
+            border: 1px solid var(--fyf-mint);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+
+        /* Placeholder Background */
+        .portrait-placeholder {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--fyf-charcoal) 0%, var(--fyf-carbon) 100%);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .placeholder-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 12px;
+            background: var(--gradient-coral-mint);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            transition: all 0.6s ease;
+        }
+
+        .portrait-card:hover .placeholder-avatar {
+            transform: scale(1.1);
+            border-radius: 50%;
+        }
+
+        .placeholder-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.03) 10px, rgba(255, 255, 255, 0.03) 20px);
+        }
+
+        /* Restzeit Badge */
+        .restzeit-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 107, 107, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.02em;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .portrait-card.center .restzeit-badge,
+        .portrait-card:hover .restzeit-badge {
+            opacity: 1;
+        }
+
+        /* Person Info Overlay */
+        .person-info-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 25px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+            z-index: 3;
+        }
+
+        .portrait-card:hover .person-info-overlay {
+            transform: translateY(0);
+        }
+
+        .person-name {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--fyf-cream);
+            margin-bottom: 8px;
+        }
+
+        .person-role {
+            font-size: 0.9rem;
+            color: var(--fyf-mint);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+        }
+
+        /* Social Icons */
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.2s;
+        }
+
+        .portrait-card:hover .social-icons {
+            opacity: 1;
+        }
+
+        .social-icons a {
+            color: var(--fyf-steel);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--fyf-mint);
+            transform: scale(1.2);
+        }
+
+        /* Connection Match Badge */
+        .connection-match {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 14px;
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+            border: 1px solid rgba(78, 205, 196, 0.2);
+        }
+
+        .portrait-card:hover .connection-match {
+            opacity: 1;
+        }
+
+        .match-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--fyf-steel);
+            font-weight: 600;
+        }
+
+        .match-value {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .match-value i {
+            color: var(--fyf-mint);
+            font-size: 1rem;
+        }
+
+        .match-value span {
+            color: var(--fyf-cream);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Navigation Dots */
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 107, 107, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .nav-dot.active {
+            background: var(--fyf-coral);
+            transform: scale(1.4);
+        }
+
+        /* Meet Button */
+        .meet-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .meet-quote {
+            font-style: italic;
+            color: var(--fyf-steel);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .meet-btn {
+            padding: 14px 36px;
+            background: transparent;
+            border: 2px solid var(--fyf-coral);
+            color: var(--fyf-coral);
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .meet-btn:hover {
+            background: var(--fyf-coral);
+            color: var(--fyf-noir);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .people-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .portrait-card {
+                width: 300px;
+                height: 380px;
+            }
+
+            .portrait-card.left,
+            .portrait-card.right {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+
+            .rec-reasoning {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-title {
+                font-size: 3rem;
+                margin-bottom: 40px;
+            }
+
+            .recommendation-card {
+                padding: 24px 20px;
+            }
+
+            .portrait-card {
+                width: 280px;
+                height: 360px;
+            }
+
+            .person-name {
+                font-size: 1.5rem;
+            }
+
+            .social-icons {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Title -->
+        <h1 class="about-title">PEOPLE</h1>
+
+        <!-- Recommendation Card - Value-Focused -->
+        <div class="recommendation-card" id="recommendationCard">
+            <div class="rec-header">
+                <div class="rec-icon-wrapper">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="rec-content">
+                    <div class="rec-label">Empfehlung basierend auf deinem Profil</div>
+                    <h2 class="rec-title">Sarah Chen könnte für dich relevant sein</h2>
+                </div>
+                <button class="rec-close-btn" id="closeBtn">×</button>
+            </div>
+
+            <div class="rec-reasoning">
+                <div class="reason-item">
+                    <i class="fas fa-music reason-icon"></i>
+                    <div class="reason-text">
+                        <div class="reason-label">Musik-DNA</div>
+                        <div class="reason-value">82% Overlap bei Moderat, FKA twigs, Four Tet</div>
+                    </div>
+                </div>
+
+                <div class="reason-item">
+                    <i class="fas fa-clock reason-icon"></i>
+                    <div class="reason-text">
+                        <div class="reason-label">Zeit-Philosophie</div>
+                        <div class="reason-value">Ihr denkt ähnlich über Zeit als Währung vs. Geld</div>
+                    </div>
+                </div>
+
+                <div class="reason-item">
+                    <i class="fas fa-globe reason-icon"></i>
+                    <div class="reason-text">
+                        <div class="reason-label">Lebensstil</div>
+                        <div class="reason-value">Remote-first, 5 Jahre Nomad-Erfahrung</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rec-actions">
+                <span class="rec-action" id="focusSarah">Profil ansehen</span>
+                <span class="rec-action" id="whyBtn">Algorithmus verstehen</span>
+            </div>
+        </div>
+
+        <!-- People Grid -->
+        <div class="people-container">
+            <!-- Nina Card -->
+            <div class="portrait-card left" data-index="0">
+                <div class="border"></div>
+                <div class="portrait-placeholder">
+                    <div class="placeholder-pattern"></div>
+                    <div class="placeholder-avatar">NR</div>
+                </div>
+
+                <div class="restzeit-badge">Noch 51 Sommerurlaube</div>
+
+                <div class="connection-match">
+                    <div class="match-label">Verbindung</div>
+                    <div class="match-value">
+                        <i class="fab fa-spotify"></i>
+                        <span>61% Musik-DNA</span>
+                    </div>
+                </div>
+
+                <div class="person-info-overlay">
+                    <h2 class="person-name">Nina Richter</h2>
+                    <p class="person-role">Kultur & Creative Direction</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sarah Card (Center) -->
+            <div class="portrait-card center" data-index="1">
+                <div class="border"></div>
+                <div class="portrait-placeholder">
+                    <div class="placeholder-pattern"></div>
+                    <div class="placeholder-avatar">SC</div>
+                </div>
+
+                <div class="restzeit-badge">Noch 32 Sommerurlaube</div>
+
+                <div class="connection-match">
+                    <div class="match-label">Verbindung</div>
+                    <div class="match-value">
+                        <i class="fab fa-spotify"></i>
+                        <span>82% Musik-DNA</span>
+                    </div>
+                </div>
+
+                <div class="person-info-overlay">
+                    <h2 class="person-name">Sarah Chen</h2>
+                    <p class="person-role">Digital Nomad & Krypto</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-spotify"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marcus Card -->
+            <div class="portrait-card right" data-index="2">
+                <div class="border"></div>
+                <div class="portrait-placeholder">
+                    <div class="placeholder-pattern"></div>
+                    <div class="placeholder-avatar">MW</div>
+                </div>
+
+                <div class="restzeit-badge">Noch 41 Weihnachtsfeste</div>
+
+                <div class="connection-match">
+                    <div class="match-label">Verbindung</div>
+                    <div class="match-value">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>3 Shared Topics</span>
+                    </div>
+                </div>
+
+                <div class="person-info-overlay">
+                    <h2 class="person-name">Marcus Weber</h2>
+                    <p class="person-role">Gründer & Impact Investor</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-globe"></i></a>
+                        <a href="#"><i class="fab fa-medium"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Dots -->
+        <div class="navigation">
+            <button class="nav-dot" data-index="0"></button>
+            <button class="nav-dot active" data-index="1"></button>
+            <button class="nav-dot" data-index="2"></button>
+            <button class="nav-dot" data-index="3"></button>
+            <button class="nav-dot" data-index="4"></button>
+            <button class="nav-dot" data-index="5"></button>
+        </div>
+
+        <!-- Meet Section -->
+        <div class="meet-section">
+            <p class="meet-quote" id="personQuote">"Zeit ist die einzige Währung, die wirklich zählt."</p>
+            <button class="meet-btn" id="meetBtn">Profil öffnen</button>
+        </div>
+    </div>
+
+    <script>
+        // People Data with Placeholders
+        const people = [
+            {
+                name: "Nina Richter",
+                initials: "NR",
+                role: "Kultur & Creative Direction",
+                quote: "Kunst ist keine Dekoration, sondern Widerstand gegen die Beliebigkeit.",
+                restzeit: "Noch 51 Sommerurlaube",
+                match: { type: "spotify", label: "Musik-DNA", value: "61% Musik-DNA" }
+            },
+            {
+                name: "Sarah Chen",
+                initials: "SC",
+                role: "Digital Nomad & Krypto",
+                quote: "Zeit ist die einzige Währung, die wirklich zählt.",
+                restzeit: "Noch 32 Sommerurlaube",
+                match: { type: "spotify", label: "Musik-DNA", value: "82% Musik-DNA" }
+            },
+            {
+                name: "Marcus Weber",
+                initials: "MW",
+                role: "Gründer & Impact Investor",
+                quote: "Ich baue Unternehmen, die meine Enkel stolz machen werden.",
+                restzeit: "Noch 41 Weihnachtsfeste",
+                match: { type: "topics", label: "Shared Topics", value: "3 Shared Topics" }
+            },
+            {
+                name: "Julia Martinez",
+                initials: "JM",
+                role: "Sustainable Finance",
+                quote: "Geld sollte für Menschen arbeiten, nicht umgekehrt.",
+                restzeit: "Noch 48 große Reisen",
+                match: { type: "impact", label: "Impact Focus", value: "Impact-orientiert" }
+            },
+            {
+                name: "Tom Fischer",
+                initials: "TF",
+                role: "Tech Philosophy",
+                quote: "Technologie muss der Menschlichkeit dienen.",
+                restzeit: "Noch 38 Tech-Revolutionen",
+                match: { type: "tech", label: "Tech DNA", value: "Tech-affin" }
+            },
+            {
+                name: "Lisa Anderson",
+                initials: "LA",
+                role: "Social Entrepreneur",
+                quote: "Impact ist der neue Profit.",
+                restzeit: "Noch 28 Karrierewechsel",
+                match: { type: "social", label: "Social Impact", value: "Social Mission" }
+            }
+        ];
+
+        let currentIndex = 1; // Start with Sarah
+        const cards = document.querySelectorAll('.portrait-card');
+        const dots = document.querySelectorAll('.nav-dot');
+        const quote = document.getElementById('personQuote');
+        const meetBtn = document.getElementById('meetBtn');
+
+        // Update display
+        function updateDisplay(index) {
+            currentIndex = index;
+
+            // Update cards
+            cards.forEach((card, i) => {
+                card.classList.remove('left', 'center', 'right');
+
+                const peopleIndex = (index + i - 1 + people.length) % people.length;
+                const person = people[peopleIndex];
+
+                // Update card content
+                card.querySelector('.placeholder-avatar').textContent = person.initials;
+                card.querySelector('.restzeit-badge').textContent = person.restzeit;
+                card.querySelector('.person-name').textContent = person.name;
+                card.querySelector('.person-role').textContent = person.role;
+
+                // Update match badge
+                const matchBadge = card.querySelector('.connection-match');
+                const icon = matchBadge.querySelector('i');
+                const text = matchBadge.querySelector('.match-value span');
+
+                icon.className = person.match.type === 'spotify' ? 'fab fa-spotify' :
+                                 person.match.type === 'topics' ? 'fas fa-lightbulb' :
+                                 person.match.type === 'impact' ? 'fas fa-leaf' :
+                                 person.match.type === 'tech' ? 'fas fa-microchip' :
+                                 'fas fa-users';
+                text.textContent = person.match.value;
+
+                // Set position
+                if (i === 0) card.classList.add('left');
+                else if (i === 1) card.classList.add('center');
+                else if (i === 2) card.classList.add('right');
+            });
+
+            // Update quote and button
+            quote.textContent = `"${people[index].quote}"`;
+            meetBtn.textContent = `Profil öffnen`;
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Navigation
+        cards.forEach((card, i) => {
+            card.addEventListener('click', () => {
+                const clickedIndex = (currentIndex + i - 1 + people.length) % people.length;
+                updateDisplay(clickedIndex);
+            });
+        });
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => updateDisplay(i));
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                updateDisplay((currentIndex - 1 + people.length) % people.length);
+            } else if (e.key === 'ArrowRight') {
+                updateDisplay((currentIndex + 1) % people.length);
+            }
+        });
+
+        // Recommendation actions
+        document.getElementById('focusSarah').addEventListener('click', () => {
+            updateDisplay(1); // Sarah's index
+        });
+
+        document.getElementById('whyBtn').addEventListener('click', () => {
+            alert('Der Algorithmus analysiert:\n\n• Musik-Präferenzen (Spotify API)\n• Zeit-Philosophie aus deinen Antworten\n• Lebensstil-Daten (Remote vs. Office)\n• Gemeinsame Interessen & Topics\n\nSo findest du Menschen, die wirklich zu dir passen.');
+        });
+
+        document.getElementById('closeBtn').addEventListener('click', () => {
+            document.getElementById('recommendationCard').classList.add('hidden');
+        });
+
+        // Initialize
+        updateDisplay(1);
+    </script>
+</body>
+</html>
