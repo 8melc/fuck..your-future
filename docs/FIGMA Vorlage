@@ -1,0 +1,407 @@
+import imgHero from "figma:asset/2500fa512f553793f43f7c10fdff0632a7d9ddcc.png";
+import { useActiveBreakpoint } from "figma:react";
+type BtnProps = {
+  className?: string;
+  type?: "Default" | "Hover";
+};
+
+/**
+ * @figmaAssetKey 71a610551406e06e24565c6a0ed3f5341ee52b00
+ */
+function Btn({ className, type = "Default" }: BtnProps) {
+  if (type === "Hover") {
+    return (
+      <div className={className} data-name="Type=Hover" style={{ backgroundImage: "linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%), linear-gradient(90deg, rgb(149, 255, 141) 0%, rgb(149, 255, 141) 100%)" }}>
+        <div className="flex flex-row items-center size-full">
+          <div className="box-border content-stretch flex gap-[6px] items-center px-[19px] py-[12px] relative size-full">
+            <div className="content-stretch flex gap-[10px] items-center relative shrink-0 w-[74px]" data-name="content spacing">
+              <div className="flex flex-col font-['Roboto_Mono:Medium',_sans-serif] font-medium justify-center leading-[0] relative shrink-0 text-[16px] text-black text-center text-nowrap tracking-[-0.48px] uppercase">
+                <p className="leading-[1.4] whitespace-pre">REGISTER</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className={className} data-name="Type=Default">
+      <div className="flex flex-row items-center size-full">
+        <div className="box-border content-stretch flex gap-[6px] items-center px-[19px] py-[12px] relative size-full">
+          <div className="content-stretch flex gap-[10px] items-center opacity-60 relative shrink-0" data-name="content spacing">
+            <div className="flex flex-col font-['Roboto_Mono:Medium',_sans-serif] font-medium justify-center leading-[0] relative shrink-0 text-[16px] text-black text-center text-nowrap tracking-[-0.48px] uppercase">
+              <p className="leading-[1.4] whitespace-pre">register</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RunningDesktop() {
+  return (
+    <div className="content-stretch flex gap-[10px] items-center justify-center relative shrink-0" data-name="running">
+      <div className="flex flex-col font-['Righteous:Regular',_sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[var(--responsive-font-size,25.975px)] text-white tracking-[-0.7792px] w-[92.745px]">
+        <p className="leading-[0.9]">Running for Change</p>
+      </div>
+    </div>
+  );
+}
+
+function MenuItemsDesktop() {
+  return (
+    <div className="basis-0 content-stretch cursor-pointer flex flex-col font-['Righteous:Regular',_sans-serif] gap-[4px] grow items-center justify-center leading-[0] min-h-px min-w-px not-italic relative shrink-0 text-right text-white tracking-[-0.7792px]" data-name="menu items">
+      <a className="flex flex-col justify-center relative shrink-0 text-[var(--responsive-font-size,25.975px)] w-full" href="/about">
+        <p className="leading-[0.9]">About Us</p>
+      </a>
+      <a className="flex flex-col justify-center relative shrink-0 text-[0px] w-full" href="/event">
+        <p className="[text-underline-position:from-font] decoration-solid font-['Righteous:Regular',_sans-serif] leading-[0.9] not-italic text-[var(--responsive-font-size,25.975px)] tracking-[-0.7792px] underline">Events</p>
+      </a>
+    </div>
+  );
+}
+
+function NavDesktop() {
+  return (
+    <nav className="box-border content-stretch flex items-start justify-between overflow-visible p-0 relative shrink-0 w-full" data-name="nav">
+      <a className="basis-0 block cursor-pointer font-['Righteous:Regular',_sans-serif] grow leading-[0] min-h-px min-w-px not-italic relative shrink-0 text-[var(--responsive-font-size,25.975px)] text-white tracking-[-0.7792px]" href="/">
+        <p className="leading-[0.9]">Home</p>
+      </a>
+      <RunningDesktop />
+      <MenuItemsDesktop />
+    </nav>
+  );
+}
+
+function TextDesktop() {
+  return (
+    <section aria-label="Location of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px] w-[224px]" data-name="text">
+      <div className="flex flex-col justify-center min-w-full relative shrink-0 w-[min-content]">
+        <h2 className="block leading-[0.9]">Location:</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 w-[234px]">
+        <p className="leading-[0.9]">Green Bay Trail, Glencoe, IL</p>
+      </div>
+    </section>
+  );
+}
+
+function TextDesktop1() {
+  return (
+    <section aria-label="Date of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px]" data-name="text">
+      <div className="flex flex-col justify-center min-w-full relative shrink-0 w-[min-content]">
+        <h2 className="block leading-[0.9]">Date</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 text-nowrap">
+        <p className="leading-[0.9] whitespace-pre">May 12, 2025</p>
+      </div>
+    </section>
+  );
+}
+
+function TextDesktop2() {
+  return (
+    <section aria-label="Time of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px] w-[177px]" data-name="text">
+      <div className="flex flex-col justify-center relative shrink-0 w-full">
+        <h2 className="block leading-[0.9]">Time</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 w-full">
+        <p className="leading-[0.9]">6AM - NOON</p>
+      </div>
+    </section>
+  );
+}
+
+function MetaDesktop() {
+  return (
+    <div className="bg-[rgba(29,29,29,0.9)] box-border content-stretch flex gap-[40px] items-center p-[16px] relative rounded-[8px] shrink-0" data-name="meta">
+      <TextDesktop />
+      <TextDesktop1 />
+      <TextDesktop2 />
+    </div>
+  );
+}
+
+function BaseDesktop() {
+  return (
+    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-name="base">
+      <MetaDesktop />
+      <Btn />
+    </div>
+  );
+}
+
+function ContentDesktop() {
+  return (
+    <header className="box-border content-stretch flex flex-col gap-[540px] items-start max-w-[1600px] overflow-visible p-0 relative shrink-0 w-full" data-name="content">
+      <NavDesktop />
+      <BaseDesktop />
+    </header>
+  );
+}
+
+function HeroDesktop() {
+  return (
+    <div className="relative size-full" data-name="hero">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+        <img alt="runners" className="absolute max-w-none object-50%-50% object-cover size-full" src={imgHero} />
+        <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
+      </div>
+      <div className="flex flex-col items-center size-full">
+        <div className="box-border content-stretch flex flex-col gap-[10px] items-center px-[20px] py-[30px] relative size-full">
+          <ContentDesktop />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RunningTablet() {
+  return (
+    <div className="content-stretch flex gap-[10px] items-center justify-center relative shrink-0" data-name="running">
+      <div className="flex flex-col font-['Righteous:Regular',_sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[var(--responsive-font-size,25.975px)] text-white tracking-[-0.7792px] w-[92.745px]">
+        <p className="leading-[0.9]">Running for Change</p>
+      </div>
+    </div>
+  );
+}
+
+function MenuItemsTablet() {
+  return (
+    <div className="basis-0 content-stretch cursor-pointer flex flex-col font-['Righteous:Regular',_sans-serif] gap-[4px] grow items-center justify-center leading-[0] min-h-px min-w-px not-italic relative shrink-0 text-right text-white tracking-[-0.7792px]" data-name="menu items">
+      <a className="flex flex-col justify-center relative shrink-0 text-[var(--responsive-font-size,25.975px)] w-full" href="/about">
+        <p className="leading-[0.9]">About Us</p>
+      </a>
+      <a className="flex flex-col justify-center relative shrink-0 text-[0px] w-full" href="/event">
+        <p className="[text-underline-position:from-font] decoration-solid font-['Righteous:Regular',_sans-serif] leading-[0.9] not-italic text-[var(--responsive-font-size,25.975px)] tracking-[-0.7792px] underline">Events</p>
+      </a>
+    </div>
+  );
+}
+
+function NavTablet() {
+  return (
+    <div className="content-stretch flex items-start justify-between relative shrink-0 w-full" data-name="nav">
+      <a className="basis-0 block cursor-pointer font-['Righteous:Regular',_sans-serif] grow leading-[0] min-h-px min-w-px not-italic relative shrink-0 text-[var(--responsive-font-size,25.975px)] text-white tracking-[-0.7792px]" href="/">
+        <p className="leading-[0.9]">Home</p>
+      </a>
+      <RunningTablet />
+      <MenuItemsTablet />
+    </div>
+  );
+}
+
+function TextTablet() {
+  return (
+    <section aria-label="Location of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px] w-[224px]" data-name="text">
+      <div className="flex flex-col justify-center min-w-full relative shrink-0 w-[min-content]">
+        <h2 className="block leading-[0.9]">Location:</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 w-[234px]">
+        <p className="leading-[0.9]">Green Bay Trail, Glencoe, IL</p>
+      </div>
+    </section>
+  );
+}
+
+function TextTablet1() {
+  return (
+    <section aria-label="Date of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px]" data-name="text">
+      <div className="flex flex-col justify-center min-w-full relative shrink-0 w-[min-content]">
+        <h2 className="block leading-[0.9]">Date</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 text-nowrap">
+        <p className="leading-[0.9] whitespace-pre">May 12, 2025</p>
+      </div>
+    </section>
+  );
+}
+
+function TextTablet2() {
+  return (
+    <section aria-label="Time of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px] w-[177px]" data-name="text">
+      <div className="flex flex-col justify-center relative shrink-0 w-full">
+        <h2 className="block leading-[0.9]">Time</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 w-full">
+        <p className="leading-[0.9]">6AM - NOON</p>
+      </div>
+    </section>
+  );
+}
+
+function MetaTablet() {
+  return (
+    <div className="bg-[rgba(29,29,29,0.9)] box-border content-stretch flex gap-[40px] items-center p-[16px] relative rounded-[8px] shrink-0" data-name="meta">
+      <TextTablet />
+      <TextTablet1 />
+      <TextTablet2 />
+    </div>
+  );
+}
+
+function BaseTablet() {
+  return (
+    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-name="base">
+      <MetaTablet />
+      <Btn />
+    </div>
+  );
+}
+
+function ContentTablet() {
+  return (
+    <header className="box-border content-stretch flex flex-col gap-[540px] items-start max-w-[1600px] overflow-visible p-0 relative shrink-0 w-full" data-name="content">
+      <NavTablet />
+      <BaseTablet />
+    </header>
+  );
+}
+
+function HeroTablet() {
+  return (
+    <div className="relative size-full" data-name="hero">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+        <img alt="runners" className="absolute max-w-none object-50%-50% object-cover size-full" src={imgHero} />
+        <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
+      </div>
+      <div className="flex flex-col items-center size-full">
+        <div className="box-border content-stretch flex flex-col gap-[10px] items-center px-[20px] py-[30px] relative size-full">
+          <ContentTablet />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RunningMobile() {
+  return (
+    <div className="content-stretch flex gap-[10px] items-center justify-center relative shrink-0" data-name="running">
+      <div className="flex flex-col font-['Righteous:Regular',_sans-serif] justify-center leading-[0] not-italic relative shrink-0 text-[var(--responsive-font-size,25.975px)] text-white tracking-[-0.7792px] w-[92.745px]">
+        <p className="leading-[0.9]">Running for Change</p>
+      </div>
+    </div>
+  );
+}
+
+function MenuItemsMobile() {
+  return (
+    <div className="basis-0 content-stretch cursor-pointer flex flex-col font-['Righteous:Regular',_sans-serif] gap-[4px] grow items-center justify-center leading-[0] min-h-px min-w-px not-italic relative shrink-0 text-right text-white tracking-[-0.7792px]" data-name="menu items">
+      <a className="flex flex-col justify-center relative shrink-0 text-[var(--responsive-font-size,25.975px)] w-full" href="/about">
+        <p className="leading-[0.9]">About Us</p>
+      </a>
+      <a className="flex flex-col justify-center relative shrink-0 text-[0px] w-full" href="/event">
+        <p className="[text-underline-position:from-font] decoration-solid font-['Righteous:Regular',_sans-serif] leading-[0.9] not-italic text-[var(--responsive-font-size,25.975px)] tracking-[-0.7792px] underline">Events</p>
+      </a>
+    </div>
+  );
+}
+
+function NavMobile() {
+  return (
+    <div className="content-stretch flex items-start justify-between relative shrink-0 w-full" data-name="nav">
+      <a className="basis-0 block cursor-pointer font-['Righteous:Regular',_sans-serif] grow leading-[0] min-h-px min-w-px not-italic relative shrink-0 text-[var(--responsive-font-size,25.975px)] text-white tracking-[-0.7792px]" href="/">
+        <p className="leading-[0.9]">Home</p>
+      </a>
+      <RunningMobile />
+      <MenuItemsMobile />
+    </div>
+  );
+}
+
+function TextMobile() {
+  return (
+    <section aria-label="Location of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px] w-[224px]" data-name="text">
+      <div className="flex flex-col justify-center min-w-full relative shrink-0 w-[min-content]">
+        <h2 className="block leading-[0.9]">Location:</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 w-[234px]">
+        <p className="leading-[0.9]">Green Bay Trail, Glencoe, IL</p>
+      </div>
+    </section>
+  );
+}
+
+function TextMobile1() {
+  return (
+    <section aria-label="Date of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px]" data-name="text">
+      <div className="flex flex-col justify-center min-w-full relative shrink-0 w-[min-content]">
+        <h2 className="block leading-[0.9]">Date</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 text-nowrap">
+        <p className="leading-[0.9] whitespace-pre">May 12, 2025</p>
+      </div>
+    </section>
+  );
+}
+
+function TextMobile2() {
+  return (
+    <section aria-label="Time of the event" className="box-border content-stretch flex flex-col font-['Roboto_Mono:Regular',_sans-serif] font-normal gap-[10px] items-start leading-[0] overflow-visible p-0 relative shrink-0 text-[14px] text-white tracking-[-0.42px] w-[177px]" data-name="text">
+      <div className="flex flex-col justify-center relative shrink-0 w-full">
+        <h2 className="block leading-[0.9]">Time</h2>
+      </div>
+      <div className="flex flex-col justify-center relative shrink-0 w-full">
+        <p className="leading-[0.9]">6AM - NOON</p>
+      </div>
+    </section>
+  );
+}
+
+function MetaMobile() {
+  return (
+    <div className="bg-[rgba(29,29,29,0.9)] box-border content-stretch flex flex-col gap-[30px] items-start p-[16px] relative rounded-[8px] shrink-0" data-name="meta">
+      <TextMobile />
+      <TextMobile1 />
+      <TextMobile2 />
+    </div>
+  );
+}
+
+function BaseMobile() {
+  return (
+    <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full" data-name="base">
+      <MetaMobile />
+      <Btn className="bg-[#95ff8d] box-border content-stretch cursor-pointer flex gap-[6px] h-[36px] items-center overflow-visible px-[19px] py-[12px] relative rounded-[24.5px] shrink-0" />
+    </div>
+  );
+}
+
+function ContentMobile() {
+  return (
+    <header className="box-border content-stretch flex flex-col gap-[332px] items-start max-w-[1600px] overflow-visible p-0 relative shrink-0 w-full" data-name="content">
+      <NavMobile />
+      <BaseMobile />
+    </header>
+  );
+}
+
+function HeroMobile() {
+  return (
+    <div className="relative size-full" data-name="hero">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
+        <img alt="runners" className="absolute max-w-none object-50%-50% object-cover size-full" src={imgHero} />
+        <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
+      </div>
+      <div className="flex flex-col items-center size-full">
+        <div className="box-border content-stretch flex flex-col gap-[10px] items-center px-[20px] py-[30px] relative size-full">
+          <ContentMobile />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  const { width } = useActiveBreakpoint();
+  if (width < 800) {
+    return <HeroMobile />;
+  }
+  if (width < 1280) {
+    return <HeroTablet />;
+  }
+  return <HeroDesktop />;
+}
+
+export default Hero;
