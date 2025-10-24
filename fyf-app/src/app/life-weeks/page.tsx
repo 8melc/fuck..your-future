@@ -2,6 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import BlackholeAnimation from '../../components/BlackholeAnimation';
+import StatIcon from '../../components/icons/StatIcon';
+import SocietyIcon from '../../components/icons/SocietyIcon';
+import CosmosIcon from '../../components/icons/CosmosIcon';
+import NatureIcon from '../../components/icons/NatureIcon';
 
 interface LifeStats {
   weeksLived: number;
@@ -15,6 +19,25 @@ interface LifeStats {
   seasons: number;
   birthYear: number;
 }
+
+
+const formatNumber = (num: number) => {
+  return new Intl.NumberFormat().format(num);
+};
+
+const renderHeadline = (tabId: number, stats: LifeStats) => {
+  const tab = statsTabs[tabId];
+  if (!tab) return '';
+  
+  // Only Tab 0 has placeholders
+  if (tabId === 0) {
+    return tab.headline
+      .replace('{weeksLived}', formatNumber(stats.weeksLived))
+      .replace('{weeksRemaining}', formatNumber(stats.weeksRemaining));
+  }
+  
+  return tab.headline;
+};
 
 const COOKIE_NAME = 'fyf-life-weeks';
 const COOKIE_MAX_AGE_DAYS = 60;
@@ -42,13 +65,13 @@ const deleteCookie = (name: string) => {
 export default function LifeWeeksPage() {
   const [currentView, setCurrentView] = useState<'input' | 'grid' | 'typewriter' | 'navigation'>('input');
   const [currentStats, setCurrentStats] = useState<LifeStats | null>(null);
-  const [currentStatIndex, setCurrentStatIndex] = useState(0);
-  const [isStatsOpen, setIsStatsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<number | null>(null);
   const [birthdate, setBirthdate] = useState('1997-08-08');
   const [targetAge, setTargetAge] = useState('80');
   const [hoverInfo, setHoverInfo] = useState<{ visible: boolean; text: string }>({ visible: false, text: '' });
   const [consentStatus, setConsentStatus] = useState<'accepted' | 'declined' | null>(null);
-  const totalStatSections = 4;
+  
+  const isPanelOpen = activeTab !== null;
 
   const sessionLoadedRef = useRef(false);
 
@@ -123,9 +146,6 @@ export default function LifeWeeksPage() {
     writeCookie(COOKIE_NAME, payload);
   }, [birthdate, targetAge, consentStatus]);
 
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat().format(num);
-  };
 
   const getPopulationAtYear = (year: number) => {
     const populationData: { [key: number]: number } = {
@@ -140,6 +160,113 @@ export default function LifeWeeksPage() {
     
     return Math.round(populationData[closestYear] * 1000000000);
   };
+
+  const statsTabs = [
+    { 
+      id: 0, 
+      label: 'Lebensmetriken', 
+      icon: StatIcon,
+      headline: 'Du hast schon {weeksLived} Wochen bewusst erlebt – Zeit, die restlichen {weeksRemaining} zu gestalten.',
+      cards: [
+        { 
+          id: 'weeks-lived', 
+          title: 'Wochen gelebt', 
+          metric: (stats: LifeStats) => formatNumber(stats.weeksLived),
+          body: 'Du hast bereits einen bedeutenden Teil deiner Lebenszeit erlebt.' 
+        },
+        { 
+          id: 'days-conscious', 
+          title: 'Tage des Bewusstseins', 
+          metric: (stats: LifeStats) => formatNumber(stats.daysLived),
+          body: 'Jeder Tag ist eine Gelegenheit, bewusst zu leben.' 
+        },
+        { 
+          id: 'heartbeats', 
+          title: 'Herzschläge', 
+          metric: (stats: LifeStats) => formatNumber(stats.heartbeats),
+          body: 'Dein Herz-Kreislauf-System arbeitet unermüdlich für dich.' 
+        }
+      ]
+    },
+    { 
+      id: 1, 
+      label: 'Gesellschaftlicher Kontext', 
+      icon: SocietyIcon,
+      headline: 'Deine Zeit im Wandel der Welt.',
+      cards: [
+        { 
+          id: 'population-growth', 
+          title: 'Bevölkerungswachstum', 
+          metric: (stats: LifeStats) => `${formatNumber(getPopulationAtYear(stats.birthYear) / 1000000000)}M → 8M`,
+          body: 'Die Menschheit ist während deiner Lebenszeit exponentiell gewachsen.' 
+        },
+        { 
+          id: 'people-met', 
+          title: 'Menschen getroffen', 
+          metric: (stats: LifeStats) => formatNumber(Math.round(80000 * (stats.percentageLived/100))),
+          body: 'Statistisch gesehen hast du bereits viele der Menschen getroffen, die du kennenlernen wirst.' 
+        },
+        { 
+          id: 'lives-begun', 
+          title: 'Neue Leben', 
+          metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived * 385000)),
+          body: 'Seit deiner Geburt haben Millionen neue Leben begonnen.' 
+        }
+      ]
+    },
+    { 
+      id: 2, 
+      label: 'Kosmische Perspektive', 
+      icon: CosmosIcon,
+      headline: 'Deine Existenz im Kontext des Universums.',
+      cards: [
+        { 
+          id: 'earth-travel', 
+          title: 'Erdumlaufbahn', 
+          metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 1.6 * 1000000))} km`,
+          body: 'Die Erde hat dich auf ihrer Reise um die Sonne transportiert.' 
+        },
+        { 
+          id: 'universe-percentage', 
+          title: 'Universumsanteil', 
+          metric: (stats: LifeStats) => `${(80/13800000000 * 100).toFixed(10)}%`,
+          body: 'Deine Existenz ist ein winziger Moment in der Geschichte des Universums.' 
+        },
+        { 
+          id: 'galaxy-travel', 
+          title: 'Milchstraßen-Reise', 
+          metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 24 * 828000))} km`,
+          body: 'Unser Sonnensystem bewegt sich durch die Spiralarme der Milchstraße.' 
+        }
+      ]
+    },
+    { 
+      id: 3, 
+      label: 'Natürliche Rhythmen', 
+      icon: NatureIcon,
+      headline: 'Die natürlichen Rhythmen deines Lebens.',
+      cards: [
+        { 
+          id: 'moon-phases', 
+          title: 'Mondphasen', 
+          metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived / 29.53)),
+          body: 'Du hast viele Zyklen des Mondes miterlebt.' 
+        },
+        { 
+          id: 'sun-orbits', 
+          title: 'Sonnenumrundungen', 
+          metric: (stats: LifeStats) => formatNumber(Math.floor(stats.daysLived / 365.25)),
+          body: 'Jede Umrundung der Sonne ist ein neues Jahr voller Möglichkeiten.' 
+        },
+        { 
+          id: 'cell-regeneration', 
+          title: 'Zellregeneration', 
+          metric: (stats: LifeStats) => 'Mehrfach',
+          body: 'Dein Körper hat sich mehrmals vollständig erneuert.' 
+        }
+      ]
+    },
+  ];
 
   const calculateStats = () => {
     if (!birthdate) return;
@@ -177,16 +304,7 @@ export default function LifeWeeksPage() {
     setCurrentView('grid');
   };
 
-  const toggleStats = () => {
-    setIsStatsOpen(!isStatsOpen);
-  };
 
-  const scrollStats = (direction: number) => {
-    const newIndex = currentStatIndex + direction;
-    if (newIndex >= 0 && newIndex < totalStatSections) {
-      setCurrentStatIndex(newIndex);
-    }
-  };
 
   const showHoverInfo = (cellIndex: number) => {
     if (!currentStats) return;
@@ -221,7 +339,6 @@ export default function LifeWeeksPage() {
   const resetVisualization = () => {
     setCurrentStats(null);
     setCurrentStatIndex(0);
-    setIsStatsOpen(false);
     setBirthdate('1997-08-08');
     setTargetAge('80');
     setCurrentView('input');
@@ -278,9 +395,9 @@ export default function LifeWeeksPage() {
   if (currentView === 'grid' && currentStats) {
     return (
       <div className="container">
-        <div className="grid-view">
-          {/* Left Panel - Title + Toggle + Stats */}
-          <div className="left-panel">
+        <section className="life-weeks-shell">
+          {/* Left Column: Title + Tabs + Intro */}
+          <div className="left-column">
             <div className="title-container">
               <h1 className="fyf-display">
                 <div className="coral">Life</div>
@@ -289,137 +406,85 @@ export default function LifeWeeksPage() {
               </h1>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <button className="accordion-toggle-small" onClick={toggleStats}>
-                <span>{isStatsOpen ? '▲' : '▼'}</span>
-              </button>
-              <div className="stats-nav-left" onClick={() => scrollStats(-1)}>◄</div>
-              <div className="stats-nav-right" onClick={() => scrollStats(1)}>►</div>
+            <div className="metrics-intro">
+              <p className="font-roboto-mono text-sm uppercase tracking-[0.12em] text-fyf-steel/80">
+                Zahlen lügen nie. Was bedeutet deine Zeit?
+              </p>
             </div>
 
-            {/* Stats Accordion */}
-            <div className={`stats-accordion ${isStatsOpen ? 'open' : ''}`}>
-              <div className="stats-container">
-                <div className="stats-scroll-wrapper">
-                  <div 
-                    className="stats-grid" 
-                    style={{ transform: `translateX(-${currentStatIndex * 100}%)` }}
+            <div className="metrics-tabs" role="tablist">
+              {statsTabs.map(tab => {
+                const IconComponent = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTab === tab.id}
+                    className={`metrics-tab ${activeTab === tab.id ? 'is-active' : ''}`}
+                    onClick={() => setActiveTab(tab.id)}
+                    data-tooltip={activeTab === tab.id ? "Tippe dich durch alle Perspektiven" : ""}
                   >
-                    <div className="fyf-card stat-section">
-                      <h3 className="gradient-text">Lebensmetriken</h3>
-                      <div className="stat-item coral">
-                        <p className="steel">
-                          Du hast <span className="coral stat-number">{formatNumber(currentStats.weeksLived)}</span> Wochen der Existenz erlebt, das sind <span className="coral stat-number">{currentStats.percentageLived}</span>%
-                        </p>
-                      </div>
-                      <div className="stat-item mint">
-                        <p className="steel">
-                          Das entspricht <span className="mint stat-number">{formatNumber(currentStats.daysLived)}</span> Tagen des Bewusstseins
-                        </p>
-                      </div>
-                      <div className="stat-item mauve">
-                        <p className="steel">
-                          Dein Herz-Kreislauf-System hat ungefähr <span className="mauve stat-number">{formatNumber(currentStats.heartbeats)}</span> mal geschlagen
-                        </p>
-                      </div>
-                    </div>
+                    <IconComponent />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-                    <div className="fyf-card stat-section">
-                      <h3 className="gradient-text">Gesellschaftlicher Kontext</h3>
-                      <div className="stat-item coral">
-                        <p className="steel">
-                          Während deiner Lebenszeit wuchs die Menschheit von <span className="coral stat-number">{formatNumber(getPopulationAtYear(currentStats.birthYear))}</span> auf über <span className="coral stat-number">8 Milliarden</span> bewusste Wesen.
-                        </p>
-                      </div>
-                      <div className="stat-item mint">
-                        <p className="steel">
-                          Statistisch gesehen hast du wahrscheinlich etwa <span className="mint stat-number">{formatNumber(Math.round(80000 * (currentStats.percentageLived/100)))}</span> der ~80.000 Menschen getroffen, die du in deinem Leben begegnen wirst.
-                        </p>
-                      </div>
-                      <div className="stat-item mauve">
-                        <p className="steel">
-                          Die Menschheit hat seit deiner Ankunft <span className="mauve stat-number">{formatNumber(Math.round(currentStats.daysLived * 385000))}</span> neue Leben beginnen und <span className="mauve stat-number">{formatNumber(Math.round(currentStats.daysLived * 166000))}</span> enden sehen.
-                        </p>
-                      </div>
-                    </div>
+          {/* Right Column: Weeks Grid + Panel */}
+          <div className="right-column">
+            <div className={`week-grid-wrapper ${isPanelOpen ? 'week-grid-wrapper--muted' : ''}`}>
+              <WeekGrid 
+                currentStats={currentStats} 
+                onHover={showHoverInfo}
+                onLeave={hideHoverInfo}
+              />
 
-                    <div className="fyf-card stat-section">
-                      <h3 className="gradient-text">Kosmische Perspektive</h3>
-                      <div className="stat-item coral">
-                        <p className="steel">
-                          Die Erde hat dich etwa <span className="coral stat-number">{formatNumber(Math.round(currentStats.daysLived * 1.6 * 1000000))}</span> Kilometer durch die kosmische Leere auf ihrer Sonnenumlaufbahn transportiert.
-                        </p>
-                      </div>
-                      <div className="stat-item mint">
-                        <p className="steel">
-                          Deine Existenz umfasst nur <span className="mint stat-number">{(80/13800000000 * 100).toFixed(10)}</span>% der 13,8 Milliarden Jahre währenden Evolution des Universums.
-                        </p>
-                      </div>
-                      <div className="stat-item mauve">
-                        <p className="steel">
-                          Unser Sonnensystem hat während deiner Lebenszeit <span className="mauve stat-number">{formatNumber(Math.round(currentStats.daysLived * 24 * 828000))}</span> Kilometer durch die Spiralarme der Milchstraße zurückgelegt.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="fyf-card stat-section">
-                      <h3 className="gradient-text">Natürliche Rhythmen</h3>
-                      <div className="stat-item coral">
-                        <p className="steel">
-                          Du hast <span className="coral stat-number">{formatNumber(Math.round(currentStats.daysLived / 29.53))}</span> Mondphasen miterlebt und <span className="coral stat-number">{formatNumber(Math.floor(currentStats.daysLived / 365.25))}</span> Sonnenumrundungen vollendet.
-                        </p>
-                      </div>
-                      <div className="stat-item mint">
-                        <p className="steel">
-                          Verglichen mit einem jahrtausendelangen Mammutbaum stellt deine aktuelle Zeitinvestition <span className="mint stat-number">{((currentStats.daysLived / 365.25) / 3000 * 100).toFixed(2)}</span>% seiner potenziellen Lebensspanne dar.
-                        </p>
-                      </div>
-                      <div className="stat-item mauve">
-                        <p className="steel">
-                          Dein physischer Körper hat mehrmals eine vollständige Zellregeneration durchlaufen. Du bestehst buchstäblich nicht mehr aus derselben atomaren Materie, die du bei der Geburt hattest.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+              {hoverInfo.visible && (
+                <div className="hover-info">
+                  <p className="steel" dangerouslySetInnerHTML={{ __html: hoverInfo.text }}></p>
                 </div>
+              )}
+
+              <div className="legend">
+                <div className="legend-item">
+                  <div className="legend-color week-past"></div>
+                  <span className="steel">Vergangenheit (<span>{formatNumber(currentStats.weeksLived)}</span> Wochen)</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color week-current"></div>
+                  <span className="mint">Gegenwart</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color week-future"></div>
+                  <span className="steel">Zukunft (<span>{formatNumber(currentStats.weeksRemaining)}</span> Wochen)</span>
+                </div>
+                <button onClick={resetVisualization} className="reset-btn">
+                  Zurücksetzen
+                </button>
+              </div>
+
+              <div className="metrics-cta">
+                <p className="font-roboto-mono text-xs uppercase tracking-[0.15em] text-fyf-steel/70">
+                  Bereit, deine Wochen bewusst zu planen?
+                </p>
+                <a href="/guide" className="metrics-cta-btn">
+                  Weiter zum Guide
+                </a>
               </div>
             </div>
-          </div>
 
-          {/* Right Panel - Grid + Legend */}
-          <div className="right-panel">
-            <WeekGrid 
-              currentStats={currentStats} 
-              onHover={showHoverInfo}
-              onLeave={hideHoverInfo}
+            {/* Cards Panel */}
+            <CardsPanel 
+              activeTab={activeTab}
+              statsTabs={statsTabs}
+              currentStats={currentStats}
+              onClose={() => setActiveTab(null)}
             />
-
-            {hoverInfo.visible && (
-              <div className="hover-info">
-                <p className="steel" dangerouslySetInnerHTML={{ __html: hoverInfo.text }}></p>
-              </div>
-            )}
-
-            {/* Legend */}
-            <div className="legend">
-              <div className="legend-item">
-                <div className="legend-color week-past"></div>
-                <span className="steel">Vergangenheit (<span>{formatNumber(currentStats.weeksLived)}</span> Wochen)</span>
-              </div>
-              <div className="legend-item">
-                <div className="legend-color week-current"></div>
-                <span className="mint">Gegenwart</span>
-              </div>
-              <div className="legend-item">
-                <div className="legend-color week-future"></div>
-                <span className="steel">Zukunft (<span>{formatNumber(currentStats.weeksRemaining)}</span> Wochen)</span>
-              </div>
-              <button onClick={resetVisualization} className="reset-btn">
-                Zurücksetzen
-              </button>
-            </div>
           </div>
-        </div>
+        </section>
       </div>
     );
   }
@@ -468,6 +533,85 @@ export default function LifeWeeksPage() {
 
   return null;
 }
+
+// CardsPanel Component
+interface CardsPanelProps {
+  activeTab: number | null;
+  statsTabs: typeof statsTabs;
+  currentStats: LifeStats | null;
+  onClose: () => void;
+}
+
+function CardsPanel({ activeTab, statsTabs, currentStats, onClose }: CardsPanelProps) {
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const isPanelOpen = activeTab !== null;
+
+  // Focus close button when panel opens (mobile accessibility)
+  useEffect(() => {
+    if (isPanelOpen && closeBtnRef.current) {
+      closeBtnRef.current.focus();
+    }
+  }, [isPanelOpen]);
+
+  // ESC key handler
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isPanelOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPanelOpen, onClose]);
+
+  if (!currentStats || activeTab === null) {
+    return (
+      <div className="cards-panel">
+        {/* Empty mounted panel for smooth transitions */}
+      </div>
+    );
+  }
+
+  const currentTab = statsTabs[activeTab];
+
+  return (
+    <div 
+      className={`cards-panel ${isPanelOpen ? 'cards-panel--open' : ''}`}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="panel-title"
+    >
+      <div className="cards-panel__veil" aria-hidden="true" />
+      
+      <header className="cards-panel__header">
+        <h2 id="panel-title" className="cards-panel__title">
+          {currentTab.label}
+        </h2>
+        <button 
+          ref={closeBtnRef}
+          onClick={onClose} 
+          className="cards-panel__close"
+          aria-label="Panel schließen"
+        >
+          ×
+        </button>
+      </header>
+
+      <div className="cards-panel__body">
+        {currentTab.cards.map(card => (
+          <article key={card.id} className="cards-panel__card">
+            <h3 className="card-title">{card.title}</h3>
+            <div className="card-metric">
+              {typeof card.metric === 'function' ? card.metric(currentStats) : card.metric}
+            </div>
+            <p className="card-body">{card.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 
 // WeekGrid Component
 function WeekGrid({
