@@ -22,7 +22,7 @@ export default function Navigation({ active = "home" }: NavigationProps) {
 
       <div className="text-center">
         <p className="font-righteous text-2xl md:text-3xl leading-tight text-fyf-cream tracking-tight uppercase">
-          Running for
+          Zeit = Vermögen
         </p>
         <p className="font-righteous text-2xl md:text-3xl leading-tight text-fyf-cream tracking-tight uppercase">
           Change

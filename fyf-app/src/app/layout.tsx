@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Space_Grotesk, Righteous, Roboto_Mono } from 'next/font/google'
 import './globals.css'
 import PauseOverlay from '../components/PauseOverlay'
+import CookieConsentBanner from '../components/CookieConsentBanner'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -40,6 +41,7 @@ export default function RootLayout({
       <body className="font-body bg-fyf-noir text-fyf-cream antialiased">
         {children}
         <PauseOverlay />
+        <CookieConsentBanner />
       </body>
     </html>
   )

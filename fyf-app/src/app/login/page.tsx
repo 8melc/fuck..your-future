@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function Login() {
+export function LoginView() {
   return (
     <main className="min-h-screen bg-fyf-noir flex items-center justify-center">
       <div className="max-w-md w-full mx-4">
@@ -15,11 +15,11 @@ export default function Login() {
           <h1 className="font-righteous text-2xl font-bold mb-6 text-fyf-cream">
             STEP 2: Login via Geburtsdatum
           </h1>
-          
+
           <p className="font-roboto-mono text-fyf-steel text-sm mb-6">
             Kein klassischer Account nötig. Gib einfach dein Geburtsdatum ein.
           </p>
-          
+
           <form className="space-y-6">
             <div>
               <label className="block font-roboto-mono text-fyf-steel mb-2 text-sm uppercase tracking-tight">
@@ -31,7 +31,7 @@ export default function Login() {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block font-roboto-mono text-fyf-steel mb-2 text-sm uppercase tracking-tight">
                 Wunsch-Zielalter (optional)
@@ -47,7 +47,7 @@ export default function Login() {
                 Standard: 80 Jahre
               </p>
             </div>
-            
+
             <button
               type="submit"
               className="w-full bg-fyf-mint hover:bg-fyf-mint/90 text-fyf-noir font-righteous font-bold py-3 rounded-lg transition-colors"
@@ -55,7 +55,7 @@ export default function Login() {
               Zeit visualisieren
             </button>
           </form>
-          
+
           <div className="mt-6 text-center">
             <p className="font-roboto-mono text-fyf-steel text-xs">
               <Link href="/landing" className="text-fyf-mint hover:text-fyf-mint/80 transition">
@@ -69,3 +69,6 @@ export default function Login() {
   )
 }
 
+export default function Login() {
+  return <LoginView />
+}

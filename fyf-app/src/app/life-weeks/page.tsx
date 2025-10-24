@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import BlackholeAnimation from '../../components/BlackholeAnimation';
 
 interface LifeStats {
@@ -17,15 +16,112 @@ interface LifeStats {
   birthYear: number;
 }
 
+const COOKIE_NAME = 'fyf-life-weeks';
+const COOKIE_MAX_AGE_DAYS = 60;
+const CONSENT_COOKIE_NAME = 'fyf-cookie-consent';
+
+const readCookie = (name: string) => {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
+};
+
+const writeCookie = (name: string, value: string, days = COOKIE_MAX_AGE_DAYS) => {
+  if (typeof document === 'undefined') return;
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  const expires = `; expires=${date.toUTCString()}`;
+  document.cookie = `${name}=${encodeURIComponent(value)}${expires}; path=/; SameSite=Lax`;
+};
+
+const deleteCookie = (name: string) => {
+  if (typeof document === 'undefined') return;
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
+};
+
 export default function LifeWeeksPage() {
   const [currentView, setCurrentView] = useState<'input' | 'grid' | 'typewriter' | 'navigation'>('input');
   const [currentStats, setCurrentStats] = useState<LifeStats | null>(null);
   const [currentStatIndex, setCurrentStatIndex] = useState(0);
   const [isStatsOpen, setIsStatsOpen] = useState(false);
-  const [birthdate, setBirthdate] = useState('');
+  const [birthdate, setBirthdate] = useState('1997-08-08');
+  const [targetAge, setTargetAge] = useState('80');
   const [hoverInfo, setHoverInfo] = useState<{ visible: boolean; text: string }>({ visible: false, text: '' });
-  const router = useRouter();
+  const [consentStatus, setConsentStatus] = useState<'accepted' | 'declined' | null>(null);
   const totalStatSections = 4;
+
+  const sessionLoadedRef = useRef(false);
+
+  useEffect(() => {
+    const updateConsent = () => {
+      const consent = readCookie(CONSENT_COOKIE_NAME);
+      if (consent === 'accepted' || consent === 'declined') {
+        setConsentStatus(consent);
+      } else {
+        setConsentStatus(null);
+      }
+
+      if (consent !== 'accepted') {
+        deleteCookie(COOKIE_NAME);
+      }
+    };
+
+    updateConsent();
+    window.addEventListener('fyf-cookie-consent-change', updateConsent);
+    return () => window.removeEventListener('fyf-cookie-consent-change', updateConsent);
+  }, []);
+
+  useEffect(() => {
+    if (sessionLoadedRef.current) return;
+    if (consentStatus !== 'accepted') {
+      sessionLoadedRef.current = true;
+      return;
+    }
+
+    const stored = readCookie(COOKIE_NAME);
+
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Partial<{
+          birthdate: string;
+          targetAge: string;
+        }>;
+
+        if (parsed.birthdate) {
+          setBirthdate(parsed.birthdate);
+        }
+
+        if (parsed.targetAge) {
+          setTargetAge(parsed.targetAge);
+        }
+      } catch (error) {
+        console.warn('Failed to parse life-weeks session cookie', error);
+      }
+    }
+
+    sessionLoadedRef.current = true;
+  }, [consentStatus]);
+
+  useEffect(() => {
+    if (!sessionLoadedRef.current) return;
+
+    if (readCookie(CONSENT_COOKIE_NAME) !== 'accepted') {
+      deleteCookie(COOKIE_NAME);
+      return;
+    }
+
+    if (!birthdate && !targetAge) {
+      deleteCookie(COOKIE_NAME);
+      return;
+    }
+
+    const payload = JSON.stringify({
+      birthdate,
+      targetAge,
+    });
+
+    writeCookie(COOKIE_NAME, payload);
+  }, [birthdate, targetAge, consentStatus]);
 
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat().format(num);
@@ -57,7 +153,8 @@ export default function LifeWeeksPage() {
     const weeksLived = Math.floor((today.getTime() - birthDate.getTime()) / msInWeek);
 
     // Based on "Four Thousand Weeks" concept (~77 years)
-    const totalWeeks = 4000;
+    const goalAge = Number(targetAge) || 80;
+    const totalWeeks = Math.round(goalAge * 52);
     const weeksRemaining = Math.max(0, totalWeeks - weeksLived);
     const percentageLived = Math.min(100, Math.round((weeksLived / totalWeeks) * 100));
     
@@ -78,11 +175,6 @@ export default function LifeWeeksPage() {
 
     setCurrentStats(stats);
     setCurrentView('grid');
-
-    // After grid animation completes, show typewriter
-    setTimeout(() => {
-      setCurrentView('typewriter');
-    }, 5000);
   };
 
   const toggleStats = () => {
@@ -99,17 +191,23 @@ export default function LifeWeeksPage() {
   const showHoverInfo = (cellIndex: number) => {
     if (!currentStats) return;
 
+    const totalWeeks = Math.max(0, currentStats.totalWeeks);
     const weekNumber = cellIndex + 1;
-    if (weekNumber > 4000) return;
+    if (weekNumber > totalWeeks) return;
+
+    const hasFuture = currentStats.weeksLived < totalWeeks;
+    const currentWeekIndex = hasFuture
+      ? currentStats.weeksLived
+      : Math.max(totalWeeks - 1, 0);
 
     let message = `Woche ${weekNumber}: `;
 
-    if (cellIndex < currentStats.weeksLived) {
+    if (cellIndex < currentWeekIndex) {
       message += `<span class="coral">Vergangenheit</span>`;
-    } else if (cellIndex === currentStats.weeksLived) {
+    } else if (cellIndex === currentWeekIndex) {
       message += `<span class="mint">Jetzt</span>`;
     } else {
-      const weeksInFuture = cellIndex - currentStats.weeksLived;
+      const weeksInFuture = cellIndex - currentWeekIndex;
       message += `<span class="steel">In ${weeksInFuture} Wochen</span>`;
     }
 
@@ -124,9 +222,11 @@ export default function LifeWeeksPage() {
     setCurrentStats(null);
     setCurrentStatIndex(0);
     setIsStatsOpen(false);
-    setBirthdate('');
+    setBirthdate('1997-08-08');
+    setTargetAge('80');
     setCurrentView('input');
     setHoverInfo({ visible: false, text: '' });
+    deleteCookie(COOKIE_NAME);
   };
 
   const scrollToNavigation = () => {
@@ -148,6 +248,18 @@ export default function LifeWeeksPage() {
                 onChange={(e) => setBirthdate(e.target.value)}
                 className="date-input" 
                 required 
+              />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Wunsch-Zielalter (optional)</label>
+              <input
+                type="number"
+                min={18}
+                max={120}
+                value={targetAge}
+                onChange={(e) => setTargetAge(e.target.value)}
+                className="date-input"
+                placeholder="Standard: 80"
               />
             </div>
             <button 
@@ -358,73 +470,108 @@ export default function LifeWeeksPage() {
 }
 
 // WeekGrid Component
-function WeekGrid({ 
-  currentStats, 
-  onHover, 
-  onLeave 
-}: { 
-  currentStats: LifeStats; 
-  onHover: (index: number) => void; 
-  onLeave: () => void; 
+function WeekGrid({
+  currentStats,
+  onHover,
+  onLeave,
+}: {
+  currentStats: LifeStats;
+  onHover: (index: number) => void;
+  onLeave: () => void;
 }) {
-  const [cells, setCells] = useState<Array<{ cellIndex: number; isPast: boolean; isCurrent: boolean }>>([]);
+  const determineWeeksPerRow = (width: number, total: number) => {
+    const availableWidth = Math.max(width - 64, 240);
+    const targetSize = width < 480 ? 12 : width < 1024 ? 11 : 9;
+    const calculatedColumns = Math.floor(availableWidth / targetSize);
+    const boundedColumns = Math.min(80, Math.max(20, calculatedColumns));
+    return Math.min(boundedColumns, total);
+  };
+
+  const initialWeeksPerRow =
+    typeof window === 'undefined'
+      ? Math.min(80, currentStats.totalWeeks)
+      : determineWeeksPerRow(window.innerWidth, currentStats.totalWeeks);
+
+  const [weeksPerRow, setWeeksPerRow] = useState(initialWeeksPerRow);
+  const [cells, setCells] = useState<
+    Array<{ cellIndex: number; isPast: boolean; isCurrent: boolean }>
+  >([]);
+
+  const totalWeeks = Math.max(1, currentStats.totalWeeks);
 
   useEffect(() => {
-    const TOTAL_WEEKS = 4000;
-    const WEEKS_PER_ROW = 80;
-    const TOTAL_ROWS = Math.ceil(TOTAL_WEEKS / WEEKS_PER_ROW);
+    const handleResize = () => {
+      const next = determineWeeksPerRow(window.innerWidth, totalWeeks);
+      setWeeksPerRow((prev) => (prev === next ? prev : next));
+    };
 
-    const cellsLived = currentStats.weeksLived;
-    const cellsCurrent = 1;
-    const cellsFuture = TOTAL_WEEKS - cellsLived - cellsCurrent;
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [totalWeeks]);
 
-    const allCells: Array<{ cellIndex: number; isPast: boolean; isCurrent: boolean }> = [];
-    let cellIndex = 0;
+  useEffect(() => {
+    const adjustedWeeksPerRow = Math.max(
+      1,
+      Math.min(weeksPerRow, totalWeeks),
+    );
+    const totalRows = Math.ceil(totalWeeks / adjustedWeeksPerRow);
 
-    for (let row = 0; row < TOTAL_ROWS; row++) {
-      for (let col = 0; col < WEEKS_PER_ROW; col++) {
-        if (cellIndex >= TOTAL_WEEKS) break;
-        
-        const isPast = cellIndex < cellsLived;
-        const isCurrent = cellIndex === cellsLived;
-        
+    const hasFuture = currentStats.weeksLived < totalWeeks;
+    const currentWeekIndex = hasFuture
+      ? currentStats.weeksLived
+      : Math.max(totalWeeks - 1, 0);
+
+    const allCells: Array<{
+      cellIndex: number;
+      isPast: boolean;
+      isCurrent: boolean;
+    }> = [];
+
+    for (let row = 0; row < totalRows; row++) {
+      for (let col = 0; col < adjustedWeeksPerRow; col++) {
+        const cellIndex = row * adjustedWeeksPerRow + col;
+        if (cellIndex >= totalWeeks) break;
+
+        const isPast = cellIndex < currentWeekIndex;
+        const isCurrent = cellIndex === currentWeekIndex;
+
         allCells.push({ cellIndex, isPast, isCurrent });
-        cellIndex++;
       }
     }
 
     setCells(allCells);
-  }, [currentStats]);
+  }, [currentStats, totalWeeks, weeksPerRow]);
+
+  const effectiveWeeksPerRow = Math.max(
+    1,
+    Math.min(weeksPerRow, totalWeeks),
+  );
 
   return (
-    <div className="week-grid">
-      {Array.from({ length: Math.ceil(4000 / 80) }, (_, rowIndex) => (
-        <div key={rowIndex} className="week-row">
-          {Array.from({ length: 80 }, (_, colIndex) => {
-            const cellIndex = rowIndex * 80 + colIndex;
-            if (cellIndex >= 4000) return null;
-            
-            const cell = cells.find(c => c.cellIndex === cellIndex);
-            if (!cell) return null;
+    <div
+      className="week-grid"
+      style={{
+        gridTemplateColumns: `repeat(${effectiveWeeksPerRow}, minmax(0, 1fr))`,
+      }}
+    >
+      {cells.map((cell) => {
+        const { cellIndex, isPast, isCurrent } = cell;
+        let className = 'week-cell';
 
-            const { isPast, isCurrent } = cell;
-            let className = 'week-cell';
-            
-            if (isPast) className += ' week-past';
-            else if (isCurrent) className += ' week-current';
-            else className += ' week-future';
+        if (isPast) className += ' week-past';
+        else if (isCurrent) className += ' week-current';
+        else className += ' week-future';
 
-            return (
-              <div
-                key={cellIndex}
-                className={className}
-                onMouseEnter={() => onHover(cellIndex)}
-                onMouseLeave={onLeave}
-              />
-            );
-          })}
-        </div>
-      ))}
+        return (
+          <div
+            key={cellIndex}
+            className={className}
+            onMouseEnter={() => onHover(cellIndex)}
+            onMouseLeave={onLeave}
+          />
+        );
+      })}
     </div>
   );
 }
