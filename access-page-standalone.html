@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FYF Access - Onboarding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Righteous&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            /* FYF Refined Color System */
+            --fyf-noir: #0A0A0A;
+            --fyf-carbon: #1A1A1A;
+            --fyf-charcoal: #2D2D3F;
+            --fyf-smoke: #3A3A4A;
+            
+            /* Primary Accents - Sophisticated */
+            --fyf-coral: #FF6B6B;
+            --fyf-coral-dark: #E55555;
+            --fyf-mint: #4ECDC4;
+            --fyf-mint-dark: #3BA99F;
+            
+            /* Secondary Palette */
+            --fyf-cream: #FFF8E7;
+            --fyf-bone: #F5F0E8;
+            --fyf-steel: #B8BCC8;
+            --fyf-mauve: #9B7E9E;
+            
+            /* Subtle Gradients */
+            --gradient-dark: linear-gradient(135deg, #0A0A0A 0%, #2D2D3F 100%);
+            --gradient-carbon: linear-gradient(180deg, #1A1A1A 0%, #2D2D3F 50%, #1A1A1A 100%);
+            --gradient-coral-mint: linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%);
+            --gradient-subtle: linear-gradient(135deg, #2D2D3F 0%, #3A3A4A 100%);
+            --gradient-mauve: linear-gradient(135deg, #9B7E9E 0%, #FF6B6B 100%);
+            
+            /* Typography */
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-righteous: 'Righteous', cursive;
+        }
+
+        /* TODO: Animation for Step 4 "Dein Ziel"
+         * - Headline/Subline: 1s fade-in delay (opacity 0→1, transform translateY(10px)→0)
+         * - Textarea cursor: subtle pulse on focus (border-color pulse)
+         * - Chips: sequential appear (stagger 100ms each)
+         * - "+ Eigenes Ziel": extra emphasis (scale 1.05, stronger border)
+         * - On chip-click or textarea input: subtle pulse/check feedback
+         */
+
+        :root {
+            --font-roboto-mono: 'Roboto Mono', monospace;
+            
+            /* Shadows & Glows */
+            --glow-coral: 0 0 40px rgba(255, 107, 107, 0.3);
+            --glow-mint: 0 0 40px rgba(78, 205, 196, 0.3);
+            --shadow-deep: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--fyf-noir);
+            color: var(--fyf-cream);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Access Container */
+        .access-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-coral-mint);
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--fyf-steel);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Step Header */
+        .step-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--fyf-cream);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .step-subtitle {
+            font-size: 1.2rem;
+            color: var(--fyf-steel);
+            font-style: italic;
+        }
+
+        /* Step Container */
+        .step-container {
+            flex: 1;
+            display: flex;
+            align-items: center; /* Center content vertically */
+            justify-content: center;
+            min-height: 0; /* Allow flex shrinking */
+            padding: 0.5rem 0; /* Reduced padding */
+        }
+
+        .step-content {
+            width: 100%;
+            max-width: 600px;
+            animation: fadeInUp 0.5s ease;
+            padding: 0 1rem;
+        }
+
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Intro Content */
+        .intro-content {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+
+        .intro-hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-coral-mint);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .intro-hero p {
+            font-size: 1.1rem;
+            color: var(--fyf-steel);
+            margin-bottom: 32px;
+            font-style: italic;
+        }
+
+
+        /* Form Content */
+        .form-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        /* Goal Selector */
+        .goal-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .goal-selector label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--fyf-cream);
+            font-style: italic;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .goal-selector textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--fyf-cream);
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            resize: vertical;
+            min-height: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .goal-selector textarea:focus {
+            outline: none;
+            border-color: var(--fyf-mint);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.2);
+        }
+
+        .goal-selector textarea::placeholder {
+            color: var(--fyf-steel);
+            font-style: italic;
+        }
+
+        /* Goal Chips */
+        .goal-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: var(--fyf-steel);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .chip:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--fyf-mint);
+            color: var(--fyf-mint);
+            transform: translateY(-2px);
+        }
+
+        .chip--selected {
+            background: var(--fyf-mint);
+            border-color: var(--fyf-mint);
+            color: var(--fyf-noir);
+        }
+
+        .chip--add {
+            border-style: dashed;
+            color: var(--fyf-coral);
+        }
+
+        .chip--add:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: var(--fyf-coral);
+            color: var(--fyf-coral);
+        }
+
+        /* Lifestyle Chips */
+        .lifestyle-chips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .lifestyle-chip {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--fyf-steel);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .lifestyle-chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--fyf-mint);
+            transform: translateY(-2px);
+        }
+
+        .lifestyle-chip--selected {
+            background: rgba(78, 205, 196, 0.1);
+            border-color: var(--fyf-mint);
+            color: var(--fyf-mint);
+        }
+
+        .lifestyle-chip__label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: inherit;
+        }
+
+        .lifestyle-chip__description {
+            font-size: 0.8rem;
+            color: var(--fyf-steel);
+            opacity: 0.8;
+            line-height: 1.3;
+        }
+
+        .lifestyle-chip--selected .lifestyle-chip__description {
+            color: var(--fyf-mint);
+            opacity: 0.9;
+        }
+
+        /* Goal Badge (Header Reminder) */
+        .goal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--fyf-mint);
+            font-weight: 600;
+        }
+
+
+        .form-group label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--fyf-cream);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--fyf-cream);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--fyf-mint);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: var(--fyf-steel);
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--fyf-mint);
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .radio-option input[type="radio"]:checked + span {
+            color: var(--fyf-mint);
+            font-weight: 600;
+        }
+
+        .radio-option input[type="radio"]:checked {
+            accent-color: var(--fyf-mint);
+        }
+
+        /* Music Genres */
+        .music-genres {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .genre-btn {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--fyf-steel);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+        }
+
+        .genre-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--fyf-mint);
+            color: var(--fyf-mint);
+        }
+
+        .genre-btn.active {
+            background: var(--fyf-coral);
+            border-color: var(--fyf-coral);
+            color: var(--fyf-noir);
+        }
+
+        /* Interests Grid */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .interest-btn {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: var(--fyf-steel);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .interest-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--fyf-mint);
+            color: var(--fyf-mint);
+        }
+
+        .interest-btn.active {
+            background: var(--fyf-mint);
+            border-color: var(--fyf-mint);
+            color: var(--fyf-noir);
+        }
+
+        /* Complete Content */
+        .complete-content {
+            text-align: center;
+        }
+
+        .complete-hero h2 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--fyf-cream);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .complete-hero p {
+            font-size: 1.2rem;
+            color: var(--fyf-steel);
+            margin-bottom: 40px;
+        }
+
+        .complete-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .complete-stats .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .complete-stats .stat-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--fyf-coral);
+        }
+
+        .complete-stats .stat-label {
+            font-size: 0.9rem;
+            color: var(--fyf-steel);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .complete-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* CTA Buttons */
+        .cta-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .cta-btn.primary {
+            background: var(--fyf-coral);
+            color: var(--fyf-noir);
+        }
+
+        .cta-btn.primary:hover {
+            background: var(--fyf-mint);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--fyf-mint);
+            border: 2px solid var(--fyf-mint);
+        }
+
+        .cta-btn.secondary:hover {
+            background: var(--fyf-mint);
+            color: var(--fyf-noir);
+            transform: translateY(-2px);
+        }
+
+        /* Navigation */
+        .step-navigation {
+            margin-top: 5px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn.primary {
+            background: var(--fyf-coral);
+            color: var(--fyf-noir);
+        }
+
+        .nav-btn.primary:hover {
+            background: var(--fyf-mint);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.secondary {
+            background: transparent;
+            color: var(--fyf-steel);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--fyf-cream);
+            border-color: var(--fyf-mint);
+        }
+
+        /* Sticky Button Area */
+        .button-area {
+            position: sticky;
+            bottom: 0;
+            padding: 0.5rem 0;
+            background: linear-gradient(to top, var(--fyf-noir) 80%, transparent);
+            z-index: 10;
+        }
+
+        .button-area::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(to bottom, transparent, var(--fyf-noir));
+            pointer-events: none;
+        }
+
+        .nav-buttons-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .complete-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .access-container {
+                padding: 20px 15px;
+            }
+            
+            .step-title {
+                font-size: 2rem;
+            }
+            
+            .intro-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            
+            .complete-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .button-area {
+                padding: 1rem 0;
+            }
+            
+            .step-container {
+                padding: 1rem 0;
+            }
+            
+            .goal-chips {
+                gap: 6px;
+            }
+            
+            .chip {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .lifestyle-chips {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .lifestyle-chip {
+                padding: 12px;
+            }
+            
+            .lifestyle-chip__label {
+                font-size: 0.85rem;
+            }
+            
+            .lifestyle-chip__description {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Very short viewports */
+        @media (max-height: 600px) {
+            .step-header {
+                margin-bottom: 20px;
+            }
+            
+            .step-title {
+                font-size: 2rem;
+            }
+            
+            .progress-container {
+                margin-bottom: 20px;
+            }
+            
+            
+            .intro-hero h1 {
+                font-size: 2.5rem;
+                margin-bottom: 12px;
+            }
+            
+            .intro-hero p {
+                font-size: 1rem;
+                margin-bottom: 24px;
+            }
+            
+        }
+
+        /* Hidden class for step management */
+        .hidden {
+            display: none;
+        }
+
+        /* Validation styles */
+        .form-group.error input,
+        .form-group.error select {
+            border-color: var(--fyf-coral);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.2);
+        }
+
+        .error-message {
+            color: var(--fyf-coral);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="access-container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">
+                Schritt 1 von 7
+            </div>
+        </div>
+
+        <!-- Step Header -->
+        <div class="step-header">
+            <h1 class="step-title" id="stepTitle">Willkommen bei FYF</h1>
+            <p class="step-subtitle" id="stepSubtitle">Deine Zeit läuft. Lass uns das ändern.</p>
+        </div>
+
+        <!-- Step Content -->
+        <div class="step-container">
+            <div class="step-content" id="stepContent">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="step-navigation" id="stepNavigation">
+            <!-- Navigation buttons will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        class FYFAccess {
+            constructor() {
+                this.currentStep = 0;
+                this.formData = {
+                    name: 'Max Mustermann',
+                    email: 'max.mustermann@example.com',
+                    birthDate: '1997-08-08',
+                    targetAge: '80',
+                    goal: 'freiheit',
+                    timePhilosophy: 'währung',
+                    musicTaste: 'Electronic',
+                    lifestyle: 'remote',
+                    interests: ['Technologie', 'Entrepreneurship', 'Kreativität']
+                };
+                
+                this.initGlobalState();
+                
+                this.steps = [
+                    {
+                        id: 'intro',
+                        title: 'Willkommen bei FYF',
+                        subtitle: 'Deine Zeit läuft. Entscheide, was zählt.',
+                        content: 'intro'
+                    },
+                    {
+                        id: 'basics',
+                        title: 'Grunddaten',
+                        subtitle: 'Wer bist du?',
+                        content: 'basics'
+                    },
+                    {
+                        id: 'zeit',
+                        title: 'Zeit-Philosophie',
+                        subtitle: 'Wie denkst du über Zeit?',
+                        content: 'zeit'
+                    },
+                    {
+                        id: 'goal',
+                        title: 'Dein Ziel',
+                        subtitle: 'Kein Marketing-Bullshit, kein Fremdzweck. Nur du, radikal und ehrlich.',
+                        content: 'goal'
+                    },
+                    {
+                        id: 'musik',
+                        title: 'Musik-DNA',
+                        subtitle: 'Was hörst du?',
+                        content: 'musik'
+                    },
+                    {
+                        id: 'lifestyle',
+                        title: 'Lebensstil',
+                        subtitle: 'Wie lebst du?',
+                        content: 'lifestyle'
+                    },
+                    {
+                        id: 'interests',
+                        title: 'Interessen',
+                        subtitle: 'Was bewegt dich?',
+                        content: 'interests'
+                    },
+                    {
+                        id: 'complete',
+                        title: 'Fertig!',
+                        subtitle: 'Willkommen in der Community',
+                        content: 'complete'
+                    }
+                ];
+                
+                this.init();
+            }
+
+            // Global State Management
+            initGlobalState() {
+                if (!window.fyfState) {
+                    window.fyfState = {
+                        goal: this.formData.goal || '',
+                        goals: this.formData.goals || [],
+                        birthDate: this.formData.birthDate || '',
+                        targetAge: this.formData.targetAge || ''
+                    };
+                } else {
+                    // Restore from global state
+                    this.formData.goal = window.fyfState.goal;
+                    this.formData.goals = window.fyfState.goals || [];
+                    this.formData.birthDate = window.fyfState.birthDate;
+                    this.formData.targetAge = window.fyfState.targetAge;
+                }
+            }
+
+            // Update goal from textarea
+            updateGoal(value) {
+                this.formData.goal = value;
+                window.fyfState.goal = value;
+                this.updateGoalBadge();
+                this.renderStep(); // Re-render to update chip selection
+            }
+
+            // Select goal from chip (multiple selection allowed)
+            selectGoalChip(goalText) {
+                // Initialize goals array if not exists
+                if (!this.formData.goals) {
+                    this.formData.goals = [];
+                }
+                
+                // Toggle goal in array
+                const index = this.formData.goals.indexOf(goalText);
+                if (index > -1) {
+                    // Remove if already selected
+                    this.formData.goals.splice(index, 1);
+                } else {
+                    // Add if not selected
+                    this.formData.goals.push(goalText);
+                }
+                
+                // Update global state
+                window.fyfState.goals = this.formData.goals;
+                
+                // Update textarea with all selected goals
+                const input = document.getElementById('goalInput');
+                if (input) {
+                    input.value = this.formData.goals.join(', ');
+                }
+                
+                this.updateGoalBadge();
+                this.renderStep(); // Re-render to update chip selection
+            }
+
+            // Focus goal input
+            focusGoalInput() {
+                const input = document.getElementById('goalInput');
+                if (input) {
+                    input.focus();
+                }
+            }
+
+            // Update goal badge in header
+            updateGoalBadge() {
+                let badge = document.querySelector('.goal-badge');
+                
+                // Check if we have selected goals
+                const hasSelectedGoals = this.formData.goals && this.formData.goals.length > 0;
+                const hasTextGoal = this.formData.goal && this.formData.goal.trim() !== '';
+                
+                if (hasSelectedGoals || hasTextGoal) {
+                    if (!badge) {
+                        badge = document.createElement('div');
+                        badge.className = 'goal-badge';
+                        const stepHeader = document.querySelector('.step-header');
+                        if (stepHeader) {
+                            stepHeader.appendChild(badge);
+                        }
+                    }
+                    
+                    // Use selected goals or text goal
+                    let goalText = '';
+                    if (hasSelectedGoals) {
+                        // Shorten chip text for badge display
+                        const shortened = this.formData.goals.map(g => {
+                            if (g.includes('Freiheit spüren')) return 'Freiheit spüren';
+                            if (g.includes('Hamsterrad')) return 'Kein Hamsterrad';
+                            if (g.includes('Aussteigen')) return 'Aussteigen';
+                            if (g.includes('Bullshit-Meeting')) return 'Kein Bullshit';
+                            if (g.includes('bauen')) return 'Etwas bauen';
+                            if (g.includes('Insta')) return 'Mehr sehen';
+                            return g;
+                        });
+                        goalText = shortened.join(', ');
+                    } else if (hasTextGoal) {
+                        goalText = this.formData.goal;
+                    }
+                    
+                    const truncatedGoal = goalText.length > 40 
+                        ? goalText.substring(0, 40) + '...' 
+                        : goalText;
+                        
+                    badge.innerHTML = `<span>Ziel: ${truncatedGoal}</span>`;
+                } else if (badge) {
+                    badge.remove();
+                }
+            }
+
+            init() {
+                this.renderStep();
+                this.updateProgress();
+            }
+
+            renderStep() {
+                const step = this.steps[this.currentStep];
+                
+                // Update header
+                document.getElementById('stepTitle').textContent = step.title;
+                document.getElementById('stepSubtitle').textContent = step.subtitle;
+                
+                // Render content
+                document.getElementById('stepContent').innerHTML = this.getStepContent(step.content);
+                
+                // Render navigation
+                this.renderNavigation();
+                
+                // Update goal badge
+                this.updateGoalBadge();
+            }
+
+            getStepContent(contentType) {
+                switch (contentType) {
+                    case 'intro':
+                        return this.getIntroContent();
+                    case 'basics':
+                        return this.getBasicsContent();
+                    case 'zeit':
+                        return this.getZeitContent();
+                    case 'goal':
+                        return this.getGoalContent();
+                    case 'musik':
+                        return this.getMusikContent();
+                    case 'lifestyle':
+                        return this.getLifestyleContent();
+                    case 'interests':
+                        return this.getInterestsContent();
+                    case 'complete':
+                        return this.getCompleteContent();
+                    default:
+                        return '';
+                }
+            }
+
+            getIntroContent() {
+                return `
+                    <div class="intro-content">
+                        <div class="intro-hero">
+                            <h1>FUCK YOUR FUTURE</h1>
+                            <p>Was willst du mit deiner Zeit wirklich anfangen?</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getBasicsContent() {
+                return `
+                    <div class="form-content">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="name" value="${this.formData.name}" placeholder="Dein Name">
+                        </div>
+                        <div class="form-group">
+                            <label>E-Mail</label>
+                            <input type="email" id="email" value="${this.formData.email}" placeholder="deine@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Geburtsdatum</label>
+                            <input type="date" id="birthDate" value="${this.formData.birthDate}">
+                        </div>
+                        <div class="form-group">
+                            <label>Wunsch-Zielalter (optional)</label>
+                            <input type="number" id="targetAge" value="${this.formData.targetAge}" placeholder="65" min="18" max="120">
+                        </div>
+                    </div>
+                `;
+            }
+
+            getZeitContent() {
+                return `
+                    <div class="form-content">
+                        <div class="form-group">
+                            <label>Wie denkst du über Zeit?</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="timePhilosophy" value="währung" ${this.formData.timePhilosophy === 'währung' ? 'checked' : ''}>
+                                    <span>Zeit ist die einzige Währung, die zählt</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="timePhilosophy" value="begrenzt" ${this.formData.timePhilosophy === 'begrenzt' ? 'checked' : ''}>
+                                    <span>Zeit ist begrenzt, ich muss sie nutzen</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="timePhilosophy" value="qualität" ${this.formData.timePhilosophy === 'qualität' ? 'checked' : ''}>
+                                    <span>Qualität vor Quantität</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getGoalContent() {
+                // Build selected chips display from goals array
+                const selectedChips = this.formData.goals || [];
+                
+                return `
+                    <div class="form-content">
+                        <div class="form-group goal-selector">
+                            <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--fyf-mint);">Dein Ziel.</h2>
+                            
+                            <p style="margin-bottom: 0.5rem; color: var(--fyf-steel); font-size: 0.95rem;">
+                                Kein Marketing-Bullshit, kein Fremdzweck. Nur du, radikal und ehrlich.
+                            </p>
+                            <p style="margin-bottom: 1.5rem; color: var(--fyf-steel); font-size: 0.95rem;">
+                                Schreib auf, was du wirklich willst, nicht was andere erwarten.
+                            </p>
+                            
+                            <textarea 
+                                id="goalInput" 
+                                placeholder="Was würdest du tun, wenn du niemandem etwas beweisen müsstest?" 
+                                rows="3"
+                                oninput="fyfAccess.updateGoal(this.value)"
+                            >${this.formData.goal || ''}</textarea>
+                            
+                            <div class="goal-chips">
+                                <button class="chip ${selectedChips.includes('Freiheit spüren, bevor ich 50 bin') ? 'chip--selected' : ''}" 
+                                        onclick="fyfAccess.selectGoalChip('Freiheit spüren, bevor ich 50 bin')">
+                                    Freiheit spüren, bevor ich 50 bin
+                                </button>
+                                <button class="chip ${selectedChips.includes('Nie wieder zurück ins Hamsterrad') ? 'chip--selected' : ''}" 
+                                        onclick="fyfAccess.selectGoalChip('Nie wieder zurück ins Hamsterrad')">
+                                    Nie wieder zurück ins Hamsterrad
+                                </button>
+                                <button class="chip ${selectedChips.includes('Aussteigen und etwas hinterlassen') ? 'chip--selected' : ''}" 
+                                        onclick="fyfAccess.selectGoalChip('Aussteigen und etwas hinterlassen')">
+                                    Aussteigen und etwas hinterlassen
+                                </button>
+                                <button class="chip ${selectedChips.includes('Ein Jahr kein Bullshit-Meeting') ? 'chip--selected' : ''}" 
+                                        onclick="fyfAccess.selectGoalChip('Ein Jahr kein Bullshit-Meeting')">
+                                    Ein Jahr kein Bullshit-Meeting
+                                </button>
+                                <button class="chip ${selectedChips.includes('Etwas bauen, das bleibt') ? 'chip--selected' : ''}" 
+                                        onclick="fyfAccess.selectGoalChip('Etwas bauen, das bleibt')">
+                                    Etwas bauen, das bleibt
+                                </button>
+                                <button class="chip ${selectedChips.includes('Mehr sehen als Insta mir zeigt') ? 'chip--selected' : ''}" 
+                                        onclick="fyfAccess.selectGoalChip('Mehr sehen als Insta mir zeigt')">
+                                    Mehr sehen als Insta mir zeigt
+                                </button>
+                                <button class="chip chip--add" 
+                                        onclick="fyfAccess.focusGoalInput()">
+                                    + Eigenes Ziel
+                                </button>
+                            </div>
+                            
+                            <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--fyf-steel); font-style: italic;">
+                                Setz ein Ziel, das für dich mehr wert ist als jede Ausrede.
+                            </p>
+                            <p style="font-size: 0.85rem; color: var(--fyf-mint); font-weight: 600; font-style: italic;">
+                                Dein Fokus = dein Vermögen. Mehr Ownership gibt's nicht.
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getMusikContent() {
+                const genres = ['Electronic', 'Hip-Hop', 'Rock', 'Jazz', 'Classical', 'Ambient', 'Pop', 'Indie'];
+                return `
+                    <div class="form-content">
+                        <div class="form-group">
+                            <label>Deine Musik-DNA</label>
+                            <div class="music-genres">
+                                ${genres.map(genre => `
+                                    <button class="genre-btn ${this.formData.musicTaste === genre ? 'active' : ''}" 
+                                            onclick="fyfAccess.selectMusicGenre('${genre}')">
+                                        ${genre}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getLifestyleContent() {
+                const lifestyleOptions = [
+                    { value: 'digital-nomad', label: 'Digital Nomad', description: 'Arbeite, wo du gerade bist.' },
+                    { value: 'remote-worker', label: 'Remote Worker', description: 'Homeoffice ist mein Orbit.' },
+                    { value: 'office-player', label: 'Office Player', description: '9-to-5, aber meinen Regeln.' },
+                    { value: 'hybrid', label: 'Hybrid', description: 'Stadt und Rückzug im Wechsel.' },
+                    { value: 'creator', label: 'Creator', description: 'Ich kreiere, Fokus ist fluide.' },
+                    { value: 'sidepreneur', label: 'Sidepreneur', description: 'Mehrere Projekte, voller Drive.' },
+                    { value: 'explorer', label: 'Explorer', description: 'Ich teste ständig neue Routinen.' },
+                    { value: 'caretaker', label: 'Caretaker', description: 'Ich halte andere am Laufen.' },
+                    { value: 'teamplayer', label: 'Teamplayer', description: 'Ich tanke Energie im Miteinander.' },
+                    { value: 'rebel', label: 'Rebel', description: 'Kein klassisches Lebensmodell.' },
+                    { value: 'family-flow', label: 'Family Flow', description: 'Familie ist mein Taktgeber.' },
+                    { value: 'minimalist', label: 'Minimalist', description: 'Weniger Zeug, mehr Fokus.' },
+                    { value: 'old-school', label: 'Old School', description: 'Feste Strukturen, klare Slots.' }
+                ];
+
+                return `
+                    <div class="form-content">
+                        <div class="form-group">
+                            <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--fyf-mint);">Dein Stil. Deine Zeitlogik.</h2>
+                            <p style="margin-bottom: 1.5rem; color: var(--fyf-steel); font-size: 0.95rem;">
+                                Wir justieren den Guide so, dass er in deinem Alltag wirkt.
+                            </p>
+                            
+                            <div class="lifestyle-chips">
+                                ${lifestyleOptions.map(option => `
+                                    <button class="lifestyle-chip ${this.formData.lifestyle === option.value ? 'lifestyle-chip--selected' : ''}" 
+                                            onclick="fyfAccess.selectLifestyle('${option.value}')"
+                                            title="${option.description}">
+                                        <span class="lifestyle-chip__label">${option.label}</span>
+                                        <span class="lifestyle-chip__description">${option.description}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getInterestsContent() {
+                const interests = [
+                    'Krypto & Blockchain', 'Nachhaltigkeit', 'Kunst & Design', 'Technologie',
+                    'Philosophie', 'Reisen', 'Fitness & Gesundheit', 'Musik',
+                    'Bücher & Lesen', 'Entrepreneurship', 'Social Impact', 'Kreativität'
+                ];
+                return `
+                    <div class="form-content">
+                        <div class="form-group">
+                            <label>Was interessiert dich?</label>
+                            <div class="interests-grid">
+                                ${interests.map(interest => `
+                                    <button class="interest-btn ${this.formData.interests.includes(interest) ? 'active' : ''}" 
+                                            onclick="fyfAccess.toggleInterest('${interest}')">
+                                        ${interest}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getCompleteContent() {
+                return `
+                    <div class="complete-content">
+                        <div class="complete-hero">
+                            <h2>Willkommen bei FYF!</h2>
+                            <p>Dein Profil wurde erstellt. Du bist jetzt Teil der Community.</p>
+                        </div>
+                        <div class="complete-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">32</span>
+                                <span class="stat-label">Sommerurlaube</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1,664</span>
+                                <span class="stat-label">Wochen</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">11,648</span>
+                                <span class="stat-label">Tage</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderNavigation() {
+                const navigation = document.getElementById('stepNavigation');
+                
+                if (this.currentStep < this.steps.length - 1) {
+                    // All steps use same button positioning
+                    if (this.currentStep === 0) {
+                        // Intro step - single button
+                        navigation.innerHTML = `
+                            <div class="button-area">
+                                <button class="cta-btn primary" onclick="fyfAccess.nextStep()">
+                                    Los geht's
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        // All other steps - back/next buttons
+                        navigation.innerHTML = `
+                            <div class="button-area">
+                                <div class="nav-buttons-wrapper">
+                                    <button class="nav-btn secondary" onclick="fyfAccess.prevStep()">
+                                        <i class="fas fa-arrow-left"></i>
+                                        Zurück
+                                    </button>
+                                    <button class="nav-btn primary" onclick="fyfAccess.nextStep()">
+                                        Weiter
+                                        <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Complete step - show action buttons
+                    navigation.innerHTML = `
+                        <div class="button-area">
+                            <div class="complete-actions">
+                                <button class="cta-btn primary" onclick="fyfAccess.startLifeInWeeks()">
+                                    <i class="fas fa-play"></i>
+                                    Life in Weeks starten
+                                </button>
+                                <button class="cta-btn secondary" onclick="fyfAccess.explorePeople()">
+                                    <i class="fas fa-users"></i>
+                                    People entdecken
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            updateProgress() {
+                const progress = ((this.currentStep + 1) / this.steps.length) * 100;
+                document.getElementById('progressFill').style.width = `${progress}%`;
+                document.getElementById('progressText').textContent = 
+                    `Schritt ${this.currentStep + 1} von ${this.steps.length}`;
+            }
+
+            saveFormData() {
+                // Save basic form data
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const birthDateInput = document.getElementById('birthDate');
+                const targetAgeInput = document.getElementById('targetAge');
+                const goalInput = document.getElementById('goalInput');
+                
+                if (nameInput) this.formData.name = nameInput.value;
+                if (emailInput) this.formData.email = emailInput.value;
+                if (birthDateInput) this.formData.birthDate = birthDateInput.value;
+                if (targetAgeInput) this.formData.targetAge = targetAgeInput.value;
+                if (goalInput) {
+                    this.formData.goal = goalInput.value;
+                    window.fyfState.goal = goalInput.value;
+                }
+                
+                // Save goals array
+                if (this.formData.goals) {
+                    window.fyfState.goals = this.formData.goals;
+                }
+                
+                // Save radio button data
+                const timePhilosophyRadio = document.querySelector('input[name="timePhilosophy"]:checked');
+                if (timePhilosophyRadio) this.formData.timePhilosophy = timePhilosophyRadio.value;
+                
+                const lifestyleRadio = document.querySelector('input[name="lifestyle"]:checked');
+                if (lifestyleRadio) this.formData.lifestyle = lifestyleRadio.value;
+            }
+
+            validateCurrentStep() {
+                const step = this.steps[this.currentStep];
+                
+                switch (step.id) {
+                    case 'basics':
+                        return this.validateBasics();
+                    case 'zeit':
+                        return this.validateZeit();
+                    case 'lifestyle':
+                        return this.validateLifestyle();
+                    default:
+                        return true;
+                }
+            }
+
+            validateBasics() {
+                const name = document.getElementById('name')?.value;
+                const email = document.getElementById('email')?.value;
+                const birthDate = document.getElementById('birthDate')?.value;
+                
+                if (!name || !email || !birthDate) {
+                    alert('Bitte fülle alle Pflichtfelder aus.');
+                    return false;
+                }
+                
+                // Basic email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Bitte gib eine gültige E-Mail-Adresse ein.');
+                    return false;
+                }
+                
+                return true;
+            }
+
+            validateZeit() {
+                const timePhilosophy = document.querySelector('input[name="timePhilosophy"]:checked');
+                if (!timePhilosophy) {
+                    alert('Bitte wähle eine Zeit-Philosophie aus.');
+                    return false;
+                }
+                return true;
+            }
+
+            validateLifestyle() {
+                const lifestyle = document.querySelector('input[name="lifestyle"]:checked');
+                if (!lifestyle) {
+                    alert('Bitte wähle einen Lebensstil aus.');
+                    return false;
+                }
+                return true;
+            }
+
+            nextStep() {
+                if (this.validateCurrentStep()) {
+                    this.saveFormData();
+                    if (this.currentStep < this.steps.length - 1) {
+                        this.currentStep++;
+                        this.renderStep();
+                        this.updateProgress();
+                    }
+                }
+            }
+
+            prevStep() {
+                if (this.currentStep > 0) {
+                    this.currentStep--;
+                    this.renderStep();
+                    this.updateProgress();
+                }
+            }
+
+            selectMusicGenre(genre) {
+                this.formData.musicTaste = genre;
+                this.renderStep();
+            }
+
+            selectLifestyle(lifestyle) {
+                this.formData.lifestyle = lifestyle;
+                this.renderStep();
+            }
+
+            toggleInterest(interest) {
+                const index = this.formData.interests.indexOf(interest);
+                if (index > -1) {
+                    this.formData.interests.splice(index, 1);
+                } else {
+                    this.formData.interests.push(interest);
+                }
+                this.renderStep();
+            }
+
+            startLifeInWeeks() {
+                // Save final data
+                this.saveFormData();
+                
+                // Store in localStorage for demo purposes
+                localStorage.setItem('fyfUserData', JSON.stringify(this.formData));
+                
+                // Redirect to life-weeks page (adjust URL as needed)
+                window.location.href = 'http://localhost:3000/life-weeks';
+            }
+
+            explorePeople() {
+                // Save final data
+                this.saveFormData();
+                
+                // Store in localStorage for demo purposes
+                localStorage.setItem('fyfUserData', JSON.stringify(this.formData));
+                
+                // Redirect to people page (adjust URL as needed)
+                window.location.href = 'http://localhost:3000/people';
+            }
+        }
+
+        // Initialize the application
+        const fyfAccess = new FYFAccess();
+    </script>
+</body>
+</html>

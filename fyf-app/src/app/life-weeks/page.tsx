@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import BlackholeAnimation from '../../components/BlackholeAnimation';
 import StatIcon from '../../components/icons/StatIcon';
 import SocietyIcon from '../../components/icons/SocietyIcon';
@@ -18,6 +18,8 @@ interface LifeStats {
   breaths: number;
   seasons: number;
   birthYear: number;
+  remainingSummers: number;
+  remainingWeekends: number;
 }
 
 
@@ -70,10 +72,29 @@ export default function LifeWeeksPage() {
   const [targetAge, setTargetAge] = useState('80');
   const [hoverInfo, setHoverInfo] = useState<{ visible: boolean; text: string }>({ visible: false, text: '' });
   const [consentStatus, setConsentStatus] = useState<'accepted' | 'declined' | null>(null);
-  
+  const [isLegendOpen, setIsLegendOpen] = useState(false);
+  const legendTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const legendPopoverRef = useRef<HTMLDivElement | null>(null);
+
   const isPanelOpen = activeTab !== null;
 
   const sessionLoadedRef = useRef(false);
+
+  const progressShares = useMemo(() => {
+    if (!currentStats) {
+      return { past: 0, present: 0, future: 100 };
+    }
+
+    const totalForProgress = Math.max(currentStats.totalWeeks, 1);
+    const pastShare = Math.min(100, (currentStats.weeksLived / totalForProgress) * 100);
+    const presentShare =
+      currentStats.weeksLived >= currentStats.totalWeeks
+        ? 0
+        : Math.min(100 - pastShare, (1 / totalForProgress) * 100);
+    const futureShare = Math.max(0, 100 - pastShare - presentShare);
+
+    return { past: pastShare, present: presentShare, future: futureShare };
+  }, [currentStats]);
 
   useEffect(() => {
     const updateConsent = () => {
@@ -146,6 +167,37 @@ export default function LifeWeeksPage() {
     writeCookie(COOKIE_NAME, payload);
   }, [birthdate, targetAge, consentStatus]);
 
+  useEffect(() => {
+    if (!isLegendOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (
+        legendPopoverRef.current &&
+        legendTriggerRef.current &&
+        !legendPopoverRef.current.contains(target) &&
+        !legendTriggerRef.current.contains(target)
+      ) {
+        setIsLegendOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsLegendOpen(false);
+        legendTriggerRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isLegendOpen]);
+
 
   const getPopulationAtYear = (year: number) => {
     const populationData: { [key: number]: number } = {
@@ -161,13 +213,19 @@ export default function LifeWeeksPage() {
     return Math.round(populationData[closestYear] * 1000000000);
   };
 
-  const statsTabs = [
-    { 
-      id: 0, 
-      label: 'Lebensmetriken', 
-      icon: StatIcon,
+const statsTabs = [
+  { 
+    id: 0, 
+    label: 'Lebensmetriken', 
+    icon: StatIcon,
       headline: 'Du hast schon {weeksLived} Wochen bewusst erlebt – Zeit, die restlichen {weeksRemaining} zu gestalten.',
       cards: [
+        { 
+          id: 'weekends-remaining', 
+          title: 'Wochenenden in Aussicht', 
+          metric: (stats: LifeStats) => formatNumber(stats.remainingWeekends),
+          body: 'So viele Wochenenden kannst du noch bewusst gestalten.' 
+        },
         { 
           id: 'weeks-lived', 
           title: 'Wochen gelebt', 
@@ -187,65 +245,19 @@ export default function LifeWeeksPage() {
           body: 'Dein Herz-Kreislauf-System arbeitet unermüdlich für dich.' 
         }
       ]
-    },
-    { 
-      id: 1, 
-      label: 'Gesellschaftlicher Kontext', 
-      icon: SocietyIcon,
-      headline: 'Deine Zeit im Wandel der Welt.',
-      cards: [
-        { 
-          id: 'population-growth', 
-          title: 'Bevölkerungswachstum', 
-          metric: (stats: LifeStats) => `${formatNumber(getPopulationAtYear(stats.birthYear) / 1000000000)}M → 8M`,
-          body: 'Die Menschheit ist während deiner Lebenszeit exponentiell gewachsen.' 
+  },
+  { 
+    id: 1, 
+    label: 'Natürliche Rhythmen', 
+    icon: NatureIcon,
+    headline: 'Die natürlichen Rhythmen deines Lebens.',
+    cards: [
+      { 
+        id: 'summers-remaining', 
+        title: 'Sommer verbleibend', 
+        metric: (stats: LifeStats) => formatNumber(stats.remainingSummers),
+          body: 'So viele Sommer warten noch darauf, von dir gestaltet zu werden.' 
         },
-        { 
-          id: 'people-met', 
-          title: 'Menschen getroffen', 
-          metric: (stats: LifeStats) => formatNumber(Math.round(80000 * (stats.percentageLived/100))),
-          body: 'Statistisch gesehen hast du bereits viele der Menschen getroffen, die du kennenlernen wirst.' 
-        },
-        { 
-          id: 'lives-begun', 
-          title: 'Neue Leben', 
-          metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived * 385000)),
-          body: 'Seit deiner Geburt haben Millionen neue Leben begonnen.' 
-        }
-      ]
-    },
-    { 
-      id: 2, 
-      label: 'Kosmische Perspektive', 
-      icon: CosmosIcon,
-      headline: 'Deine Existenz im Kontext des Universums.',
-      cards: [
-        { 
-          id: 'earth-travel', 
-          title: 'Erdumlaufbahn', 
-          metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 1.6 * 1000000))} km`,
-          body: 'Die Erde hat dich auf ihrer Reise um die Sonne transportiert.' 
-        },
-        { 
-          id: 'universe-percentage', 
-          title: 'Universumsanteil', 
-          metric: (stats: LifeStats) => `${(80/13800000000 * 100).toFixed(10)}%`,
-          body: 'Deine Existenz ist ein winziger Moment in der Geschichte des Universums.' 
-        },
-        { 
-          id: 'galaxy-travel', 
-          title: 'Milchstraßen-Reise', 
-          metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 24 * 828000))} km`,
-          body: 'Unser Sonnensystem bewegt sich durch die Spiralarme der Milchstraße.' 
-        }
-      ]
-    },
-    { 
-      id: 3, 
-      label: 'Natürliche Rhythmen', 
-      icon: NatureIcon,
-      headline: 'Die natürlichen Rhythmen deines Lebens.',
-      cards: [
         { 
           id: 'moon-phases', 
           title: 'Mondphasen', 
@@ -255,18 +267,70 @@ export default function LifeWeeksPage() {
         { 
           id: 'sun-orbits', 
           title: 'Sonnenumrundungen', 
-          metric: (stats: LifeStats) => formatNumber(Math.floor(stats.daysLived / 365.25)),
-          body: 'Jede Umrundung der Sonne ist ein neues Jahr voller Möglichkeiten.' 
-        },
-        { 
-          id: 'cell-regeneration', 
-          title: 'Zellregeneration', 
-          metric: (stats: LifeStats) => 'Mehrfach',
-          body: 'Dein Körper hat sich mehrmals vollständig erneuert.' 
-        }
-      ]
-    },
-  ];
+        metric: (stats: LifeStats) => formatNumber(Math.floor(stats.daysLived / 365.25)),
+        body: 'Jede Umrundung der Sonne ist ein neues Jahr voller Möglichkeiten.' 
+      },
+      { 
+        id: 'cell-regeneration', 
+        title: 'Zellregeneration', 
+        metric: (stats: LifeStats) => 'Mehrfach',
+        body: 'Dein Körper hat sich mehrmals vollständig erneuert.' 
+      }
+    ]
+  },
+  { 
+    id: 2, 
+    label: 'Menschlicher Puls', 
+    icon: SocietyIcon,
+    headline: 'Deine Zeit im Rhythmus der Menschheit.',
+    cards: [
+      { 
+        id: 'lives-begun', 
+        title: 'Neue Leben', 
+        metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived * 385000)),
+        body: 'Seit deiner Geburt haben Millionen neue Leben begonnen.' 
+      },
+      { 
+        id: 'population-growth', 
+        title: 'Bevölkerungswachstum', 
+        metric: (stats: LifeStats) => `${formatNumber(getPopulationAtYear(stats.birthYear) / 1000000000)}M → 8M`,
+        body: 'Die Menschheit ist während deiner Lebenszeit exponentiell gewachsen.' 
+      },
+      { 
+        id: 'people-met', 
+        title: 'Menschen getroffen', 
+        metric: (stats: LifeStats) => formatNumber(Math.round(80000 * (stats.percentageLived/100))),
+        body: 'Statistisch gesehen hast du bereits viele der Menschen getroffen, die du kennenlernen wirst.' 
+      }
+    ]
+  },
+  { 
+    id: 3, 
+    label: 'Kosmische Perspektive', 
+    icon: CosmosIcon,
+    headline: 'Deine Existenz im Kontext des Universums.',
+    cards: [
+      { 
+        id: 'universe-percentage', 
+        title: 'Universumsanteil', 
+        metric: (stats: LifeStats) => `${(80/13800000000 * 100).toFixed(10)}%`,
+        body: 'Deine Existenz ist ein winziger Moment in der Geschichte des Universums.' 
+      },
+      { 
+        id: 'earth-travel', 
+        title: 'Erdumlaufbahn', 
+        metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 1.6 * 1000000))} km`,
+        body: 'Die Erde hat dich auf ihrer Reise um die Sonne transportiert.' 
+      },
+      { 
+        id: 'galaxy-travel', 
+        title: 'Milchstraßen-Reise', 
+        metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 24 * 828000))} km`,
+        body: 'Unser Sonnensystem bewegt sich durch die Spiralarme der Milchstraße.' 
+      }
+    ]
+  },
+];
 
   const calculateStats = () => {
     if (!birthdate) return;
@@ -288,16 +352,20 @@ export default function LifeWeeksPage() {
     // Calculate days lived
     const msInDay = 1000 * 60 * 60 * 24;
     const daysLived = Math.floor((today.getTime() - birthDate.getTime()) / msInDay);
+    const yearsLived = daysLived / 365.25;
     
     // Calculate various statistics
     const hoursSlept = Math.floor(daysLived * 8);
     const heartbeats = Math.floor(daysLived * 24 * 60 * 70);
     const breaths = Math.floor(daysLived * 24 * 60 * 16);
     const seasons = Math.floor(daysLived / 91.25);
+    const remainingSummers = Math.max(0, Math.floor(goalAge - yearsLived));
+    const remainingWeekends = Math.max(0, Math.round(weeksRemaining));
     
     const stats: LifeStats = {
       weeksLived, totalWeeks, weeksRemaining, percentageLived,
-      daysLived, hoursSlept, heartbeats, breaths, seasons, birthYear
+      daysLived, hoursSlept, heartbeats, breaths, seasons, birthYear,
+      remainingSummers, remainingWeekends
     };
 
     setCurrentStats(stats);
@@ -338,11 +406,12 @@ export default function LifeWeeksPage() {
 
   const resetVisualization = () => {
     setCurrentStats(null);
-    setCurrentStatIndex(0);
+    setActiveTab(null);
     setBirthdate('1997-08-08');
     setTargetAge('80');
     setCurrentView('input');
     setHoverInfo({ visible: false, text: '' });
+    setIsLegendOpen(false);
     deleteCookie(COOKIE_NAME);
   };
 
@@ -448,31 +517,92 @@ export default function LifeWeeksPage() {
                 </div>
               )}
 
-              <div className="legend">
-                <div className="legend-item">
-                  <div className="legend-color week-past"></div>
-                  <span className="steel">Vergangenheit (<span>{formatNumber(currentStats.weeksLived)}</span> Wochen)</span>
+              <div className="metrics-footer">
+                <div
+                  className="metrics-legend-trigger"
+                  onMouseEnter={() => setIsLegendOpen(true)}
+                  onMouseLeave={() => setIsLegendOpen(false)}
+                >
+                  <button
+                    ref={legendTriggerRef}
+                    type="button"
+                    className="metrics-info-btn"
+                    aria-haspopup="dialog"
+                    aria-expanded={isLegendOpen}
+                    aria-controls="metrics-legend-popover"
+                    onClick={() => setIsLegendOpen((prev) => !prev)}
+                    onFocus={() => setIsLegendOpen(true)}
+                    onBlur={(event) => {
+                      if (
+                        !legendPopoverRef.current?.contains(event.relatedTarget as Node)
+                      ) {
+                        setIsLegendOpen(false);
+                      }
+                    }}
+                  >
+                    <span aria-hidden="true">ℹ︎</span>
+                    <span className="sr-only">Legende anzeigen</span>
+                  </button>
+                  <div
+                    ref={legendPopoverRef}
+                    id="metrics-legend-popover"
+                    role="dialog"
+                    aria-modal="false"
+                    className={`metrics-legend-popover ${isLegendOpen ? 'is-visible' : ''}`}
+                  >
+                    <p className="popover-title">Wie lese ich das Wochenraster?</p>
+                    <ul>
+                      <li>
+                        <span className="dot past" aria-hidden="true"></span>
+                        <span>Vergangene Wochen ({formatNumber(currentStats.weeksLived)})</span>
+                      </li>
+                      <li>
+                        <span className="dot present" aria-hidden="true"></span>
+                        <span>Aktuelle Woche</span>
+                      </li>
+                      <li>
+                        <span className="dot future" aria-hidden="true"></span>
+                        <span>Verbleibende Wochen ({formatNumber(currentStats.weeksRemaining)})</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <div className="legend-item">
-                  <div className="legend-color week-current"></div>
-                  <span className="mint">Gegenwart</span>
-                </div>
-                <div className="legend-item">
-                  <div className="legend-color week-future"></div>
-                  <span className="steel">Zukunft (<span>{formatNumber(currentStats.weeksRemaining)}</span> Wochen)</span>
-                </div>
-                <button onClick={resetVisualization} className="reset-btn">
-                  Zurücksetzen
-                </button>
-              </div>
 
-              <div className="metrics-cta">
-                <p className="font-roboto-mono text-xs uppercase tracking-[0.15em] text-fyf-steel/70">
-                  Bereit, deine Wochen bewusst zu planen?
-                </p>
-                <a href="/guide" className="metrics-cta-btn">
-                  Weiter zum Guide
-                </a>
+                <div className="metrics-cta">
+                  <p className="metrics-cta-headline">
+                    Deine nächsten Wochen beginnen jetzt. Gestaltest du sie bewusst?
+                  </p>
+                  <div className="metrics-progress" aria-hidden="true">
+                    <span
+                      className="metrics-progress__segment past"
+                      style={{ width: `${progressShares.past}%` }}
+                    />
+                    {progressShares.present > 0 && (
+                      <span
+                        className="metrics-progress__segment present"
+                        style={{ width: `${progressShares.present}%` }}
+                      />
+                    )}
+                    {progressShares.future > 0 && (
+                      <span
+                        className="metrics-progress__segment future"
+                        style={{ width: `${progressShares.future}%` }}
+                      />
+                    )}
+                  </div>
+                  <a href="/guide" className="metrics-cta-btn">
+                    Los geht&apos;s zum Wochen-Guide
+                  </a>
+                  {(activeTab !== null || birthdate !== '1997-08-08' || targetAge !== '80') && (
+                    <button
+                      type="button"
+                      className="metrics-reset-btn"
+                      onClick={resetVisualization}
+                    >
+                      Visualisierung zurücksetzen
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
