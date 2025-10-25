@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FYF Feed | Zeit die zählt</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* FYF Colors – organic, nicht perfekt */
+            --noir: #0A0A0A;
+            --carbon: #1A1A1A;
+            --smoke: #3A3A4A;
+            --cream: #FFF8E7;
+            --bone: #F5F0E8;
+            --coral: #FF6B6B;
+            --mint: #4ECDC4;
+            --mint-dark: #3BA99F;
+            
+            /* Texturen */
+            --noise: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4"/></filter><rect width="300" height="300" filter="url(%23noise)" opacity="0.05"/></svg>');
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--noir);
+            color: var(--cream);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise Overlay – gibt Leben */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: var(--noise);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--mint) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: var(--bone);
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Guide Voice Box */
+        .guide-voice {
+            background: rgba(78, 205, 196, 0.08);
+            border: 1px solid var(--mint);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 700px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .guide-voice::before {
+            content: '💬 Guide';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--noir);
+            padding: 0 10px;
+            font-size: 0.85rem;
+            color: var(--mint);
+            font-weight: 600;
+        }
+
+        .guide-voice p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--cream);
+        }
+
+        /* Feed Grid */
+        .feed-container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--carbon);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--mint);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--smoke);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--mint);
+        }
+
+        .card-category {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .cat-important { background: rgba(78, 205, 196, 0.15); color: var(--mint); }
+        .cat-reflection { background: rgba(255, 107, 107, 0.15); color: var(--coral); }
+        .cat-inspiration { background: rgba(245, 240, 232, 0.15); color: var(--bone); }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .card-author {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1rem;
+        }
+
+        .card-guide-comment {
+            background: rgba(78, 205, 196, 0.05);
+            border-left: 3px solid var(--mint);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--bone);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--mint);
+            color: var(--noir);
+        }
+
+        .btn-primary:hover {
+            background: var(--mint-dark);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--cream);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--mint);
+            color: var(--mint);
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin: 4rem 0 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--mint);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-description {
+            color: var(--bone);
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 4rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .feed-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Das Internet zeigt dir alles.<br>FYF zeigt dir, was zählt.</h1>
+        <p class="hero-tagline">Kein Feed, der dich füttert – ein Feed, der dich spiegelt.</p>
+        
+        <div class="guide-voice">
+            <p>Hey. Ich bin dein Guide. Ich bin nicht hier, um dir zu sagen, was du tun sollst. Ich zeige dir nur, warum du siehst, was du siehst. Du entscheidest, was du daraus machst.</p>
+        </div>
+    </section>
+
+    <!-- Feed Container -->
+    <div class="feed-container">
+        
+        <!-- Section: Zeit & Endlichkeit -->
+        <div class="section-header">
+            <h2>⏳ Zeit & Endlichkeit</h2>
+            <p class="section-description">Zeit ist dein Vermögen.</p>
+        </div>
+
+        <div class="feed-grid">
+            
+            <!-- Card 1: Life in Weeks -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_01_Life-in-Weeks.jpg" alt="Your Life in Weeks" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-important">🟩 Wichtig</span>
+                        <span>8 Min Lesezeit</span>
+                    </div>
+                    <h3 class="card-title">Your Life in Weeks</h3>
+                    <p class="card-author">Tim Urban · Wait But Why</p>
+                    
+                    <div class="card-guide-comment">
+                        "Jede Woche ist ein Pixel deiner Lebensgeschichte. Das ist kein Quick Win – das ist Fundament."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Lesen</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 2: Four Thousand Weeks -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_02_FourThousandWeeks.jpg" alt="Four Thousand Weeks" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-important">🟩 Wichtig</span>
+                        <span>22 Min Podcast</span>
+                    </div>
+                    <h3 class="card-title">Why We Can't Manage Time</h3>
+                    <p class="card-author">Oliver Burkeman · Four Thousand Weeks</p>
+                    
+                    <div class="card-guide-comment">
+                        "Zeit lässt sich nicht managen, nur bewusst erleben. Kein Hack kann dir mehr Wochen geben."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Hören</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 3: Frankl Quote -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_03_Frankl-Quote.jpg" alt="Frankl Quote" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-reflection">🟨 Reflexion</span>
+                        <span>1 Min</span>
+                    </div>
+                    <h3 class="card-title">Zwischen Reiz und Reaktion</h3>
+                    <p class="card-author">Viktor Frankl · Man's Search for Meaning</p>
+                    
+                    <div class="card-guide-comment">
+                        "In diesem Raum liegt unsere Macht zu wählen. Bewusstsein = Freiheit."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Reflektieren</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Section: Freiheit & Orte -->
+        <div class="section-header">
+            <h2>🌍 Freiheit & Orte</h2>
+            <p class="section-description">Freiheit braucht Bewusstsein.</p>
+        </div>
+
+        <div class="feed-grid">
+            
+            <!-- Card 4: Bali Coworking -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_04_Bali-Coworking.jpg" alt="Bali Coworking" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-important">🟩 Wichtig</span>
+                        <span>12 Min Lesezeit</span>
+                    </div>
+                    <h3 class="card-title">10 Best Coworking Spaces in Bali for Deep Work</h3>
+                    <p class="card-author">Nomad List 2025</p>
+                    
+                    <div class="card-guide-comment">
+                        "Such Orte, die dich fokussieren, nicht betäuben. Bali ist kein Traumziel, sondern eine Probe."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Lesen</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 5: Nomad Podcast -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_05_NomadPodcast.jpg" alt="Nomad Podcast" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-reflection">🟨 Reflexion</span>
+                        <span>45 Min Podcast</span>
+                    </div>
+                    <h3 class="card-title">The Shadow Side of Paradise</h3>
+                    <p class="card-author">The Nomad Podcast</p>
+                    
+                    <div class="card-guide-comment">
+                        "Freiheit hat immer einen Preis. Entscheidest du ihn bewusst oder zahlst du ihn unbewusst?"
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Hören</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 6: Jenny Odell -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_06_Jenny-Odell.jpg" alt="Jenny Odell" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-inspiration">🟦 Inspiration</span>
+                        <span>Profile</span>
+                    </div>
+                    <h3 class="card-title">Jenny Odell</h3>
+                    <p class="card-author">How to Do Nothing</p>
+                    
+                    <div class="card-guide-comment">
+                        "Sie lebt, was FYF lehrt: Stillstand als bewusste Entscheidung, nicht als Versagen."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Mehr erfahren</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Section: Fokus & Aufmerksamkeit -->
+        <div class="section-header">
+            <h2>🎯 Fokus & Aufmerksamkeit</h2>
+            <p class="section-description">Aufmerksamkeit ist dein wertvollstes Gut.</p>
+        </div>
+
+        <div class="feed-grid">
+            
+            <!-- Card 7: Cal Newport -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_07_Cal-Newport.jpg" alt="Cal Newport" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-important">🟩 Wichtig</span>
+                        <span>15 Min Lesezeit</span>
+                    </div>
+                    <h3 class="card-title">Deep Work Rules</h3>
+                    <p class="card-author">Cal Newport · Deep Work</p>
+                    
+                    <div class="card-guide-comment">
+                        "Fokus ist nicht Multitasking. Fokus ist Monotasking mit Absicht."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Lesen</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 8: Farnam Street -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_08_FarnamStreet-Attention.jpg" alt="Farnam Street Attention" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-reflection">🟨 Reflexion</span>
+                        <span>8 Min Lesezeit</span>
+                    </div>
+                    <h3 class="card-title">Attention IQ</h3>
+                    <p class="card-author">Farnam Street</p>
+                    
+                    <div class="card-guide-comment">
+                        "Deine Aufmerksamkeit ist wertvoller als dein Geld. Behandle sie entsprechend."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Lesen</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 9: FYF Limit Freedom -->
+            <article class="card">
+                <img src="http://localhost:8080/FYF_09_FYF-Limit-Freedom.jpg" alt="FYF Limit Freedom" class="card-image">
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-category cat-inspiration">🟦 Inspiration</span>
+                        <span>FYF Original</span>
+                    </div>
+                    <h3 class="card-title">Limit = Freedom</h3>
+                    <p class="card-author">FYF Philosophy</p>
+                    
+                    <div class="card-guide-comment">
+                        "Grenzen schaffen Freiheit. Unbegrenzte Optionen schaffen Lähmung."
+                    </div>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-primary">Verstehen</button>
+                        <button class="btn btn-secondary">Warum sehe ich das?</button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>FYF · Zeit die zählt · 2025</p>
+    </footer>
+
+</body>
+</html>
