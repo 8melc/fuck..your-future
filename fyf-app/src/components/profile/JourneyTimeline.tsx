@@ -13,19 +13,12 @@ const typeIconMap: Record<Profile['journey'][number]['type'], JSX.Element> = {
   review: <MessageIcon className="h-4 w-4" />,
 };
 
-const formatDistanceToNow = (timestamp: string) => {
-  const date = new Date(timestamp);
-  const diff = Date.now() - date.getTime();
-  const minutes = Math.round(diff / (1000 * 60));
-
-  if (minutes < 1) return 'gerade eben';
-  if (minutes < 60) return `vor ${minutes} Min.`;
-  const hours = Math.round(minutes / 60);
-  if (hours < 24) return `vor ${hours} Std.`;
-  const days = Math.round(hours / 24);
-  if (days < 7) return `vor ${days} Tag${days === 1 ? '' : 'en'}`;
-  return new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' }).format(date);
-};
+const formatTimestamp = (timestamp: string) =>
+  new Intl.DateTimeFormat('de-DE', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'UTC',
+  }).format(new Date(timestamp));
 
 const JourneyTimeline = ({ journey }: JourneyTimelineProps) => {
   const items = [...journey].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
@@ -58,7 +51,7 @@ const JourneyTimeline = ({ journey }: JourneyTimelineProps) => {
               </span>
               <div className="flex flex-col gap-1">
                 <p className="text-sm text-fyf-cream">{item.description}</p>
-                <span className="text-xs uppercase tracking-wide text-fyf-steel">{formatDistanceToNow(item.timestamp)}</span>
+                <span className="text-xs uppercase tracking-wide text-fyf-steel">{formatTimestamp(item.timestamp)}</span>
               </div>
             </li>
           ))}

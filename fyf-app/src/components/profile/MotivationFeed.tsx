@@ -40,9 +40,11 @@ const MotivationFeed = ({ profile }: MotivationFeedProps) => {
               <div className="flex flex-col gap-2">
                 <p className="text-sm text-fyf-cream">{entry.message}</p>
                 <span className="text-xs uppercase tracking-wider text-fyf-steel">
-                  {new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeStyle: 'short' }).format(
-                    new Date(entry.createdAt)
-                  )}
+                  {new Intl.DateTimeFormat('de-DE', {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                    timeZone: 'UTC',
+                  }).format(new Date(entry.createdAt))}
                 </span>
               </div>
             </li>

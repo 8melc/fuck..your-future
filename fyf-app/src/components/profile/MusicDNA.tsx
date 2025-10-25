@@ -42,7 +42,9 @@ const MusicDNA = ({ musicDNA, onConnect }: MusicDNAProps) => {
           <p className="fyf-subcard__body">
             Verbunden seit{' '}
             {spotifyData?.linkedAt
-              ? new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium' }).format(new Date(spotifyData.linkedAt))
+              ? new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeZone: 'UTC' }).format(
+                  new Date(spotifyData.linkedAt)
+                )
               : 'kürzlich'}
             . FYF nimmt deine Top-Genres in jeden Guide auf.
           </p>

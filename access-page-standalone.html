@@ -489,244 +489,199 @@
 
         .completion-hero {
             text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
+            margin-bottom: 5rem;
         }
 
         .completion-title {
             font-family: var(--font-display);
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-size: 3rem;
             font-weight: 700;
-            color: var(--fyf-cream);
-            text-shadow: 0 0 32px rgba(0, 183, 183, 0.45);
+            color: white;
             margin-bottom: 1.5rem;
             letter-spacing: -0.02em;
         }
 
         .completion-subtitle {
-            font-size: clamp(1.125rem, 2vw, 1.25rem);
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.25rem;
+            color: rgba(209, 213, 219, 1);
             line-height: 1.6;
-            max-width: 600px;
+            max-width: 32rem;
             margin: 0 auto;
-        }
-
-        /* Pillar Cards */
-        .pillar-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .pillar-card {
-            background: rgba(4, 20, 20, 0.6);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(0, 183, 183, 0.25);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 12px 40px rgba(0, 15, 15, 0.35);
-        }
-
-        .pillar-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 40px rgba(0, 183, 183, 0.2);
-        }
-
-        .pillar-icon {
-            color: var(--fyf-mint);
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 0 8px rgba(0, 183, 183, 0.3));
-        }
-
-        .pillar-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--fyf-cream);
-            margin-bottom: 1rem;
-            letter-spacing: 0.05em;
-        }
-
-        .pillar-card p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
         }
 
         /* Value Proposition */
         .value-proposition {
-            margin-bottom: 4rem;
-            text-align: center;
+            max-width: 48rem;
+            margin: 0 auto 5rem;
         }
 
         .value-proposition h2 {
-            font-size: clamp(1.75rem, 3vw, 2.25rem);
-            font-weight: 700;
-            color: var(--fyf-cream);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            text-align: center;
             margin-bottom: 2rem;
         }
 
         .value-list {
             list-style: none;
             padding: 0;
-            max-width: 600px;
-            margin: 0 auto 1.5rem;
+            margin: 0 0 1.5rem 0;
         }
 
-        .value-list li {
+        .value-item {
             display: flex;
             align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            text-align: left;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
         }
 
-        .value-list svg {
-            color: var(--fyf-mint);
-            margin-top: 0.25rem;
+        .value-icon {
+            font-size: 1.5rem;
             flex-shrink: 0;
+            margin-top: 0.125rem;
         }
 
-        .value-list span {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
+        .value-text {
+            font-size: 1rem;
+            color: rgba(209, 213, 219, 1);
+            line-height: 1.625;
+            margin: 0;
+        }
+
+        .goal-highlight {
+            color: var(--fyf-mint);
         }
 
         .value-microcopy {
             font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-style: italic;
-        }
-
-        /* Time Metrics Panel */
-        .time-metrics-panel {
-            margin-bottom: 4rem;
+            color: rgba(209, 213, 219, 1);
             text-align: center;
         }
 
-        .time-metrics-panel h2 {
-            font-size: clamp(1.75rem, 3vw, 2.25rem);
-            font-weight: 700;
-            color: var(--fyf-cream);
+        /* Zeitwert Panel */
+        .zeitwert-panel {
+            max-width: 64rem;
+            margin: 0 auto 5rem;
+            padding: 2rem;
+            background: rgba(4, 18, 20, 0.4);
+            border: 1px solid rgba(0, 183, 183, 0.2);
+            border-radius: 1.25rem;
+            text-align: center;
+        }
+
+        .zeitwert-panel h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
             margin-bottom: 2rem;
         }
 
-        .time-metrics {
+        .zeitwert-metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(1, 1fr);
             gap: 2rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .time-metric {
-            background: rgba(4, 20, 20, 0.4);
-            border: 1px solid rgba(0, 183, 183, 0.2);
-            border-radius: 12px;
-            padding: 1.5rem;
+        @media (min-width: 640px) {
+            .zeitwert-metrics {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
-        .metric-value {
+        .zeitwert-metric {
+            text-align: center;
+        }
+
+        .zeitwert-metric .metric-value {
             font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 2.5rem);
-            font-weight: 900;
+            font-size: 2.25rem;
+            font-weight: 700;
             color: var(--fyf-mint);
             margin-bottom: 0.5rem;
         }
 
-        .metric-label {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.6);
+        .zeitwert-metric .metric-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(209, 213, 219, 1);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            font-weight: 500;
         }
 
         .metrics-microcopy {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.6);
-            max-width: 500px;
+            font-size: 1rem;
+            color: rgba(209, 213, 219, 1);
+            max-width: 32rem;
             margin: 0 auto;
         }
 
+
         /* Next Steps */
         .next-steps {
-            margin-bottom: 4rem;
+            max-width: 80rem;
+            margin: 0 auto 5rem;
         }
 
         .next-steps h2 {
-            font-size: clamp(1.75rem, 3vw, 2.25rem);
-            font-weight: 700;
-            color: var(--fyf-cream);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
             text-align: center;
             margin-bottom: 2rem;
         }
 
         .next-steps-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .next-step-card {
-            background: rgba(4, 20, 20, 0.4);
+            background: rgba(4, 18, 20, 0.4);
             border: 1px solid rgba(0, 183, 183, 0.15);
-            border-radius: 12px;
+            border-radius: 0.75rem;
             padding: 1.5rem;
-        }
-
-        .next-step-card .step-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            text-align: center;
         }
 
         .next-step-card h3 {
             font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--fyf-cream);
-            margin: 0;
-        }
-
-        .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            color: white;
+            margin: 0 0 0.5rem 0;
         }
 
-        .status-available {
-            background: rgba(0, 183, 183, 0.2);
-            color: var(--fyf-mint);
-            border: 1px solid rgba(0, 183, 183, 0.3);
+        .status-icon {
+            font-size: 1.875rem;
+            margin-bottom: 1rem;
         }
 
-        .status-coming-soon {
-            background: rgba(255, 165, 0, 0.2);
-            color: #ffa500;
-            border: 1px solid rgba(255, 165, 0, 0.3);
+        .status-icon.coming-soon {
+            opacity: 0.5;
         }
 
         .next-step-card p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.5;
+            color: rgba(209, 213, 219, 1);
+            line-height: 1.625;
             margin: 0;
         }
 
         .next-steps-microcopy {
-            text-align: center;
             font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(209, 213, 219, 1);
+            text-align: center;
         }
 
         /* Goal Reminder */
         .goal-reminder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
             text-align: center;
-            margin-bottom: 3rem;
         }
 
         .goal-badge-large {
@@ -803,20 +758,15 @@
 
         /* CTA Group Styles */
         .cta-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            max-width: 400px;
+            max-width: 32rem;
             margin: 0 auto;
+            text-align: center;
         }
 
         .cta-group .cta-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
+            display: inline-block;
             padding: 1rem 2rem;
-            border-radius: 16px;
+            border-radius: 0.5rem;
             font-size: 1.125rem;
             font-weight: 600;
             text-decoration: none;
@@ -826,46 +776,50 @@
         }
 
         .cta-group .cta-btn.primary {
-            background: linear-gradient(120deg, var(--fyf-mint), #00f0d0);
-            color: var(--fyf-noir);
-            box-shadow: 0 8px 32px rgba(0, 183, 183, 0.3);
+            background: var(--fyf-mint);
+            color: #1e293b;
+            box-shadow: 0 4px 12px rgba(0, 183, 183, 0.3);
+            margin-bottom: 1.5rem;
+            width: 100%;
         }
 
         .cta-group .cta-btn.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 183, 183, 0.4);
-        }
-
-        .cta-group .cta-btn.secondary {
-            background: transparent;
-            color: var(--fyf-mint);
-            border: 2px solid var(--fyf-mint);
-        }
-
-        .cta-group .cta-btn.secondary:hover {
-            background: rgba(0, 183, 183, 0.1);
-            transform: translateY(-2px);
+            background: #00a8a8;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 183, 183, 0.4);
         }
 
         .secondary-ctas {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-group .cta-btn.secondary {
+            background: transparent;
+            color: var(--fyf-mint);
+            border: 1px solid var(--fyf-mint);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .cta-group .cta-btn.secondary:hover {
+            background: rgba(0, 183, 183, 0.1);
+            transform: translateY(-1px);
         }
 
         .tertiary-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: rgba(255, 255, 255, 0.6);
+            display: inline-block;
+            color: rgba(107, 114, 128, 1);
             text-decoration: none;
             font-size: 0.875rem;
             transition: color 0.3s ease;
         }
 
         .tertiary-link:hover {
-            color: var(--fyf-mint);
+            color: rgba(156, 163, 175, 1);
             text-decoration: underline;
         }
 
@@ -1277,6 +1231,46 @@
             
         }
 
+        /* Completion Page Responsive */
+        @media (max-width: 1024px) {
+            .next-steps-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .completion-title {
+                font-size: 2.25rem;
+            }
+            
+            .completion-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .secondary-ctas {
+                flex-direction: row;
+                gap: 0.75rem;
+            }
+            
+            .cta-group .cta-btn.secondary {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .completion-title {
+                font-size: 1.875rem;
+            }
+            
+            .completion-subtitle {
+                font-size: 1rem;
+            }
+            
+            .secondary-ctas {
+                flex-direction: column;
+            }
+        }
+
         /* Hidden class for step management */
         .hidden {
             display: none;
@@ -1555,6 +1549,12 @@
                 
                 // Update goal badge
                 this.renderGoalBadge();
+
+                // Register motion targets for newly rendered content
+                if (typeof window.observeMotionTargets === 'function') {
+                    const stepContentEl = document.getElementById('stepContent');
+                    window.observeMotionTargets(stepContentEl);
+                }
             }
 
             getStepContent(contentType) {
@@ -1806,7 +1806,7 @@
                 // Calculate time metrics
                 const timeMetrics = calculateTimeMetrics(this.formData.birthDate, this.formData.targetAge);
                 
-                // Get goal text for reminder
+                // Get goal text for personalization
                 const hasSelectedGoals = this.formData.goals && this.formData.goals.length > 0;
                 const hasTextGoal = this.formData.goal && this.formData.goal.trim() !== '';
                 let goalText = '';
@@ -1829,137 +1829,100 @@
                 return `
                     <div class="completion-content">
                         <!-- Hero Section -->
-                        <div class="completion-hero" data-motion="fade-up">
+                        <section class="completion-hero" data-motion="fade-up">
                             <h1 class="completion-title">Das ist FYF.</h1>
                             <p class="completion-subtitle">Keine App. Kein Tool. Dein System, um Zeit als Vermögen zu verstehen – und bewusst einzusetzen.</p>
-                        </div>
-
-                        <!-- Three Pillars -->
-                        <div class="pillar-cards" data-motion="fade-up">
-                            <div class="pillar-card">
-                                <div class="pillar-icon" aria-hidden="true">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88 16.24,7.76"/>
-                                    </svg>
-                                </div>
-                                <h3>GUIDE</h3>
-                                <p>Personalisierte Impulse, die zu deinem Ziel passen – nicht zu Algorithmen.</p>
-                            </div>
-                            <div class="pillar-card">
-                                <div class="pillar-icon" aria-hidden="true">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                                        <circle cx="9" cy="7" r="4"/>
-                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                    </svg>
-                                </div>
-                                <h3>PEOPLE</h3>
-                                <p>Kuratierte Persönlichkeiten mit echten Perspektiven. Keine Influencer, sondern Haltung.</p>
-                            </div>
-                            <div class="pillar-card">
-                                <div class="pillar-icon" aria-hidden="true">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <circle cx="12" cy="12" r="6"/>
-                                        <circle cx="12" cy="12" r="2"/>
-                                    </svg>
-                                </div>
-                                <h3>ACCESS</h3>
-                                <p>Erlebnisse, die deine Zeit spürbar machen – real und digital.</p>
-                            </div>
-                        </div>
+                        </section>
 
                         <!-- Value Proposition -->
-                        <div class="value-proposition" data-motion="fade-up">
+                        <section class="value-proposition" data-motion="fade-up">
                             <h2>Was bringt dir dein Profil?</h2>
                             <ul class="value-list">
-                                <li>
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <polyline points="20,6 9,17 4,12"/>
-                                    </svg>
-                                    <span>Dein Ziel ist dein Nordstern – alles, was du siehst, zahlt darauf ein.</span>
+                                <li class="value-item">
+                                    <span class="value-icon" aria-hidden="true">🎯</span>
+                                    <p class="value-text">
+                                        Dein Ziel "<strong class="goal-highlight">${goalText || 'Noch nicht definiert'}</strong>" ist dein Nordstern – alles, was du siehst, zahlt darauf ein.
+                                    </p>
                                 </li>
-                                <li>
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <polyline points="20,6 9,17 4,12"/>
-                                    </svg>
-                                    <span>Deine Zeit-Philosophie formt den Guide – keine generischen Tipps, nur was zu dir passt.</span>
+                                <li class="value-item">
+                                    <span class="value-icon" aria-hidden="true">💭</span>
+                                    <p class="value-text">
+                                        Deine Zeit-Philosophie formt den Guide – keine generischen Tipps, nur was zu dir passt.
+                                    </p>
                                 </li>
-                                <li>
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <polyline points="20,6 9,17 4,12"/>
-                                    </svg>
-                                    <span>Dein Lebensstil bestimmt, wie du Impulse bekommst – in deinem Tempo, deinem Kontext.</span>
+                                <li class="value-item">
+                                    <span class="value-icon" aria-hidden="true">🏃</span>
+                                    <p class="value-text">
+                                        Dein Lebensstil bestimmt, wie du Impulse bekommst – in deinem Tempo, deinem Kontext.
+                                    </p>
                                 </li>
                             </ul>
-                            <p class="value-microcopy">Kurz: Ab jetzt arbeitet FYF für dich – nicht andersrum.</p>
-                        </div>
+                            <p class="value-microcopy">→ Kurz: Ab jetzt arbeitet FYF für dich – nicht andersrum.</p>
+                        </section>
 
-                        <!-- Time Metrics Panel -->
-                        <div class="time-metrics-panel" data-motion="fade-up">
-                            <h2>Dein Zeitwert – du kennst ihn jetzt.</h2>
-                            <dl class="time-metrics">
-                                <div class="time-metric">
-                                    <dt class="sr-only">Wochen gelebt</dt>
-                                    <dd class="metric-value">${typeof timeMetrics.weeksLived === 'number' ? timeMetrics.weeksLived.toLocaleString() : timeMetrics.weeksLived}</dd>
-                                    <dd class="metric-label">GELEBT</dd>
+                        <!-- Zeitwert Panel -->
+                        <section class="zeitwert-panel" data-motion="fade-up">
+                            <h2>Dein Zeitwert – du hast ihn gesehen.</h2>
+                            <div class="zeitwert-metrics">
+                                <div class="zeitwert-metric">
+                                    <div class="metric-value">${typeof timeMetrics.weeksLived === 'number' ? timeMetrics.weeksLived.toLocaleString() : timeMetrics.weeksLived}</div>
+                                    <div class="metric-label">Wochen<br/>Gelebt</div>
                                 </div>
-                                <div class="time-metric">
-                                    <dt class="sr-only">Wochen übrig</dt>
-                                    <dd class="metric-value">${typeof timeMetrics.weeksRemaining === 'number' ? timeMetrics.weeksRemaining.toLocaleString() : timeMetrics.weeksRemaining}</dd>
-                                    <dd class="metric-label">ÜBRIG</dd>
+                                <div class="zeitwert-metric">
+                                    <div class="metric-value">${typeof timeMetrics.weeksRemaining === 'number' ? timeMetrics.weeksRemaining.toLocaleString() : timeMetrics.weeksRemaining}</div>
+                                    <div class="metric-label">Wochen<br/>Übrig</div>
                                 </div>
-                                <div class="time-metric">
-                                    <dt class="sr-only">Tage übrig</dt>
-                                    <dd class="metric-value">${typeof timeMetrics.daysRemaining === 'number' ? timeMetrics.daysRemaining.toLocaleString() : timeMetrics.daysRemaining}</dd>
-                                    <dd class="metric-label">ÜBRIG</dd>
+                                <div class="zeitwert-metric">
+                                    <div class="metric-value">${typeof timeMetrics.daysRemaining === 'number' ? timeMetrics.daysRemaining.toLocaleString() : timeMetrics.daysRemaining}</div>
+                                    <div class="metric-label">Tage<br/>Übrig</div>
                                 </div>
-                            </dl>
-                            <p class="metrics-microcopy">Das ist dein Vermögen. Wie du es einsetzt, entscheidest nur du. Jetzt hast du die Tools dafür.</p>
-                        </div>
+                            </div>
+                            <p class="metrics-microcopy">
+                                Das ist dein Vermögen, um "<strong class="goal-highlight">${goalText || 'dein Ziel'}</strong>" Realität zu machen.<br/>
+                                Wie du es einsetzt, entscheidest nur du.
+                            </p>
+                        </section>
 
                         <!-- What's Next -->
-                        <div class="next-steps" data-motion="fade-up">
+                        <section class="next-steps" data-motion="fade-up">
                             <h2>Was kommt als Nächstes?</h2>
                             <div class="next-steps-cards">
                                 <div class="next-step-card">
-                                    <div class="step-header">
-                                        <h3>PEOPLE</h3>
-                                        <span class="status-badge status-available">Verfügbar</span>
-                                    </div>
-                                    <p>Menschen finden, die deine Perspektive teilen – kuratiert, nicht algorithmisch.</p>
+                                    <h3>PEOPLE</h3>
+                                    <div class="status-icon" aria-hidden="true">✅</div>
+                                    <p>Kuratierte Perspektiven. Keine Influencer, sondern Haltung.</p>
                                 </div>
                                 <div class="next-step-card">
-                                    <div class="step-header">
-                                        <h3>ACCESS</h3>
-                                        <span class="status-badge status-available">Verfügbar</span>
-                                    </div>
+                                    <h3>ACCESS</h3>
+                                    <div class="status-icon" aria-hidden="true">✅</div>
                                     <p>Erlebnisse, die deine Zeit spürbar machen – real und digital.</p>
                                 </div>
                                 <div class="next-step-card">
-                                    <div class="step-header">
-                                        <h3>GUIDE</h3>
-                                        <span class="status-badge status-coming-soon">Coming Soon</span>
-                                    </div>
+                                    <h3>GUIDE</h3>
+                                    <div class="status-icon coming-soon" aria-hidden="true">🔜</div>
                                     <p>Personalisierte Impulse basierend auf deinem Profil. Bald verfügbar.</p>
                                 </div>
                             </div>
-                            <p class="next-steps-microcopy">Du kannst direkt starten – oder später wiederkommen. Dein Profil bleibt gespeichert.</p>
-                        </div>
+                            <p class="next-steps-microcopy">Du kannst direkt starten. Dein Profil bleibt gespeichert.</p>
+                        </section>
 
-                        <!-- Goal Reminder -->
-                        <div class="goal-reminder" data-motion="fade-up">
-                            ${goalText ? 
-                                `<div class="goal-badge-large">Dein Ziel: ${goalText}</div>` :
-                                `<div class="goal-badge-large goal-badge-empty">Dein Ziel: Noch nicht definiert <a href="#" onclick="fyfAccess.goToStep(3)">(jetzt festlegen)</a></div>`
-                            }
-                            <p class="goal-microcopy">Alles, was du ab jetzt in FYF siehst, ist darauf ausgerichtet.</p>
-                        </div>
-
-                        <!-- Ambient Glow -->
-                        <div class="ambient-glow"></div>
+                        <!-- CTA Group -->
+                        <section class="cta-group" data-motion="fade-up">
+                            <a href="/people" class="cta-btn primary">
+                                PEOPLE ENTDECKEN →
+                            </a>
+                            <div class="secondary-ctas">
+                                <a href="/access" class="cta-btn secondary">
+                                    ACCESS ERKUNDEN →
+                                </a>
+                                <a href="/dashboard" class="cta-btn secondary">
+                                    DASHBOARD ANSEHEN →
+                                </a>
+                            </div>
+                            <a href="/life-weeks" class="tertiary-link">
+                                ← Zurück zu Life in Weeks
+                            </a>
+                        </section>
                     </div>
                 `;
             }
@@ -1996,41 +1959,8 @@
                         `;
                     }
                 } else {
-                    // Final step - completion with CTA buttons
-                    navigation.innerHTML = `
-                        <div class="cta-group">
-                            <a href="/people" class="cta-btn primary">
-                                People entdecken
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <line x1="5" y1="12" x2="19" y2="12"/>
-                                    <polyline points="12,5 19,12 12,19"/>
-                                </svg>
-                            </a>
-                            <div class="secondary-ctas">
-                                <a href="/access" class="cta-btn secondary">
-                                    Access erkunden
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <line x1="5" y1="12" x2="19" y2="12"/>
-                                        <polyline points="12,5 19,12 12,19"/>
-                                    </svg>
-                                </a>
-                                <a href="/dashboard" class="cta-btn secondary">
-                                    Dashboard ansehen
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                        <line x1="5" y1="12" x2="19" y2="12"/>
-                                        <polyline points="12,5 19,12 12,19"/>
-                                    </svg>
-                                </a>
-                            </div>
-                            <a href="/life-weeks" class="tertiary-link">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <line x1="19" y1="12" x2="5" y2="12"/>
-                                    <polyline points="12,19 5,12 12,5"/>
-                                </svg>
-                                Zurück zu Life in Weeks
-                            </a>
-                        </div>
-                    `;
+                    // Final step - completion page has CTA buttons in content
+                    navigation.innerHTML = '';
                 }
             }
 
@@ -2128,6 +2058,14 @@
             validateLifestyle() {
                 if (!this.formData.lifestyle) {
                     alert('Bitte wähle einen Lebensstil aus.');
+                    return false;
+                }
+                return true;
+            }
+
+            validateInterests() {
+                if (!this.formData.interests || this.formData.interests.length === 0) {
+                    alert('Bitte wähle mindestens ein Interesse aus.');
                     return false;
                 }
                 return true;
@@ -2236,8 +2174,17 @@
                     }
                 });
             }, { threshold: 0.1 });
-            
-            document.querySelectorAll('[data-motion]').forEach(el => observer.observe(el));
+
+            window.observeMotionTargets = (root = document) => {
+                const targets =
+                    root instanceof HTMLElement
+                        ? root.querySelectorAll('[data-motion]')
+                        : document.querySelectorAll('[data-motion]');
+
+                targets.forEach(el => observer.observe(el));
+            };
+
+            window.observeMotionTargets();
         });
     </script>
 </body>
