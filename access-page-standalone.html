@@ -111,10 +111,55 @@
 
         /* Step Header */
         .step-header {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 1.5rem;
             margin-bottom: 10px;
         }
 
+        .step-heading {
+            font-family: var(--font-display);
+            font-size: clamp(2.25rem, 2.8vw, 3rem);
+            font-weight: 700;
+            color: var(--fyf-cream);
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .step-microcopy {
+            font-size: clamp(1rem, 1.4vw, 1.125rem);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.65);
+            text-align: center;
+            line-height: 1.5;
+            margin: 0 auto 2rem;
+            max-width: 640px;
+        }
+
+        .goal-badge-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .goal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            border: 1px solid var(--fyf-mint);
+            background: rgba(78, 205, 196, 0.15);
+            color: var(--fyf-mint);
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        /* OLD CLASSES - REPLACED BY step-heading and step-microcopy
         .step-title {
             font-family: var(--font-display);
             font-size: 3rem;
@@ -129,6 +174,7 @@
             color: var(--fyf-steel);
             font-style: italic;
         }
+        */
 
         /* Step Container */
         .step-container {
@@ -328,6 +374,98 @@
             opacity: 0.9;
         }
 
+        /* Philosophy Chips */
+        .philosophy-chips {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .philosophy-chip {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--fyf-steel);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .philosophy-chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--fyf-mint);
+            transform: translateY(-2px);
+        }
+
+        .philosophy-chip--selected {
+            background: rgba(78, 205, 196, 0.1);
+            border-color: var(--fyf-mint);
+            color: var(--fyf-mint);
+        }
+
+        .philosophy-chip__text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .chip-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chip-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: currentColor;
+        }
+
+        /* Step Subline Styling */
+        .step-subline {
+            font-size: 0.95rem;
+            color: #6B7280;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        /* Visual Feedback Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes check-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .chip--feedback {
+            animation: pulse 0.3s ease-out;
+        }
+
+        .chip--check {
+            animation: check-bounce 0.3s ease-out;
+        }
+
+        /* Enhanced Focus States */
+        .philosophy-chip:focus-visible,
+        .lifestyle-chip:focus-visible,
+        .genre-btn:focus-visible,
+        .interest-btn:focus-visible {
+            outline: 2px solid var(--fyf-mint);
+            outline-offset: 2px;
+        }
+
         /* Goal Badge (Header Reminder) */
         .goal-badge {
             display: inline-flex;
@@ -340,6 +478,395 @@
             font-size: 0.75rem;
             color: var(--fyf-mint);
             font-weight: 600;
+        }
+
+        /* Completion Screen Styles */
+        .completion-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .completion-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .completion-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--fyf-cream);
+            text-shadow: 0 0 32px rgba(0, 183, 183, 0.45);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .completion-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.25rem);
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Pillar Cards */
+        .pillar-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .pillar-card {
+            background: rgba(4, 20, 20, 0.6);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 183, 183, 0.25);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 12px 40px rgba(0, 15, 15, 0.35);
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 183, 183, 0.2);
+        }
+
+        .pillar-icon {
+            color: var(--fyf-mint);
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 8px rgba(0, 183, 183, 0.3));
+        }
+
+        .pillar-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fyf-cream);
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .pillar-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Value Proposition */
+        .value-proposition {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .value-proposition h2 {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 700;
+            color: var(--fyf-cream);
+            margin-bottom: 2rem;
+        }
+
+        .value-list {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .value-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .value-list svg {
+            color: var(--fyf-mint);
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .value-list span {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .value-microcopy {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        /* Time Metrics Panel */
+        .time-metrics-panel {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .time-metrics-panel h2 {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 700;
+            color: var(--fyf-cream);
+            margin-bottom: 2rem;
+        }
+
+        .time-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .time-metric {
+            background: rgba(4, 20, 20, 0.4);
+            border: 1px solid rgba(0, 183, 183, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .metric-value {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 900;
+            color: var(--fyf-mint);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .metrics-microcopy {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Next Steps */
+        .next-steps {
+            margin-bottom: 4rem;
+        }
+
+        .next-steps h2 {
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 700;
+            color: var(--fyf-cream);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .next-steps-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .next-step-card {
+            background: rgba(4, 20, 20, 0.4);
+            border: 1px solid rgba(0, 183, 183, 0.15);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .next-step-card .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .next-step-card h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--fyf-cream);
+            margin: 0;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-available {
+            background: rgba(0, 183, 183, 0.2);
+            color: var(--fyf-mint);
+            border: 1px solid rgba(0, 183, 183, 0.3);
+        }
+
+        .status-coming-soon {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border: 1px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .next-step-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .next-steps-microcopy {
+            text-align: center;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Goal Reminder */
+        .goal-reminder {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .goal-badge-large {
+            display: inline-block;
+            background: rgba(0, 183, 183, 0.18);
+            border: 1px solid rgba(0, 183, 183, 0.35);
+            backdrop-filter: blur(12px);
+            color: var(--fyf-mint);
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .goal-badge-empty {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .goal-badge-empty a {
+            color: var(--fyf-mint);
+            text-decoration: none;
+        }
+
+        .goal-badge-empty a:hover {
+            text-decoration: underline;
+        }
+
+        .goal-microcopy {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Ambient Glow */
+        .ambient-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 183, 183, 0.1) 0%, transparent 70%);
+            filter: blur(180px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Motion System */
+        [data-motion="fade-up"] {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        [data-motion="fade-up"].motion-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Screen Reader Only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* CTA Group Styles */
+        .cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .cta-group .cta-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-group .cta-btn.primary {
+            background: linear-gradient(120deg, var(--fyf-mint), #00f0d0);
+            color: var(--fyf-noir);
+            box-shadow: 0 8px 32px rgba(0, 183, 183, 0.3);
+        }
+
+        .cta-group .cta-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 183, 183, 0.4);
+        }
+
+        .cta-group .cta-btn.secondary {
+            background: transparent;
+            color: var(--fyf-mint);
+            border: 2px solid var(--fyf-mint);
+        }
+
+        .cta-group .cta-btn.secondary:hover {
+            background: rgba(0, 183, 183, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .secondary-ctas {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tertiary-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .tertiary-link:hover {
+            color: var(--fyf-mint);
+            text-decoration: underline;
         }
 
 
@@ -661,8 +1188,12 @@
                 padding: 20px 15px;
             }
             
-            .step-title {
-                font-size: 2rem;
+            .step-heading {
+                font-size: clamp(1.75rem, 6vw, 2.25rem);
+            }
+            
+            .step-microcopy {
+                max-width: calc(100% - 3rem);
             }
             
             .intro-hero h1 {
@@ -721,8 +1252,12 @@
                 margin-bottom: 20px;
             }
             
-            .step-title {
-                font-size: 2rem;
+            .step-heading {
+                font-size: clamp(1.75rem, 6vw, 2.25rem);
+            }
+            
+            .step-microcopy {
+                max-width: calc(100% - 3rem);
             }
             
             .progress-container {
@@ -780,8 +1315,9 @@
 
         <!-- Step Header -->
         <div class="step-header">
-            <h1 class="step-title" id="stepTitle">Willkommen bei FYF</h1>
-            <p class="step-subtitle" id="stepSubtitle">Deine Zeit läuft. Lass uns das ändern.</p>
+            <div id="goalBadgeContainer" class="goal-badge-container"></div>
+            <h1 class="step-heading" id="stepHeading">Willkommen bei FYF</h1>
+            <p class="step-microcopy" id="stepMicrocopy">Deine Zeit läuft. Entscheide, was zählt.</p>
         </div>
 
         <!-- Step Content -->
@@ -798,6 +1334,26 @@
     </div>
 
     <script>
+        // Time Metrics Utility Function
+        function calculateTimeMetrics(birthDate, targetAge) {
+            if (!birthDate || !targetAge) {
+                return { weeksLived: '--', weeksRemaining: '--', daysRemaining: '--' };
+            }
+            
+            const birth = new Date(birthDate);
+            const now = new Date();
+            const targetDate = new Date(birth.getFullYear() + parseInt(targetAge), birth.getMonth(), birth.getDate());
+            
+            const msPerWeek = 7 * 24 * 60 * 60 * 1000;
+            const msPerDay = 24 * 60 * 60 * 1000;
+            
+            const weeksLived = Math.floor((now - birth) / msPerWeek);
+            const weeksRemaining = Math.max(0, Math.floor((targetDate - now) / msPerWeek));
+            const daysRemaining = Math.max(0, Math.floor((targetDate - now) / msPerDay));
+            
+            return { weeksLived, weeksRemaining, daysRemaining };
+        }
+
         class FYFAccess {
             constructor() {
                 this.currentStep = 0;
@@ -806,7 +1362,8 @@
                     email: 'max.mustermann@example.com',
                     birthDate: '1997-08-08',
                     targetAge: '80',
-                    goal: 'freiheit',
+                    goal: '',
+                    goals: [],
                     timePhilosophy: 'währung',
                     musicTaste: 'Electronic',
                     lifestyle: 'remote',
@@ -818,50 +1375,58 @@
                 this.steps = [
                     {
                         id: 'intro',
-                        title: 'Willkommen bei FYF',
-                        subtitle: 'Deine Zeit läuft. Entscheide, was zählt.',
+                        navLabel: 'Start',
+                        heading: 'Willkommen bei FYF',
+                        microcopy: 'Deine Zeit läuft. Entscheide, was zählt.',
                         content: 'intro'
                     },
                     {
                         id: 'basics',
-                        title: 'Grunddaten',
-                        subtitle: 'Wer bist du?',
+                        navLabel: 'Basics',
+                        heading: 'Wer bist du?',
+                        microcopy: 'Die Basis für dein Profil – kurz, klar, ohne Schnickschnack.',
                         content: 'basics'
                     },
                     {
                         id: 'zeit',
-                        title: 'Zeit-Philosophie',
-                        subtitle: 'Wie denkst du über Zeit?',
+                        navLabel: 'Zeit-Philosophie',
+                        heading: 'Wie denkst du über Zeit?',
+                        microcopy: 'Deine Haltung zur Zeit prägt jeden Impuls, den wir dir geben.',
                         content: 'zeit'
                     },
                     {
                         id: 'goal',
-                        title: 'Dein Ziel',
-                        subtitle: 'Kein Marketing-Bullshit, kein Fremdzweck. Nur du, radikal und ehrlich.',
+                        navLabel: 'Ziel',
+                        heading: 'Dein Ziel',
+                        microcopy: 'Kein Marketing-Bullshit, kein Fremdzweck. Nur du, radikal und ehrlich.',
                         content: 'goal'
                     },
                     {
                         id: 'musik',
-                        title: 'Musik-DNA',
-                        subtitle: 'Was hörst du?',
+                        navLabel: 'Musik-DNA',
+                        heading: 'Was hörst du?',
+                        microcopy: 'Was dich bewegt, formt deinen Flow.',
                         content: 'musik'
                     },
                     {
                         id: 'lifestyle',
-                        title: 'Lebensstil',
-                        subtitle: 'Wie lebst du?',
+                        navLabel: 'Lebensstil',
+                        heading: 'Wie lebst du?',
+                        microcopy: 'Dein Stil. Deine Zeitlogik. Wir justieren den Guide so, dass er in deinem Alltag wirkt.',
                         content: 'lifestyle'
                     },
                     {
                         id: 'interests',
-                        title: 'Interessen',
-                        subtitle: 'Was bewegt dich?',
+                        navLabel: 'Interessen',
+                        heading: 'Was interessiert dich?',
+                        microcopy: 'Mehr Klarheit, besserer Feed, weniger Algorithmus.',
                         content: 'interests'
                     },
                     {
                         id: 'complete',
-                        title: 'Fertig!',
-                        subtitle: 'Willkommen in der Community',
+                        navLabel: 'Abschluss',
+                        heading: 'Das ist FYF.',
+                        microcopy: 'Keine App. Kein Tool. Dein System, um Zeit als Vermögen zu verstehen – und bewusst einzusetzen.',
                         content: 'complete'
                     }
                 ];
@@ -933,28 +1498,24 @@
                 }
             }
 
-            // Update goal badge in header
-            updateGoalBadge() {
-                let badge = document.querySelector('.goal-badge');
+            // Render goal badge in header container
+            renderGoalBadge() {
+                const container = document.getElementById('goalBadgeContainer');
+                if (!container) return;
                 
-                // Check if we have selected goals
+                // Only show goal badge from Step 4 (goal) onwards
+                const currentStepId = this.steps[this.currentStep].id;
+                if (currentStepId === 'intro' || currentStepId === 'basics' || currentStepId === 'zeit') {
+                    container.innerHTML = '';
+                    return;
+                }
+                
                 const hasSelectedGoals = this.formData.goals && this.formData.goals.length > 0;
                 const hasTextGoal = this.formData.goal && this.formData.goal.trim() !== '';
                 
                 if (hasSelectedGoals || hasTextGoal) {
-                    if (!badge) {
-                        badge = document.createElement('div');
-                        badge.className = 'goal-badge';
-                        const stepHeader = document.querySelector('.step-header');
-                        if (stepHeader) {
-                            stepHeader.appendChild(badge);
-                        }
-                    }
-                    
-                    // Use selected goals or text goal
                     let goalText = '';
                     if (hasSelectedGoals) {
-                        // Shorten chip text for badge display
                         const shortened = this.formData.goals.map(g => {
                             if (g.includes('Freiheit spüren')) return 'Freiheit spüren';
                             if (g.includes('Hamsterrad')) return 'Kein Hamsterrad';
@@ -965,17 +1526,12 @@
                             return g;
                         });
                         goalText = shortened.join(', ');
-                    } else if (hasTextGoal) {
+                    } else {
                         goalText = this.formData.goal;
                     }
-                    
-                    const truncatedGoal = goalText.length > 40 
-                        ? goalText.substring(0, 40) + '...' 
-                        : goalText;
-                        
-                    badge.innerHTML = `<span>Ziel: ${truncatedGoal}</span>`;
-                } else if (badge) {
-                    badge.remove();
+                    container.innerHTML = `<div class="goal-badge">Ziel: ${goalText}</div>`;
+                } else {
+                    container.innerHTML = '';
                 }
             }
 
@@ -988,8 +1544,8 @@
                 const step = this.steps[this.currentStep];
                 
                 // Update header
-                document.getElementById('stepTitle').textContent = step.title;
-                document.getElementById('stepSubtitle').textContent = step.subtitle;
+                document.getElementById('stepHeading').textContent = step.heading;
+                document.getElementById('stepMicrocopy').textContent = step.microcopy;
                 
                 // Render content
                 document.getElementById('stepContent').innerHTML = this.getStepContent(step.content);
@@ -998,7 +1554,7 @@
                 this.renderNavigation();
                 
                 // Update goal badge
-                this.updateGoalBadge();
+                this.renderGoalBadge();
             }
 
             getStepContent(contentType) {
@@ -1059,23 +1615,26 @@
             }
 
             getZeitContent() {
+                const philosophyOptions = [
+                    { value: 'dividende', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', text: 'Ich will meine Zeit so investieren, dass sie Dividende für mein Leben zahlt.' },
+                    { value: 'wirkung', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>', text: 'Für mich zählt Wirkung, nicht nur Erledigungen – meine Zeit soll Sinn stiften.' },
+                    { value: 'limitiert', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>', text: 'Jede Stunde ist limitiert – ich will sie bewusst gegen das eintauschen, was zählt.' },
+                    { value: 'balance', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/><path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/><path d="M12 3v6"/><path d="M12 15v6"/></svg>', text: 'Ich will mein Kalender-Depot so balancieren, dass Flow, Pause und Wachstum sich abwechseln.' },
+                    { value: 'no-waste', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>', text: 'Zeitverschwendung ist für mich das Einzige, was ich mir wirklich nie leisten will.' }
+                ];
+
                 return `
                     <div class="form-content">
                         <div class="form-group">
-                            <label>Wie denkst du über Zeit?</label>
-                            <div class="radio-group">
-                                <label class="radio-option">
-                                    <input type="radio" name="timePhilosophy" value="währung" ${this.formData.timePhilosophy === 'währung' ? 'checked' : ''}>
-                                    <span>Zeit ist die einzige Währung, die zählt</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="timePhilosophy" value="begrenzt" ${this.formData.timePhilosophy === 'begrenzt' ? 'checked' : ''}>
-                                    <span>Zeit ist begrenzt, ich muss sie nutzen</span>
-                                </label>
-                                <label class="radio-option">
-                                    <input type="radio" name="timePhilosophy" value="qualität" ${this.formData.timePhilosophy === 'qualität' ? 'checked' : ''}>
-                                    <span>Qualität vor Quantität</span>
-                                </label>
+                            <div class="philosophy-chips" role="group" aria-label="Zeit-Philosophie Auswahl">
+                                ${philosophyOptions.map(option => `
+                                    <button class="philosophy-chip ${this.formData.timePhilosophy === option.value ? 'philosophy-chip--selected' : ''}" 
+                                            onclick="fyfAccess.selectPhilosophy('${option.value}')"
+                                            type="button">
+                                        <span class="chip-icon" aria-hidden="true">${option.icon}</span>
+                                        <span class="philosophy-chip__text">${option.text}</span>
+                                    </button>
+                                `).join('')}
                             </div>
                         </div>
                     </div>
@@ -1089,12 +1648,7 @@
                 return `
                     <div class="form-content">
                         <div class="form-group goal-selector">
-                            <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--fyf-mint);">Dein Ziel.</h2>
-                            
-                            <p style="margin-bottom: 0.5rem; color: var(--fyf-steel); font-size: 0.95rem;">
-                                Kein Marketing-Bullshit, kein Fremdzweck. Nur du, radikal und ehrlich.
-                            </p>
-                            <p style="margin-bottom: 1.5rem; color: var(--fyf-steel); font-size: 0.95rem;">
+                            <p style="margin-bottom: 1.5rem; color: var(--fyf-steel); font-size: 0.95rem; text-align: center;">
                                 Schreib auf, was du wirklich willst, nicht was andere erwarten.
                             </p>
                             
@@ -1106,27 +1660,27 @@
                             >${this.formData.goal || ''}</textarea>
                             
                             <div class="goal-chips">
-                                <button class="chip ${selectedChips.includes('Freiheit spüren, bevor ich 50 bin') ? 'chip--selected' : ''}" 
+                                <button class="chip" 
                                         onclick="fyfAccess.selectGoalChip('Freiheit spüren, bevor ich 50 bin')">
                                     Freiheit spüren, bevor ich 50 bin
                                 </button>
-                                <button class="chip ${selectedChips.includes('Nie wieder zurück ins Hamsterrad') ? 'chip--selected' : ''}" 
+                                <button class="chip" 
                                         onclick="fyfAccess.selectGoalChip('Nie wieder zurück ins Hamsterrad')">
                                     Nie wieder zurück ins Hamsterrad
                                 </button>
-                                <button class="chip ${selectedChips.includes('Aussteigen und etwas hinterlassen') ? 'chip--selected' : ''}" 
+                                <button class="chip" 
                                         onclick="fyfAccess.selectGoalChip('Aussteigen und etwas hinterlassen')">
                                     Aussteigen und etwas hinterlassen
                                 </button>
-                                <button class="chip ${selectedChips.includes('Ein Jahr kein Bullshit-Meeting') ? 'chip--selected' : ''}" 
+                                <button class="chip" 
                                         onclick="fyfAccess.selectGoalChip('Ein Jahr kein Bullshit-Meeting')">
                                     Ein Jahr kein Bullshit-Meeting
                                 </button>
-                                <button class="chip ${selectedChips.includes('Etwas bauen, das bleibt') ? 'chip--selected' : ''}" 
+                                <button class="chip" 
                                         onclick="fyfAccess.selectGoalChip('Etwas bauen, das bleibt')">
                                     Etwas bauen, das bleibt
                                 </button>
-                                <button class="chip ${selectedChips.includes('Mehr sehen als Insta mir zeigt') ? 'chip--selected' : ''}" 
+                                <button class="chip" 
                                         onclick="fyfAccess.selectGoalChip('Mehr sehen als Insta mir zeigt')">
                                     Mehr sehen als Insta mir zeigt
                                 </button>
@@ -1148,16 +1702,26 @@
             }
 
             getMusikContent() {
-                const genres = ['Electronic', 'Hip-Hop', 'Rock', 'Jazz', 'Classical', 'Ambient', 'Pop', 'Indie'];
+                const genres = [
+                    { value: 'electronic', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9L9 3l6 6"/><path d="M21 15l-6 6-6-6"/><path d="M12 3v18"/></svg>', label: 'Electronic' },
+                    { value: 'hiphop', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', label: 'Hip-Hop' },
+                    { value: 'rock', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', label: 'Rock' },
+                    { value: 'jazz', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', label: 'Jazz' },
+                    { value: 'classical', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', label: 'Classical' },
+                    { value: 'ambient', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/></svg>', label: 'Ambient' },
+                    { value: 'pop', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', label: 'Pop' },
+                    { value: 'indie', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', label: 'Indie' }
+                ];
                 return `
                     <div class="form-content">
                         <div class="form-group">
-                            <label>Deine Musik-DNA</label>
-                            <div class="music-genres">
+                            <div class="music-genres" role="group" aria-label="Musik-Genre Auswahl">
                                 ${genres.map(genre => `
-                                    <button class="genre-btn ${this.formData.musicTaste === genre ? 'active' : ''}" 
-                                            onclick="fyfAccess.selectMusicGenre('${genre}')">
-                                        ${genre}
+                                    <button class="genre-btn ${this.formData.musicTaste === genre.value ? 'active' : ''}" 
+                                            onclick="fyfAccess.selectMusicGenre('${genre.value}')"
+                                            type="button">
+                                        <span class="chip-icon" aria-hidden="true">${genre.icon}</span>
+                                        <span>${genre.label}</span>
                                     </button>
                                 `).join('')}
                             </div>
@@ -1168,37 +1732,36 @@
 
             getLifestyleContent() {
                 const lifestyleOptions = [
-                    { value: 'digital-nomad', label: 'Digital Nomad', description: 'Arbeite, wo du gerade bist.' },
-                    { value: 'remote-worker', label: 'Remote Worker', description: 'Homeoffice ist mein Orbit.' },
-                    { value: 'office-player', label: 'Office Player', description: '9-to-5, aber meinen Regeln.' },
-                    { value: 'hybrid', label: 'Hybrid', description: 'Stadt und Rückzug im Wechsel.' },
-                    { value: 'creator', label: 'Creator', description: 'Ich kreiere, Fokus ist fluide.' },
-                    { value: 'sidepreneur', label: 'Sidepreneur', description: 'Mehrere Projekte, voller Drive.' },
-                    { value: 'explorer', label: 'Explorer', description: 'Ich teste ständig neue Routinen.' },
-                    { value: 'caretaker', label: 'Caretaker', description: 'Ich halte andere am Laufen.' },
-                    { value: 'teamplayer', label: 'Teamplayer', description: 'Ich tanke Energie im Miteinander.' },
-                    { value: 'rebel', label: 'Rebel', description: 'Kein klassisches Lebensmodell.' },
-                    { value: 'family-flow', label: 'Family Flow', description: 'Familie ist mein Taktgeber.' },
-                    { value: 'minimalist', label: 'Minimalist', description: 'Weniger Zeug, mehr Fokus.' },
-                    { value: 'old-school', label: 'Old School', description: 'Feste Strukturen, klare Slots.' }
+                    { value: 'digital-nomad', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>', label: 'Digital Nomad', description: 'Arbeite, wo du gerade bist.' },
+                    { value: 'remote-worker', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>', label: 'Remote Worker', description: 'Homeoffice ist mein Orbit.' },
+                    { value: 'office-player', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>', label: 'Office Player', description: '9-to-5, aber meinen Regeln.' },
+                    { value: 'hybrid', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>', label: 'Hybrid', description: 'Stadt und Rückzug im Wechsel.' },
+                    { value: 'creator', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', label: 'Creator', description: 'Ich kreiere, Fokus ist fluide.' },
+                    { value: 'sidepreneur', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', label: 'Sidepreneur', description: 'Mehrere Projekte, voller Drive.' },
+                    { value: 'explorer', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>', label: 'Explorer', description: 'Ich teste ständig neue Routinen.' },
+                    { value: 'caretaker', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', label: 'Caretaker', description: 'Ich halte andere am Laufen.' },
+                    { value: 'teamplayer', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', label: 'Teamplayer', description: 'Ich tanke Energie im Miteinander.' },
+                    { value: 'rebel', icon: '', label: 'Rebel', description: 'Kein klassisches Lebensmodell.' },
+                    { value: 'family-flow', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', label: 'Family Flow', description: 'Familie ist mein Taktgeber.' },
+                    { value: 'minimalist', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>', label: 'Minimalist', description: 'Weniger Zeug, mehr Fokus.' },
+                    { value: 'old-school', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', label: 'Old School', description: 'Feste Strukturen, klare Slots.' }
                 ];
 
                 return `
                     <div class="form-content">
                         <div class="form-group">
-                            <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--fyf-mint);">Dein Stil. Deine Zeitlogik.</h2>
-                            <p style="margin-bottom: 1.5rem; color: var(--fyf-steel); font-size: 0.95rem;">
-                                Wir justieren den Guide so, dass er in deinem Alltag wirkt.
-                            </p>
-                            
                             <div class="lifestyle-chips">
                                 ${lifestyleOptions.map(option => `
-                                    <button class="lifestyle-chip ${this.formData.lifestyle === option.value ? 'lifestyle-chip--selected' : ''}" 
-                                            onclick="fyfAccess.selectLifestyle('${option.value}')"
-                                            title="${option.description}">
+                                <button class="lifestyle-chip ${this.formData.lifestyle === option.value ? 'lifestyle-chip--selected' : ''}" 
+                                        onclick="fyfAccess.selectLifestyle('${option.value}')"
+                                        title="${option.description}"
+                                        type="button">
+                                    ${option.icon ? `<span class="chip-icon" aria-hidden="true">${option.icon}</span>` : ''}
+                                    <div class="lifestyle-chip__content">
                                         <span class="lifestyle-chip__label">${option.label}</span>
                                         <span class="lifestyle-chip__description">${option.description}</span>
-                                    </button>
+                                    </div>
+                                </button>
                                 `).join('')}
                             </div>
                         </div>
@@ -1208,19 +1771,29 @@
 
             getInterestsContent() {
                 const interests = [
-                    'Krypto & Blockchain', 'Nachhaltigkeit', 'Kunst & Design', 'Technologie',
-                    'Philosophie', 'Reisen', 'Fitness & Gesundheit', 'Musik',
-                    'Bücher & Lesen', 'Entrepreneurship', 'Social Impact', 'Kreativität'
+                    { value: 'krypto', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>', label: 'Krypto & Blockchain' },
+                    { value: 'nachhaltigkeit', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', label: 'Nachhaltigkeit' },
+                    { value: 'kunst', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', label: 'Kunst & Design' },
+                    { value: 'technologie', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', label: 'Technologie' },
+                    { value: 'philosophie', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/><path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/><path d="M12 3v6"/><path d="M12 15v6"/></svg>', label: 'Philosophie' },
+                    { value: 'reisen', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>', label: 'Reisen' },
+                    { value: 'fitness', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11v11h-11z"/><path d="M6.5 6.5L12 12l5.5-5.5"/><path d="M6.5 17.5L12 12l5.5 5.5"/></svg>', label: 'Fitness & Gesundheit' },
+                    { value: 'musik', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', label: 'Musik' },
+                    { value: 'buecher', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', label: 'Bücher & Lesen' },
+                    { value: 'entrepreneurship', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', label: 'Entrepreneurship' },
+                    { value: 'social', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', label: 'Social Impact' },
+                    { value: 'kreativitaet', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', label: 'Kreativität' }
                 ];
                 return `
                     <div class="form-content">
                         <div class="form-group">
-                            <label>Was interessiert dich?</label>
-                            <div class="interests-grid">
+                            <div class="interests-grid" role="group" aria-label="Interessen Auswahl">
                                 ${interests.map(interest => `
-                                    <button class="interest-btn ${this.formData.interests.includes(interest) ? 'active' : ''}" 
-                                            onclick="fyfAccess.toggleInterest('${interest}')">
-                                        ${interest}
+                                    <button class="interest-btn ${this.formData.interests.includes(interest.value) ? 'active' : ''}" 
+                                            onclick="fyfAccess.toggleInterest('${interest.value}')"
+                                            type="button">
+                                        <span class="chip-icon" aria-hidden="true">${interest.icon}</span>
+                                        <span>${interest.label}</span>
                                     </button>
                                 `).join('')}
                             </div>
@@ -1230,26 +1803,163 @@
             }
 
             getCompleteContent() {
+                // Calculate time metrics
+                const timeMetrics = calculateTimeMetrics(this.formData.birthDate, this.formData.targetAge);
+                
+                // Get goal text for reminder
+                const hasSelectedGoals = this.formData.goals && this.formData.goals.length > 0;
+                const hasTextGoal = this.formData.goal && this.formData.goal.trim() !== '';
+                let goalText = '';
+                
+                if (hasSelectedGoals) {
+                    const shortened = this.formData.goals.map(g => {
+                        if (g.includes('Freiheit spüren')) return 'Freiheit spüren';
+                        if (g.includes('Hamsterrad')) return 'Kein Hamsterrad';
+                        if (g.includes('Aussteigen')) return 'Aussteigen';
+                        if (g.includes('Bullshit-Meeting')) return 'Kein Bullshit';
+                        if (g.includes('bauen')) return 'Etwas bauen';
+                        if (g.includes('Insta')) return 'Mehr sehen';
+                        return g;
+                    });
+                    goalText = shortened.join(', ');
+                } else if (hasTextGoal) {
+                    goalText = this.formData.goal;
+                }
+
                 return `
-                    <div class="complete-content">
-                        <div class="complete-hero">
-                            <h2>Willkommen bei FYF!</h2>
-                            <p>Dein Profil wurde erstellt. Du bist jetzt Teil der Community.</p>
+                    <div class="completion-content">
+                        <!-- Hero Section -->
+                        <div class="completion-hero" data-motion="fade-up">
+                            <h1 class="completion-title">Das ist FYF.</h1>
+                            <p class="completion-subtitle">Keine App. Kein Tool. Dein System, um Zeit als Vermögen zu verstehen – und bewusst einzusetzen.</p>
                         </div>
-                        <div class="complete-stats">
-                            <div class="stat-item">
-                                <span class="stat-value">32</span>
-                                <span class="stat-label">Sommerurlaube</span>
+
+                        <!-- Three Pillars -->
+                        <div class="pillar-cards" data-motion="fade-up">
+                            <div class="pillar-card">
+                                <div class="pillar-icon" aria-hidden="true">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88 16.24,7.76"/>
+                                    </svg>
+                                </div>
+                                <h3>GUIDE</h3>
+                                <p>Personalisierte Impulse, die zu deinem Ziel passen – nicht zu Algorithmen.</p>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-value">1,664</span>
-                                <span class="stat-label">Wochen</span>
+                            <div class="pillar-card">
+                                <div class="pillar-icon" aria-hidden="true">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="9" cy="7" r="4"/>
+                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                    </svg>
+                                </div>
+                                <h3>PEOPLE</h3>
+                                <p>Kuratierte Persönlichkeiten mit echten Perspektiven. Keine Influencer, sondern Haltung.</p>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-value">11,648</span>
-                                <span class="stat-label">Tage</span>
+                            <div class="pillar-card">
+                                <div class="pillar-icon" aria-hidden="true">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <circle cx="12" cy="12" r="6"/>
+                                        <circle cx="12" cy="12" r="2"/>
+                                    </svg>
+                                </div>
+                                <h3>ACCESS</h3>
+                                <p>Erlebnisse, die deine Zeit spürbar machen – real und digital.</p>
                             </div>
                         </div>
+
+                        <!-- Value Proposition -->
+                        <div class="value-proposition" data-motion="fade-up">
+                            <h2>Was bringt dir dein Profil?</h2>
+                            <ul class="value-list">
+                                <li>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="20,6 9,17 4,12"/>
+                                    </svg>
+                                    <span>Dein Ziel ist dein Nordstern – alles, was du siehst, zahlt darauf ein.</span>
+                                </li>
+                                <li>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="20,6 9,17 4,12"/>
+                                    </svg>
+                                    <span>Deine Zeit-Philosophie formt den Guide – keine generischen Tipps, nur was zu dir passt.</span>
+                                </li>
+                                <li>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="20,6 9,17 4,12"/>
+                                    </svg>
+                                    <span>Dein Lebensstil bestimmt, wie du Impulse bekommst – in deinem Tempo, deinem Kontext.</span>
+                                </li>
+                            </ul>
+                            <p class="value-microcopy">Kurz: Ab jetzt arbeitet FYF für dich – nicht andersrum.</p>
+                        </div>
+
+                        <!-- Time Metrics Panel -->
+                        <div class="time-metrics-panel" data-motion="fade-up">
+                            <h2>Dein Zeitwert – du kennst ihn jetzt.</h2>
+                            <dl class="time-metrics">
+                                <div class="time-metric">
+                                    <dt class="sr-only">Wochen gelebt</dt>
+                                    <dd class="metric-value">${typeof timeMetrics.weeksLived === 'number' ? timeMetrics.weeksLived.toLocaleString() : timeMetrics.weeksLived}</dd>
+                                    <dd class="metric-label">GELEBT</dd>
+                                </div>
+                                <div class="time-metric">
+                                    <dt class="sr-only">Wochen übrig</dt>
+                                    <dd class="metric-value">${typeof timeMetrics.weeksRemaining === 'number' ? timeMetrics.weeksRemaining.toLocaleString() : timeMetrics.weeksRemaining}</dd>
+                                    <dd class="metric-label">ÜBRIG</dd>
+                                </div>
+                                <div class="time-metric">
+                                    <dt class="sr-only">Tage übrig</dt>
+                                    <dd class="metric-value">${typeof timeMetrics.daysRemaining === 'number' ? timeMetrics.daysRemaining.toLocaleString() : timeMetrics.daysRemaining}</dd>
+                                    <dd class="metric-label">ÜBRIG</dd>
+                                </div>
+                            </dl>
+                            <p class="metrics-microcopy">Das ist dein Vermögen. Wie du es einsetzt, entscheidest nur du. Jetzt hast du die Tools dafür.</p>
+                        </div>
+
+                        <!-- What's Next -->
+                        <div class="next-steps" data-motion="fade-up">
+                            <h2>Was kommt als Nächstes?</h2>
+                            <div class="next-steps-cards">
+                                <div class="next-step-card">
+                                    <div class="step-header">
+                                        <h3>PEOPLE</h3>
+                                        <span class="status-badge status-available">Verfügbar</span>
+                                    </div>
+                                    <p>Menschen finden, die deine Perspektive teilen – kuratiert, nicht algorithmisch.</p>
+                                </div>
+                                <div class="next-step-card">
+                                    <div class="step-header">
+                                        <h3>ACCESS</h3>
+                                        <span class="status-badge status-available">Verfügbar</span>
+                                    </div>
+                                    <p>Erlebnisse, die deine Zeit spürbar machen – real und digital.</p>
+                                </div>
+                                <div class="next-step-card">
+                                    <div class="step-header">
+                                        <h3>GUIDE</h3>
+                                        <span class="status-badge status-coming-soon">Coming Soon</span>
+                                    </div>
+                                    <p>Personalisierte Impulse basierend auf deinem Profil. Bald verfügbar.</p>
+                                </div>
+                            </div>
+                            <p class="next-steps-microcopy">Du kannst direkt starten – oder später wiederkommen. Dein Profil bleibt gespeichert.</p>
+                        </div>
+
+                        <!-- Goal Reminder -->
+                        <div class="goal-reminder" data-motion="fade-up">
+                            ${goalText ? 
+                                `<div class="goal-badge-large">Dein Ziel: ${goalText}</div>` :
+                                `<div class="goal-badge-large goal-badge-empty">Dein Ziel: Noch nicht definiert <a href="#" onclick="fyfAccess.goToStep(3)">(jetzt festlegen)</a></div>`
+                            }
+                            <p class="goal-microcopy">Alles, was du ab jetzt in FYF siehst, ist darauf ausgerichtet.</p>
+                        </div>
+
+                        <!-- Ambient Glow -->
+                        <div class="ambient-glow"></div>
                     </div>
                 `;
             }
@@ -1286,19 +1996,39 @@
                         `;
                     }
                 } else {
-                    // Complete step - show action buttons
+                    // Final step - completion with CTA buttons
                     navigation.innerHTML = `
-                        <div class="button-area">
-                            <div class="complete-actions">
-                                <button class="cta-btn primary" onclick="fyfAccess.startLifeInWeeks()">
-                                    <i class="fas fa-play"></i>
-                                    Life in Weeks starten
-                                </button>
-                                <button class="cta-btn secondary" onclick="fyfAccess.explorePeople()">
-                                    <i class="fas fa-users"></i>
-                                    People entdecken
-                                </button>
+                        <div class="cta-group">
+                            <a href="/people" class="cta-btn primary">
+                                People entdecken
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <line x1="5" y1="12" x2="19" y2="12"/>
+                                    <polyline points="12,5 19,12 12,19"/>
+                                </svg>
+                            </a>
+                            <div class="secondary-ctas">
+                                <a href="/access" class="cta-btn secondary">
+                                    Access erkunden
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <line x1="5" y1="12" x2="19" y2="12"/>
+                                        <polyline points="12,5 19,12 12,19"/>
+                                    </svg>
+                                </a>
+                                <a href="/dashboard" class="cta-btn secondary">
+                                    Dashboard ansehen
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <line x1="5" y1="12" x2="19" y2="12"/>
+                                        <polyline points="12,5 19,12 12,19"/>
+                                    </svg>
+                                </a>
                             </div>
+                            <a href="/life-weeks" class="tertiary-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <line x1="19" y1="12" x2="5" y2="12"/>
+                                    <polyline points="12,19 5,12 12,5"/>
+                                </svg>
+                                Zurück zu Life in Weeks
+                            </a>
                         </div>
                     `;
                 }
@@ -1307,8 +2037,8 @@
             updateProgress() {
                 const progress = ((this.currentStep + 1) / this.steps.length) * 100;
                 document.getElementById('progressFill').style.width = `${progress}%`;
-                document.getElementById('progressText').textContent = 
-                    `Schritt ${this.currentStep + 1} von ${this.steps.length}`;
+                const step = this.steps[this.currentStep];
+                document.getElementById('progressText').textContent = `Schritt ${this.currentStep + 1} von ${this.steps.length}`;
             }
 
             saveFormData() {
@@ -1333,12 +2063,8 @@
                     window.fyfState.goals = this.formData.goals;
                 }
                 
-                // Save radio button data
-                const timePhilosophyRadio = document.querySelector('input[name="timePhilosophy"]:checked');
-                if (timePhilosophyRadio) this.formData.timePhilosophy = timePhilosophyRadio.value;
-                
-                const lifestyleRadio = document.querySelector('input[name="lifestyle"]:checked');
-                if (lifestyleRadio) this.formData.lifestyle = lifestyleRadio.value;
+                // Save chip selection data (already saved in formData by selection methods)
+                // timePhilosophy and lifestyle are already saved via selectPhilosophy() and selectLifestyle()
             }
 
             validateCurrentStep() {
@@ -1349,8 +2075,12 @@
                         return this.validateBasics();
                     case 'zeit':
                         return this.validateZeit();
+                    case 'goal':
+                        return this.validateGoal();
                     case 'lifestyle':
                         return this.validateLifestyle();
+                    case 'interests':
+                        return this.validateInterests();
                     default:
                         return true;
                 }
@@ -1377,17 +2107,26 @@
             }
 
             validateZeit() {
-                const timePhilosophy = document.querySelector('input[name="timePhilosophy"]:checked');
-                if (!timePhilosophy) {
+                if (!this.formData.timePhilosophy) {
                     alert('Bitte wähle eine Zeit-Philosophie aus.');
                     return false;
                 }
                 return true;
             }
 
+            validateGoal() {
+                const hasSelectedGoals = this.formData.goals && this.formData.goals.length > 0;
+                const hasTextGoal = this.formData.goal && this.formData.goal.trim() !== '';
+                
+                if (!hasSelectedGoals && !hasTextGoal) {
+                    alert('Bitte setze ein Ziel oder wähle eine Option aus.');
+                    return false;
+                }
+                return true;
+            }
+
             validateLifestyle() {
-                const lifestyle = document.querySelector('input[name="lifestyle"]:checked');
-                if (!lifestyle) {
+                if (!this.formData.lifestyle) {
                     alert('Bitte wähle einen Lebensstil aus.');
                     return false;
                 }
@@ -1415,11 +2154,19 @@
 
             selectMusicGenre(genre) {
                 this.formData.musicTaste = genre;
+                this.addVisualFeedback(event.target);
                 this.renderStep();
             }
 
             selectLifestyle(lifestyle) {
                 this.formData.lifestyle = lifestyle;
+                this.addVisualFeedback(event.target);
+                this.renderStep();
+            }
+
+            selectPhilosophy(philosophy) {
+                this.formData.timePhilosophy = philosophy;
+                this.addVisualFeedback(event.target);
                 this.renderStep();
             }
 
@@ -1430,7 +2177,25 @@
                 } else {
                     this.formData.interests.push(interest);
                 }
+                this.addVisualFeedback(event.target);
                 this.renderStep();
+            }
+
+            addVisualFeedback(element) {
+                if (element) {
+                    element.classList.add('chip--feedback');
+                    setTimeout(() => {
+                        element.classList.remove('chip--feedback');
+                    }, 300);
+                }
+            }
+
+            goToStep(stepIndex) {
+                if (stepIndex >= 0 && stepIndex < this.steps.length) {
+                    this.currentStep = stepIndex;
+                    this.renderStep();
+                    this.updateProgress();
+                }
             }
 
             startLifeInWeeks() {
@@ -1458,6 +2223,22 @@
 
         // Initialize the application
         const fyfAccess = new FYFAccess();
+
+        // Motion System
+        document.addEventListener('DOMContentLoaded', () => {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) return;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('motion-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('[data-motion]').forEach(el => observer.observe(el));
+        });
     </script>
 </body>
 </html>
