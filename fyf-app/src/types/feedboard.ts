@@ -17,6 +17,10 @@ export interface FeedItem {
   guideWhy: string;
   source?: 'feedboard' | 'guide' | 'manual';
   chips: string[];
+  isHero?: boolean;          // Markiert dominante/hero cards
+  isSilence?: boolean;       // Markiert Silence Cards
+  hasGlitch?: boolean;       // Markiert Cards mit Störungseffekt
+  guideComment?: string;     // Neuer FYF-Untertitel
 }
 
 export interface FeedData {
@@ -39,8 +43,9 @@ export interface FeedData {
 export interface ClusterSection {
   thema: string;
   items: FeedItem[];
-  color: string;
-  icon: string;
+  color: string;             // Hex color
+  icon: string;              // Emoji icon
+  intro: string;             // FYF-Intro-Text
 }
 
 export interface FeedboardState {

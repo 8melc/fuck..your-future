@@ -1,22 +1,97 @@
+'use client';
+
 import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Transparenz() {
+  const [activeSection, setActiveSection] = useState<string | null>(null)
+
+  const corePrinciples = [
+    {
+      id: 'tool-not-coach',
+      title: 'Tool not Coach',
+      description: 'Der User ist Akteur, nicht Produkt. FYF reagiert auf das Verhalten des Users – nicht umgekehrt.',
+      details: 'Alles Sichtbare resultiert aus bewusster Auswahl. Keine versteckten Algorithmen oder Manipulation.',
+      icon: '🔧'
+    },
+    {
+      id: 'user-ownership',
+      title: 'User Ownership',
+      description: 'Jede Interaktion beginnt und endet beim User. User steuert, FYF folgt.',
+      details: 'Du wählst Content-Formate, Themen und Limits. Du definierst, wann FYF schweigt. Keine versteckten Elemente.',
+      icon: '👤'
+    },
+    {
+      id: 'transparency',
+      title: 'Transparenz',
+      description: 'Alles ist rückverfolgbar – Content, Methode, Quelle.',
+      details: 'Jedes "Warum sehe ich das?" erklärbar on click. Interface kommuniziert Logik, nicht Befehl.',
+      icon: '🔍'
+    },
+    {
+      id: 'limits-freedom',
+      title: 'Limits = Freedom',
+      description: 'Begrenzung ist ein Feature – sie macht Zeit spürbar.',
+      details: 'Kein Endless Scroll. Keine Belohnungssysteme. Kein Algorithmic Push. Zeit nach Bedeutung, nicht nach Länge.',
+      icon: '⏰'
+    }
+  ]
+
+  const scientificMethods = [
+    {
+      name: 'Life in Weeks',
+      author: 'Tim Urban',
+      description: 'Visualisierung des Lebens als Raster von Wochen (ca. 4.000 Wochen bei 80 Jahren).',
+      source: 'https://waitbutwhy.com/2014/05/life-weeks.html',
+      application: 'Hero-Visualisierung beim Onboarding, macht Endlichkeit sichtbar.'
+    },
+    {
+      name: 'PERMA-Modell',
+      author: 'Martin Seligman',
+      description: 'Framework für Wohlbefinden: Positive Emotion, Engagement, Relationships, Meaning, Achievement.',
+      source: 'https://ppc.sas.upenn.edu/learn-more/perma-theory-well-being-and-perma-workshops',
+      application: 'Content-Filter nach PERMA-Dimensionen, personalisierte Empfehlungen.'
+    },
+    {
+      name: 'Deep Work',
+      author: 'Cal Newport',
+      description: 'Fokussierte, ablenkungsfreie Arbeit an kognitiv anspruchsvollen Aufgaben.',
+      source: 'https://calnewport.com/deep-habits-the-importance-of-planning-every-minute-of-your-work-day/',
+      application: 'Guide schlägt Deep-Work-Sessions vor, Content-Limit verhindert Doomscrolling.'
+    },
+    {
+      name: 'Self-Determination Theory',
+      author: 'Deci & Ryan',
+      description: 'Theorie der intrinsischen Motivation: Autonomy, Competence, Relatedness.',
+      source: 'https://selfdeterminationtheory.org/',
+      application: 'Guide respektiert Autonomie, Content fördert Kompetenz, People/Events fördern Relatedness.'
+    }
+  ]
+
   const faqs = [
     {
-      question: "How does FYF protect my personal data?",
-      answer: "We use industry-standard encryption and never sell your personal information. All data is stored securely and you can delete your account at any time."
+      question: "Warum sehe ich bestimmte Inhalte?",
+      answer: "Jeder Content hat einen 'Warum sehe ich das?'-Button. Klick drauf und erfahre die genaue Begründung basierend auf deinen Einstellungen, PERMA-Profil oder wissenschaftlichen Methoden."
     },
     {
-      question: "Is the life visualization scientifically accurate?",
-      answer: "The visualization is based on average life expectancy data, but individual results may vary. It's designed as a tool for perspective, not medical advice."
+      question: "Wie verdient FYF Geld?",
+      answer: "Transparent: Premium-Features, Events, Coaching. Keine Datenverkäufe, keine versteckten Kosten. Core-Tools bleiben kostenlos. Alle Einnahmequellen sind hier dokumentiert."
     },
     {
-      question: "How do you make money?",
-      answer: "We offer premium features and coaching services. The core visualization tool remains free to ensure accessibility for everyone."
+      question: "Werden meine Daten verkauft?",
+      answer: "Nein. Niemals. Deine Daten gehören dir. Du kannst sie jederzeit exportieren oder löschen. Wir nutzen sie nur für deine Personalisierung – und das transparent."
     },
     {
-      question: "Can I export my data?",
-      answer: "Yes, premium users can export all their data in JSON format. We believe in data portability and user ownership."
+      question: "Ist FYF wissenschaftlich fundiert?",
+      answer: "Ja. Wir basieren auf 8 etablierten wissenschaftlichen Konzepten (PERMA, Deep Work, SDT, etc.). Alle Quellen sind verlinkt und nachvollziehbar."
+    },
+    {
+      question: "Kann ich FYF komplett ausschalten?",
+      answer: "Ja. 'Halt die Fresse'-Button stoppt alle Nudges. Du bestimmst Frequenz, Themen und Limits. Autonomie ist Bedingung, nicht Option."
+    },
+    {
+      question: "Wie funktioniert der Guide?",
+      answer: "Guide kommentiert, fragt, spiegelt – niemals erzieht. Er übersetzt Daten in Bedeutung, nicht Bewertung. Wenn er spricht, hat das Grund, Rhythmus und Grenze."
     }
   ]
 

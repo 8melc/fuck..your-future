@@ -7,62 +7,15 @@
 
 import { FeedItem, ClusterSection } from '@/types/feedboard';
 import { feedItems } from '@/data/feedItems';
+import { CLUSTER_CONFIG } from './clusterConfig';
 
-// Cluster-Konfiguration
-const CLUSTER_CONFIG = {
-  'Zeit & Endlichkeit': {
-    color: '#4ecdc4',
-    icon: '⏰',
-    description: 'Reflexion über Vergänglichkeit und bewusste Zeitnutzung'
-  },
-  'Freiheit & Orte': {
-    color: '#ff6b6b',
-    icon: '🌍',
-    description: 'Nomadische Lebensweise und radikale Zeitsouveränität'
-  },
-  'Fokus & Flow': {
-    color: '#f6c06f',
-    icon: '🎯',
-    description: 'Deep Work, Aufmerksamkeit und produktive Gewohnheiten'
-  },
-  'Geld & Wert': {
-    color: '#a8e6cf',
-    icon: '💰',
-    description: 'Wertschöpfung, Investitionen und finanzielle Freiheit'
-  },
-  'Sinn & Bedeutung': {
-    color: '#ffd93d',
-    icon: '🧭',
-    description: 'Purpose, Ikigai und existenzielle Fragen'
-  },
-  'Kultur & Stimmen': {
-    color: '#b4a7d6',
-    icon: '🎨',
-    description: 'Kreative Stimmen und kulturelle Widerstände'
-  },
-  'Beziehungen': {
-    color: '#ffb3ba',
-    icon: '🤝',
-    description: 'Qualität statt Quantität in menschlichen Verbindungen'
-  },
-  'Selbsterkenntnis': {
-    color: '#c7ceea',
-    icon: '🔍',
-    description: 'Selbstreflexion und authentische Identität'
-  },
-  'Wachstum': {
-    color: '#d4a5a5',
-    icon: '🌱',
-    description: 'Bewusste Entwicklung und kontinuierliche Verbesserung'
-  }
-};
 
 export class FeedboardService {
   private static instance: FeedboardService;
   private feedItems: FeedItem[] = [];
 
   constructor() {
-    this.feedItems = feedItems;
+    this.feedItems = [...feedItems];
   }
 
   static getInstance(): FeedboardService {
@@ -85,18 +38,22 @@ export class FeedboardService {
   getItemsByCluster(): ClusterSection[] {
     const clusters: { [key: string]: FeedItem[] } = {};
 
-    this.feedItems.forEach(item => {
-      if (!clusters[item.theme]) {
-        clusters[item.theme] = [];
-      }
-      clusters[item.theme].push(item);
-    });
+    // Filter Silence Cards aus
+    this.feedItems
+      .filter(item => !item.isSilence)
+      .forEach(item => {
+        if (!clusters[item.theme]) {
+          clusters[item.theme] = [];
+        }
+        clusters[item.theme].push(item);
+      });
 
     return Object.entries(clusters).map(([theme, items]) => ({
       thema: theme,
       items,
-      color: CLUSTER_CONFIG[theme as keyof typeof CLUSTER_CONFIG]?.color || '#4ecdc4',
-      icon: CLUSTER_CONFIG[theme as keyof typeof CLUSTER_CONFIG]?.icon || '📄'
+      color: CLUSTER_CONFIG[theme]?.color || '#4ecdc4',
+      icon: CLUSTER_CONFIG[theme]?.icon || '○',
+      intro: CLUSTER_CONFIG[theme]?.intro || ''
     }));
   }
 
@@ -159,11 +116,11 @@ export class FeedboardService {
     // PERMA-Alignment mit User-Goals
     if (userProfile.goals) {
       const goalKeywords = userProfile.goals.join(' ').toLowerCase();
-      if (goalKeywords.includes('zeit') && item.thema === 'Zeit & Endlichkeit') score += 0.3;
-      if (goalKeywords.includes('freiheit') && item.thema === 'Freiheit & Orte') score += 0.3;
-      if (goalKeywords.includes('fokus') && item.thema === 'Fokus & Flow') score += 0.3;
-      if (goalKeywords.includes('geld') && item.thema === 'Geld & Wert') score += 0.3;
-      if (goalKeywords.includes('sinn') && item.thema === 'Sinn & Bedeutung') score += 0.3;
+      if (goalKeywords.includes('zeit') && item.theme === 'Zeit & Endlichkeit') score += 0.3;
+      if (goalKeywords.includes('freiheit') && item.theme === 'Freiheit & Orte') score += 0.3;
+      if (goalKeywords.includes('fokus') && item.theme === 'Fokus & Flow') score += 0.3;
+      if (goalKeywords.includes('geld') && item.theme === 'Geld & Wert') score += 0.3;
+      if (goalKeywords.includes('sinn') && item.theme === 'Sinn & Bedeutung') score += 0.3;
     }
 
     // Format-Präferenzen
@@ -175,9 +132,9 @@ export class FeedboardService {
     }
 
     // Zeit-Style Alignment
-    if (userProfile.timeStyle === 'deep' && item.thema === 'Fokus & Flow') score += 0.2;
-    if (userProfile.timeStyle === 'explore' && item.thema === 'Freiheit & Orte') score += 0.2;
-    if (userProfile.timeStyle === 'reflect' && item.thema === 'Zeit & Endlichkeit') score += 0.2;
+    if (userProfile.timeStyle === 'deep' && item.theme === 'Fokus & Flow') score += 0.2;
+    if (userProfile.timeStyle === 'explore' && item.theme === 'Freiheit & Orte') score += 0.2;
+    if (userProfile.timeStyle === 'reflect' && item.theme === 'Zeit & Endlichkeit') score += 0.2;
 
     return Math.min(score, 1.0); // Maximal 1.0
   }
@@ -237,6 +194,27 @@ export class FeedboardService {
   getRandomItems(count: number = 6): FeedItem[] {
     const shuffled = [...this.feedItems].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
+  }
+
+  /**
+   * Hero Items abrufen (dominante Cards)
+   */
+  getHeroItems(): FeedItem[] {
+    return this.feedItems.filter(item => item.isHero);
+  }
+
+  /**
+   * Silence Cards abrufen
+   */
+  getSilenceCards(): FeedItem[] {
+    return this.feedItems.filter(item => item.isSilence);
+  }
+
+  /**
+   * Items mit Glitch-Effekt abrufen
+   */
+  getItemsWithGlitch(): FeedItem[] {
+    return this.feedItems.filter(item => item.hasGlitch);
   }
 }
 
