@@ -78,6 +78,39 @@ export interface Profile {
       sharedMusicGenres: string[];
     }>;
   };
+  usageLimit?: {
+    dailyLimitMinutes: number | null;
+    todayUsageMinutes: number;
+    requiresReauth: boolean;
+    lastLimitUpdateAt: string | null;
+    limitReached: boolean;
+  };
   createdAt: string;
   updatedAt: string;
+}
+
+export interface SessionUsage {
+  id: string;
+  userId: string;
+  sessionId: string;
+  startedAt: string;
+  lastActivityAt: string;
+  consumedMinutes: number;
+  limitReachedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UsageLimitResponse {
+  dailyLimitMinutes: number | null;
+  todayUsageMinutes: number;
+  requiresReauth: boolean;
+  lastLimitUpdateAt: string | null;
+  limitReached: boolean;
+}
+
+export interface SessionHeartbeatResponse {
+  consumedMinutes: number;
+  limitReached: boolean;
+  shouldLogout: boolean;
 }

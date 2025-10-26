@@ -1,229 +1,103 @@
-'use client';
+import Link from 'next/link'
 
-import { useState } from 'react';
-
-interface Person {
-  name: string;
-  initials: string;
-  role: string;
-  quote: string;
-  restzeit: string;
-  match: {
-    type: 'spotify' | 'topics' | 'impact' | 'tech' | 'social';
-    label: string;
-    value: string;
-  };
-}
-
-export default function PeopleSection() {
-  const [currentIndex, setCurrentIndex] = useState(1); // Start with Sarah
-  const [recommendationHidden, setRecommendationHidden] = useState(false);
-
-  const people: Person[] = [
-    {
-      name: "Nina Richter",
-      initials: "NR",
-      role: "Kultur & Creative Direction",
-      quote: "Kunst ist keine Dekoration, sondern Widerstand gegen die Beliebigkeit.",
-      restzeit: "Noch 51 Sommerurlaube",
-      match: { type: "spotify", label: "Musik-DNA", value: "61% Musik-DNA" }
-    },
+export default function People() {
+  const people = [
     {
       name: "Sarah Chen",
-      initials: "SC",
-      role: "Digital Nomad & Krypto",
-      quote: "Zeit ist die einzige Währung, die wirklich zählt.",
-      restzeit: "Noch 32 Sommerurlaube",
-      match: { type: "spotify", label: "Musik-DNA", value: "82% Musik-DNA" }
+      role: "Life Coach",
+      bio: "Helping people find clarity in their life goals and create actionable plans.",
+      image: "👩‍💼",
+      expertise: ["Goal Setting", "Life Planning", "Mindset"]
     },
     {
-      name: "Marcus Weber",
-      initials: "MW",
-      role: "Gründer & Impact Investor",
-      quote: "Ich baue Unternehmen, die meine Enkel stolz machen werden.",
-      restzeit: "Noch 41 Weihnachtsfeste",
-      match: { type: "topics", label: "Shared Topics", value: "3 Shared Topics" }
+      name: "Marcus Rodriguez",
+      role: "Productivity Expert",
+      bio: "Specialist in time management and building sustainable productivity systems.",
+      image: "👨‍💻",
+      expertise: ["Time Management", "Productivity", "Habits"]
     },
     {
-      name: "Julia Martinez",
-      initials: "JM",
-      role: "Sustainable Finance",
-      quote: "Geld sollte für Menschen arbeiten, nicht umgekehrt.",
-      restzeit: "Noch 48 große Reisen",
-      match: { type: "impact", label: "Impact Focus", value: "Impact-orientiert" }
-    },
-    {
-      name: "Tom Fischer",
-      initials: "TF",
-      role: "Tech Philosophy",
-      quote: "Technologie muss der Menschlichkeit dienen.",
-      restzeit: "Noch 38 Tech-Revolutionen",
-      match: { type: "tech", label: "Tech DNA", value: "Tech-affin" }
-    },
-    {
-      name: "Lisa Anderson",
-      initials: "LA",
-      role: "Social Entrepreneur",
-      quote: "Impact ist der neue Profit.",
-      restzeit: "Noch 28 Karrierewechsel",
-      match: { type: "social", label: "Social Impact", value: "Social Mission" }
+      name: "Dr. Emma Thompson",
+      role: "Psychologist",
+      bio: "Research-based approaches to behavior change and personal development.",
+      image: "👩‍⚕️",
+      expertise: ["Psychology", "Behavior Change", "Mental Health"]
     }
-  ];
-
-  const updateDisplay = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  const getMatchIcon = (type: string) => {
-    switch (type) {
-      case 'spotify': return 'fab fa-spotify';
-      case 'topics': return 'fas fa-lightbulb';
-      case 'impact': return 'fas fa-leaf';
-      case 'tech': return 'fas fa-microchip';
-      default: return 'fas fa-users';
-    }
-  };
-
-  const getCardPosition = (cardIndex: number) => {
-    const peopleIndex = (currentIndex + cardIndex - 1 + people.length) % people.length;
-    if (cardIndex === 0) return 'left';
-    if (cardIndex === 1) return 'center';
-    if (cardIndex === 2) return 'right';
-    return '';
-  };
-
-  const handleCardClick = (cardIndex: number) => {
-    const clickedIndex = (currentIndex + cardIndex - 1 + people.length) % people.length;
-    updateDisplay(clickedIndex);
-  };
-
-  const handleFocusSarah = () => {
-    updateDisplay(1); // Sarah's index
-  };
-
-  const handleWhyBtn = () => {
-    alert('Der Algorithmus analysiert:\n\n• Musik-Präferenzen (Spotify API)\n• Zeit-Philosophie aus deinen Antworten\n• Lebensstil-Daten (Remote vs. Office)\n• Gemeinsame Interessen & Topics\n\nSo findest du Menschen, die wirklich zu dir passen.');
-  };
+  ]
 
   return (
-    <div className="min-h-screen bg-fyf-noir text-fyf-cream overflow-x-hidden">
-      <div className="people-main-container">
-        {/* Title */}
-        <h1 className="about-title">PEOPLE</h1>
+    <main className="min-h-screen bg-fyf-noir">
+      <header className="py-8 px-6 border-b border-fyf-charcoal">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <Link href="/" className="font-display text-2xl font-bold text-fyf-coral">
+            FYF
+          </Link>
+          <nav className="flex gap-6">
+            <Link href="/life-weeks" className="text-fyf-steel hover:text-fyf-mint transition-colors">
+              Life Weeks
+            </Link>
+            <Link href="/guide" className="text-fyf-steel hover:text-fyf-mint transition-colors">
+              Guide
+            </Link>
+          </nav>
+        </div>
+      </header>
 
-        {/* Recommendation Card - Value-Focused */}
-        {!recommendationHidden && (
-          <div className="recommendation-card">
-            <div className="rec-header">
-              <div className="rec-icon-wrapper">
-                <i className="fas fa-lightbulb"></i>
+      <div className="max-w-6xl mx-auto py-12 px-6">
+        <h1 className="font-display text-4xl font-bold mb-8 text-fyf-cream">
+          Community & People
+        </h1>
+
+        <p className="text-fyf-steel text-lg mb-12 max-w-3xl">
+          Connect with our community of experts, coaches, and like-minded individuals 
+          who are passionate about personal growth and life transformation.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {people.map((person, index) => (
+            <div key={index} className="bg-fyf-charcoal p-6 rounded-xl border border-fyf-smoke hover:border-fyf-mint transition-colors">
+              <div className="text-center mb-4">
+                <div className="text-6xl mb-4">{person.image}</div>
+                <h3 className="font-display text-xl font-bold text-fyf-cream">
+                  {person.name}
+                </h3>
+                <p className="text-fyf-mint font-semibold">{person.role}</p>
               </div>
-              <div className="rec-content">
-                <div className="rec-label">Empfehlung basierend auf deinem Profil</div>
-                <h2 className="rec-title">Sarah Chen könnte für dich relevant sein</h2>
+              
+              <p className="text-fyf-steel mb-4 text-center">
+                {person.bio}
+              </p>
+              
+              <div className="flex flex-wrap gap-2 justify-center">
+                {person.expertise.map((skill, skillIndex) => (
+                  <span
+                    key={skillIndex}
+                    className="bg-fyf-mint text-fyf-noir px-2 py-1 rounded text-xs font-semibold"
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
-              <button 
-                className="rec-close-btn" 
-                onClick={() => setRecommendationHidden(true)}
-              >
-                ×
+              
+              <button className="w-full mt-4 bg-fyf-mint hover:bg-fyf-mint-dark text-fyf-noir font-semibold py-2 rounded-lg transition-colors">
+                Connect
               </button>
             </div>
-
-            <div className="rec-reasoning">
-              <div className="reason-item">
-                <i className="fas fa-music reason-icon"></i>
-                <div className="reason-text">
-                  <div className="reason-label">Musik-DNA</div>
-                  <div className="reason-value">82% Overlap bei Moderat, FKA twigs, Four Tet</div>
-                </div>
-              </div>
-
-              <div className="reason-item">
-                <i className="fas fa-clock reason-icon"></i>
-                <div className="reason-text">
-                  <div className="reason-label">Zeit-Philosophie</div>
-                  <div className="reason-value">Ihr denkt ähnlich über Zeit als Währung vs. Geld</div>
-                </div>
-              </div>
-
-              <div className="reason-item">
-                <i className="fas fa-globe reason-icon"></i>
-                <div className="reason-text">
-                  <div className="reason-label">Lebensstil</div>
-                  <div className="reason-value">Remote-first, 5 Jahre Nomad-Erfahrung</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="rec-actions">
-              <span className="rec-action" onClick={handleFocusSarah}>Profil ansehen</span>
-              <span className="rec-action" onClick={handleWhyBtn}>Algorithmus verstehen</span>
-            </div>
-          </div>
-        )}
-
-        {/* People Grid */}
-        <div className="people-container">
-          {[0, 1, 2].map((cardIndex) => {
-            const peopleIndex = (currentIndex + cardIndex - 1 + people.length) % people.length;
-            const person = people[peopleIndex];
-            const position = getCardPosition(cardIndex);
-
-            return (
-              <div
-                key={`${currentIndex}-${cardIndex}`}
-                className={`portrait-card ${position}`}
-                onClick={() => handleCardClick(cardIndex)}
-              >
-                <div className="portrait-border"></div>
-                <div className="portrait-placeholder">
-                  <div className="placeholder-pattern"></div>
-                  <div className="placeholder-avatar">{person.initials}</div>
-                </div>
-
-                <div className="restzeit-badge">{person.restzeit}</div>
-
-                <div className="connection-match">
-                  <div className="match-label">Verbindung</div>
-                  <div className="match-value">
-                    <i className={getMatchIcon(person.match.type)}></i>
-                    <span>{person.match.value}</span>
-                  </div>
-                </div>
-
-                <div className="person-info-overlay">
-                  <h2 className="person-name">{person.name}</h2>
-                  <p className="person-role">{person.role}</p>
-                  <div className="social-icons">
-                    <a href="#"><i className="fab fa-spotify"></i></a>
-                    <a href="#"><i className="fab fa-linkedin"></i></a>
-                    <a href="#"><i className="fas fa-envelope"></i></a>
-                    <a href="#"><i className="fab fa-instagram"></i></a>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Navigation Dots */}
-        <div className="navigation">
-          {people.map((_, index) => (
-            <button
-              key={index}
-              className={`nav-dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => updateDisplay(index)}
-            />
           ))}
         </div>
 
-        {/* Meet Section */}
-        <div className="meet-section">
-          <p className="meet-quote">"{people[currentIndex].quote}"</p>
-          <button className="meet-btn">Profil öffnen</button>
+        <div className="bg-fyf-charcoal p-8 rounded-xl border border-fyf-smoke text-center">
+          <h2 className="font-display text-2xl font-bold mb-4 text-fyf-cream">
+            Join Our Community
+          </h2>
+          <p className="text-fyf-steel mb-6">
+            Connect with thousands of people on their personal development journey.
+          </p>
+          <button className="bg-fyf-coral hover:bg-fyf-coral-dark text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+            Join Community
+          </button>
         </div>
       </div>
-    </div>
-  );
+    </main>
+  )
 }

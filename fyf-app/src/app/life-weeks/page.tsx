@@ -22,10 +22,158 @@ interface LifeStats {
   remainingWeekends: number;
 }
 
+interface StatCard {
+  id: string;
+  title: string;
+  metric: (stats: LifeStats) => string | string;
+  body: string;
+}
+
+interface StatTab {
+  id: number;
+  label: string;
+  icon: React.ComponentType;
+  headline: string;
+  cards: StatCard[];
+}
+
 
 const formatNumber = (num: number) => {
   return new Intl.NumberFormat().format(num);
 };
+
+const getPopulationAtYear = (year: number) => {
+  const populationData: { [key: number]: number } = {
+    1950: 2.5, 1960: 3.0, 1970: 3.7, 1980: 4.4, 1990: 5.3,
+    2000: 6.1, 2010: 6.9, 2020: 7.8, 2025: 8.1
+  };
+  
+  const years = Object.keys(populationData).map(Number);
+  const closestYear = years.reduce((prev, curr) => 
+    Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev
+  );
+  
+  return Math.round(populationData[closestYear] * 1000000000);
+};
+
+const statsTabs: StatTab[] = [
+  { 
+    id: 0, 
+    label: 'Lebensmetriken', 
+    icon: StatIcon,
+    headline: 'Du hast schon {weeksLived} Wochen bewusst erlebt – Zeit, die restlichen {weeksRemaining} zu gestalten.',
+    cards: [
+      { 
+        id: 'weekends-remaining', 
+        title: 'Wochenenden in Aussicht', 
+        metric: (stats: LifeStats) => formatNumber(stats.remainingWeekends),
+        body: 'So viele Wochenenden kannst du noch bewusst gestalten.' 
+      },
+      { 
+        id: 'weeks-lived', 
+        title: 'Wochen gelebt', 
+        metric: (stats: LifeStats) => formatNumber(stats.weeksLived),
+        body: 'Du hast bereits einen bedeutenden Teil deiner Lebenszeit erlebt.' 
+      },
+      { 
+        id: 'days-conscious', 
+        title: 'Tage des Bewusstseins', 
+        metric: (stats: LifeStats) => formatNumber(stats.daysLived),
+        body: 'Jeder Tag ist eine Gelegenheit, bewusst zu leben.' 
+      },
+      { 
+        id: 'heartbeats', 
+        title: 'Herzschläge', 
+        metric: (stats: LifeStats) => formatNumber(stats.heartbeats),
+        body: 'Dein Herz-Kreislauf-System arbeitet unermüdlich für dich.' 
+      }
+    ]
+  },
+  { 
+    id: 1, 
+    label: 'Natürliche Rhythmen', 
+    icon: NatureIcon,
+    headline: 'Die natürlichen Rhythmen deines Lebens.',
+    cards: [
+      { 
+        id: 'summers-remaining', 
+        title: 'Sommer verbleibend', 
+        metric: (stats: LifeStats) => formatNumber(stats.remainingSummers),
+        body: 'So viele Sommer warten noch darauf, von dir gestaltet zu werden.' 
+      },
+      { 
+        id: 'moon-phases', 
+        title: 'Mondphasen', 
+        metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived / 29.53)),
+        body: 'Du hast viele Zyklen des Mondes miterlebt.' 
+      },
+      { 
+        id: 'sun-orbits', 
+        title: 'Sonnenumrundungen', 
+        metric: (stats: LifeStats) => formatNumber(Math.floor(stats.daysLived / 365.25)),
+        body: 'Jede Umrundung der Sonne ist ein neues Jahr voller Möglichkeiten.' 
+      },
+      { 
+        id: 'cell-regeneration', 
+        title: 'Zellregeneration', 
+        metric: (stats: LifeStats) => 'Mehrfach',
+        body: 'Dein Körper hat sich mehrmals vollständig erneuert.' 
+      }
+    ]
+  },
+  { 
+    id: 2, 
+    label: 'Menschlicher Puls', 
+    icon: SocietyIcon,
+    headline: 'Deine Zeit im Rhythmus der Menschheit.',
+    cards: [
+      { 
+        id: 'lives-begun', 
+        title: 'Neue Leben', 
+        metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived * 385000)),
+        body: 'Seit deiner Geburt haben Millionen neue Leben begonnen.' 
+      },
+      { 
+        id: 'population-growth', 
+        title: 'Bevölkerungswachstum', 
+        metric: (stats: LifeStats) => `${formatNumber(getPopulationAtYear(stats.birthYear) / 1000000000)}M → 8M`,
+        body: 'Die Menschheit ist während deiner Lebenszeit exponentiell gewachsen.' 
+      },
+      { 
+        id: 'people-met', 
+        title: 'Menschen getroffen', 
+        metric: (stats: LifeStats) => formatNumber(Math.round(80000 * (stats.percentageLived/100))),
+        body: 'Statistisch gesehen hast du bereits viele der Menschen getroffen, die du kennenlernen wirst.' 
+      }
+    ]
+  },
+  { 
+    id: 3, 
+    label: 'Kosmische Perspektive', 
+    icon: CosmosIcon,
+    headline: 'Deine Existenz im Kontext des Universums.',
+    cards: [
+      { 
+        id: 'universe-percentage', 
+        title: 'Universumsanteil', 
+        metric: (stats: LifeStats) => `${(80/13800000000 * 100).toFixed(10)}%`,
+        body: 'Deine Existenz ist ein winziger Moment in der Geschichte des Universums.' 
+      },
+      { 
+        id: 'earth-travel', 
+        title: 'Erdumlaufbahn', 
+        metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 1.6 * 1000000))} km`,
+        body: 'Die Erde hat dich auf ihrer Reise um die Sonne transportiert.' 
+      },
+      { 
+        id: 'galaxy-travel', 
+        title: 'Milchstraßen-Reise', 
+        metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 24 * 828000))} km`,
+        body: 'Unser Sonnensystem bewegt sich durch die Spiralarme der Milchstraße.' 
+      }
+    ]
+  },
+];
 
 const renderHeadline = (tabId: number, stats: LifeStats) => {
   const tab = statsTabs[tabId];
@@ -199,138 +347,6 @@ export default function LifeWeeksPage() {
   }, [isLegendOpen]);
 
 
-  const getPopulationAtYear = (year: number) => {
-    const populationData: { [key: number]: number } = {
-      1950: 2.5, 1960: 3.0, 1970: 3.7, 1980: 4.4, 1990: 5.3,
-      2000: 6.1, 2010: 6.9, 2020: 7.8, 2025: 8.1
-    };
-    
-    const years = Object.keys(populationData).map(Number);
-    const closestYear = years.reduce((prev, curr) => 
-      Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev
-    );
-    
-    return Math.round(populationData[closestYear] * 1000000000);
-  };
-
-const statsTabs = [
-  { 
-    id: 0, 
-    label: 'Lebensmetriken', 
-    icon: StatIcon,
-      headline: 'Du hast schon {weeksLived} Wochen bewusst erlebt – Zeit, die restlichen {weeksRemaining} zu gestalten.',
-      cards: [
-        { 
-          id: 'weekends-remaining', 
-          title: 'Wochenenden in Aussicht', 
-          metric: (stats: LifeStats) => formatNumber(stats.remainingWeekends),
-          body: 'So viele Wochenenden kannst du noch bewusst gestalten.' 
-        },
-        { 
-          id: 'weeks-lived', 
-          title: 'Wochen gelebt', 
-          metric: (stats: LifeStats) => formatNumber(stats.weeksLived),
-          body: 'Du hast bereits einen bedeutenden Teil deiner Lebenszeit erlebt.' 
-        },
-        { 
-          id: 'days-conscious', 
-          title: 'Tage des Bewusstseins', 
-          metric: (stats: LifeStats) => formatNumber(stats.daysLived),
-          body: 'Jeder Tag ist eine Gelegenheit, bewusst zu leben.' 
-        },
-        { 
-          id: 'heartbeats', 
-          title: 'Herzschläge', 
-          metric: (stats: LifeStats) => formatNumber(stats.heartbeats),
-          body: 'Dein Herz-Kreislauf-System arbeitet unermüdlich für dich.' 
-        }
-      ]
-  },
-  { 
-    id: 1, 
-    label: 'Natürliche Rhythmen', 
-    icon: NatureIcon,
-    headline: 'Die natürlichen Rhythmen deines Lebens.',
-    cards: [
-      { 
-        id: 'summers-remaining', 
-        title: 'Sommer verbleibend', 
-        metric: (stats: LifeStats) => formatNumber(stats.remainingSummers),
-          body: 'So viele Sommer warten noch darauf, von dir gestaltet zu werden.' 
-        },
-        { 
-          id: 'moon-phases', 
-          title: 'Mondphasen', 
-          metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived / 29.53)),
-          body: 'Du hast viele Zyklen des Mondes miterlebt.' 
-        },
-        { 
-          id: 'sun-orbits', 
-          title: 'Sonnenumrundungen', 
-        metric: (stats: LifeStats) => formatNumber(Math.floor(stats.daysLived / 365.25)),
-        body: 'Jede Umrundung der Sonne ist ein neues Jahr voller Möglichkeiten.' 
-      },
-      { 
-        id: 'cell-regeneration', 
-        title: 'Zellregeneration', 
-        metric: (stats: LifeStats) => 'Mehrfach',
-        body: 'Dein Körper hat sich mehrmals vollständig erneuert.' 
-      }
-    ]
-  },
-  { 
-    id: 2, 
-    label: 'Menschlicher Puls', 
-    icon: SocietyIcon,
-    headline: 'Deine Zeit im Rhythmus der Menschheit.',
-    cards: [
-      { 
-        id: 'lives-begun', 
-        title: 'Neue Leben', 
-        metric: (stats: LifeStats) => formatNumber(Math.round(stats.daysLived * 385000)),
-        body: 'Seit deiner Geburt haben Millionen neue Leben begonnen.' 
-      },
-      { 
-        id: 'population-growth', 
-        title: 'Bevölkerungswachstum', 
-        metric: (stats: LifeStats) => `${formatNumber(getPopulationAtYear(stats.birthYear) / 1000000000)}M → 8M`,
-        body: 'Die Menschheit ist während deiner Lebenszeit exponentiell gewachsen.' 
-      },
-      { 
-        id: 'people-met', 
-        title: 'Menschen getroffen', 
-        metric: (stats: LifeStats) => formatNumber(Math.round(80000 * (stats.percentageLived/100))),
-        body: 'Statistisch gesehen hast du bereits viele der Menschen getroffen, die du kennenlernen wirst.' 
-      }
-    ]
-  },
-  { 
-    id: 3, 
-    label: 'Kosmische Perspektive', 
-    icon: CosmosIcon,
-    headline: 'Deine Existenz im Kontext des Universums.',
-    cards: [
-      { 
-        id: 'universe-percentage', 
-        title: 'Universumsanteil', 
-        metric: (stats: LifeStats) => `${(80/13800000000 * 100).toFixed(10)}%`,
-        body: 'Deine Existenz ist ein winziger Moment in der Geschichte des Universums.' 
-      },
-      { 
-        id: 'earth-travel', 
-        title: 'Erdumlaufbahn', 
-        metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 1.6 * 1000000))} km`,
-        body: 'Die Erde hat dich auf ihrer Reise um die Sonne transportiert.' 
-      },
-      { 
-        id: 'galaxy-travel', 
-        title: 'Milchstraßen-Reise', 
-        metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 24 * 828000))} km`,
-        body: 'Unser Sonnensystem bewegt sich durch die Spiralarme der Milchstraße.' 
-      }
-    ]
-  },
-];
 
   const calculateStats = () => {
     if (!birthdate) return;
@@ -667,7 +683,7 @@ const statsTabs = [
 // CardsPanel Component
 interface CardsPanelProps {
   activeTab: number | null;
-  statsTabs: typeof statsTabs;
+  statsTabs: StatTab[];
   currentStats: LifeStats | null;
   onClose: () => void;
 }
@@ -728,7 +744,7 @@ function CardsPanel({ activeTab, statsTabs, currentStats, onClose }: CardsPanelP
       </header>
 
       <div className="cards-panel__body">
-        {currentTab.cards.map(card => (
+        {currentTab.cards.map((card: StatCard) => (
           <article key={card.id} className="cards-panel__card">
             <h3 className="card-title">{card.title}</h3>
             <div className="card-metric">

@@ -1,91 +1,153 @@
 # FYF - Fuck Your Future
 
-**Transform your life with FYF** - A life visualization and personal development platform that helps you make time your most valuable asset.
+A modern web application for life visualization, goal setting, and personal development.
 
-## Projekt-Vision & Basisdokumente
+## 🚀 Features
 
-Unsere ursprüngliche Projekt-Vision und die zentralen Basisideen findest du in den Archivdateien unter `/docs/Basis_Archive/`:
-
-- **`basis_Deal-Entwurf_05 09 2025.md`** - Ursprüngliche Deal-Entwürfe und Projektstrategie
-- **`basis_Ideen_MVP-Features (Version Zero)_05 09 2025.md`** - Erste MVP-Feature-Ideen und Konzeptentwicklung
-
-Diese Archivdateien enthalten die ursprünglichen Ideen und die Basisvision des FYF-Projekts. Sie erläutern die Entstehung, Hintergründe und die übergeordnete Strategie.
-
-**Achtung:** Einzelne Details darin sind nicht mehr aktuell – die Dokumente dienen als Grundgerüst und Inspirationsquelle. Die aktuelle Umsetzung ist in den Flowcharts und der Hauptdokumentation beschrieben.
-
-## Aktuelle Dokumente & Flowcharts
-
-Die Dateien mit „aktuell_" im Namen enthalten die jeweils aktuelle Vision, die Roadmap und die User Flows des FYF-Projekts:
-
-- **`aktuell_🗺️ FYF User Flow – Flowchart Visualisierung.md`** - Zentrale User Flow Referenz mit 11 Steps und Priorisierungen
-- **`aktuell_FLOWCHART-INTEGRATION-SUMMARY.md`** - Integration Summary und Development Guidelines
-- **`aktuell_Debrief_Werkstatt-Check-In_07 10 2025.md`** - Aktuelle Meeting Notes und Entwicklungsstand
-- **`aktuell_FYF Circle – Debrief_09 10 2025 (Extern) (1).md`** - Externe Circle Debrief und Strategie-Updates
-
-Diese Dokumente bilden den aktuellen Stand der Entwicklung, Roadmap und User Flows ab. Sie sind die wichtigste Basis für neue Features, Komponenten und die Produktstrategie.
-
-**Wichtig:** Bei Generierungen, Änderungen und Automatisierungen wird immer zuerst auf die aktuell_ Dateien Bezug genommen. Für Hintergrund und Ursprung siehe die Archivdateien im Ordner Basis_Archive.
-
-## 🎯 Mission
-
-FYF helps users visualize their life in weeks, set meaningful goals, and access curated content to transform their relationship with time. Our core philosophy: **"Zeit als Vermögen"** (Time as Wealth).
-
-## 🗺️ Development Roadmap
-
-Based on the **FYF User Flow Flowchart**, development follows a structured 11-step user journey:
-
-### Phase 1: Core Features (Must-have ⭐⭐⭐)
-- **STEP 2**: Login via Geburtsdatum - Simple birthdate authentication
-- **STEP 3**: Life-in-Weeks Visualisierung - Grid display of life weeks with metrics
-- **STEP 4**: Zielsetzung - Goal setting and profile integration
-- **STEP 5**: Guide/Content-Feed - Curated content with AI guide comments
-- **STEP 6**: Filter-Funktion - Content preference customization
-- **STEP 7**: Tageslimit - Daily usage limits and session management
-
-### Phase 2: High Priority (⭐⭐)
-- **STEP 9**: Events/Workshops - Event discovery and registration
-- **STEP 10**: Credits & Access-Limitierung - Transparent monetization
-- **STEP 11**: Kauf/Credit-Transaktion - Payment integration
-
-### Phase 3: V2 Features (⭐)
-- **STEP 8**: People/Experten-Modul - Expert profiles and matching
-
-### Continuous Elements (Always Active)
-- **Transparenz & Ethik**: "Warum sehe ich das?" transparency
-- **Rückmeldung & Motivation**: Feedback at milestones
-- **Restzeit-Kachel**: Always-visible time awareness widget
-
-## 🚀 Getting Started
-
-First, run the development server:
-
-```bash
-cd fyf-app
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Life in Weeks Visualization** - See your life in a powerful grid format
+- **Goal Setting & Tracking** - Set and monitor your personal goals
+- **Content Feed** - Curated resources for personal growth
+- **Events & Workshops** - Join community events
+- **Pause Reminder** - Built-in break reminders for healthy usage
+- **Responsive Design** - Works on all devices
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 16 with App Router
-- **Language**: TypeScript 5
-- **Styling**: Tailwind CSS 4
-- **Fonts**: Inter & Space Grotesk
-- **Linting**: ESLint with Next.js config
+- **Framework:** Next.js 16 with App Router
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + Custom FYF Design System
+- **Deployment:** Vercel (recommended)
 
-## Learn More
+## 📦 Installation
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd fyf-app
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Install dependencies
+npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Start development server
+npm run dev
+```
 
-## Deploy on Vercel
+## 🌐 Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Option 1: Vercel (Recommended)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Install Vercel CLI:**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy:**
+   ```bash
+   vercel
+   ```
+
+3. **Follow the prompts:**
+   - Link to existing project or create new
+   - Set project name (e.g., "fyf-app")
+   - Configure settings
+
+4. **Your app will be live at:** `https://your-app.vercel.app`
+
+### Option 2: Vercel Dashboard
+
+1. Go to [vercel.com](https://vercel.com)
+2. Sign in with GitHub
+3. Click "New Project"
+4. Import your GitHub repository
+5. Vercel will auto-detect Next.js and deploy
+
+### Option 3: Netlify
+
+1. Go to [netlify.com](https://netlify.com)
+2. Connect your GitHub repository
+3. Build settings:
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+4. Deploy
+
+## 🔧 Environment Variables
+
+Copy `env.example` to `.env.local` and configure:
+
+```bash
+cp env.example .env.local
+```
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── login/           # Login page
+│   ├── life-weeks/      # Life visualization
+│   ├── profile/         # Goal setting
+│   ├── guide/           # Content feed
+│   ├── events/          # Events & workshops
+│   ├── people/          # Community
+│   ├── credits/         # Credits & monetization
+│   ├── transparenz/     # Ethics & FAQ
+│   ├── fallback/        # 404 page
+│   ├── globals.css      # Global styles
+│   ├── layout.tsx       # Root layout
+│   └── page.tsx         # Landing page
+```
+
+## 🎨 Design System
+
+The app uses a custom FYF design system with:
+
+- **Colors:** Coral (#FF6B6B), Mint (#4ECDC4), Noir (#0A0A0A)
+- **Fonts:** Space Grotesk (headings), Inter (body)
+- **Components:** Responsive, accessible, modern
+
+## 🚀 Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - TypeScript type checking
+
+## 📱 Features
+
+### Life in Weeks
+- Interactive grid visualization
+- Customizable age and life expectancy
+- Statistics and progress tracking
+- Pause reminder after 30 minutes
+
+### Goal Setting
+- Personal information management
+- Goal creation and tracking
+- Progress visualization
+- Achievement statistics
+
+### Content Feed
+- Curated articles and resources
+- Category-based browsing
+- Newsletter subscription
+- Featured content
+
+## 🔒 Privacy & Ethics
+
+- No data selling
+- User data ownership
+- Transparent monetization
+- Evidence-based recommendations
+
+## 📄 License
+
+This project is private and proprietary.
+
+## 🤝 Contributing
+
+This is a private project. For questions or feedback, please contact the development team.
+
+---
+
+**FYF - Fuck Your Future** - Transform your life with powerful visualization tools.

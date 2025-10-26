@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import ProfileSummary from '@/components/profile/ProfileSummary';
 import GoalWidget from '@/components/profile/GoalWidget';
 import TimeStyleCard from '@/components/profile/TimeStyleCard';
@@ -8,8 +8,10 @@ import EnergyFeeds from '@/components/profile/EnergyFeeds';
 import JourneyTimeline from '@/components/profile/JourneyTimeline';
 import MotivationFeed from '@/components/profile/MotivationFeed';
 import GoalModal from '@/components/profile/GoalModal';
+import UsageLimitSettings from '@/components/profile/UsageLimitSettings';
 import { Profile } from '@/types/profile';
 import useRevealOnScroll from '@/hooks/useRevealOnScroll';
+import { useUsageStore } from '@/stores/usageStore';
 
 const mockProfile: Profile = {
   id: 'user-001',
@@ -125,8 +127,14 @@ export default function ProfileV2Page() {
   const [profile, setProfile] = useState<Profile>(mockProfile);
   const [isGoalModalOpen, setGoalModalOpen] = useState(false);
   const timeMetrics = useMemo(() => computeTimeMetrics(profile), [profile]);
+  const { fetchUsageData } = useUsageStore();
 
   useRevealOnScroll();
+
+  // Load usage data on mount
+  useEffect(() => {
+    fetchUsageData();
+  }, [fetchUsageData]);
 
   const handleGoalSave = useCallback(
     (goal: { text: string; source: Profile['goal']['source'] }) => {
@@ -170,6 +178,7 @@ export default function ProfileV2Page() {
         <div className="flex flex-col gap-8">
           <TimeStyleCard profile={profile} />
           <EnergyFeeds profile={profile} onConnectSpotify={handleConnectSpotify} />
+          <UsageLimitSettings />
           <JourneyTimeline journey={profile.journey} />
           <MotivationFeed profile={profile} />
         </div>
