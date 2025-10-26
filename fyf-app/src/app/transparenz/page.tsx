@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link'
 import TransparencyGrid from '@/components/TransparencyGrid'
 import { transparencyContent } from '@/data/transparencyContent'

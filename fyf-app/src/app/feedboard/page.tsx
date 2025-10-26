@@ -21,6 +21,11 @@ type QuickStat = {
   note: string;
 };
 
+const DAILY_LIMIT_MIN = 45;
+const TIMER_INTERVAL_MS = 30_000;
+const MVP_AUTO_LOGOUT_MS = 30_000;
+const INITIAL_CONSUMED_MINUTES = 37;
+
 const MODE_CONFIG: Record<
   ModeKey,
   {
@@ -31,19 +36,19 @@ const MODE_CONFIG: Record<
   }
 > = {
   focus: {
-    emoji: '🎯',
+    emoji: '',
     label: 'Fokus',
     tagline: '12 Slots. Null Ausreden.',
     clusters: ['Fokus & Flow', 'Zeit & Endlichkeit'],
   },
   explore: {
-    emoji: '🧭',
+    emoji: '',
     label: 'Explore',
     tagline: 'Finde Orte, die dich nicht betäuben.',
     clusters: ['Freiheit & Orte', 'Sinn & Bedeutung', 'Wachstum'],
   },
   pulse: {
-    emoji: '⚡',
+    emoji: '',
     label: 'Pulse',
     tagline: 'Watch, wann du vergeudest.',
     clusters: ['Kultur & Stimmen', 'Beziehungen', 'Geld & Wert', 'Selbsterkenntnis'],
@@ -66,6 +71,11 @@ const INTENT_STATEMENTS = [
 ];
 
 export default function FeedboardPage() {
+  const [sessionStart, setSessionStart] = useState(
+    () => Date.now() - INITIAL_CONSUMED_MINUTES * 60 * 1000,
+  );
+  const [consumedMinutes, setConsumedMinutes] = useState(INITIAL_CONSUMED_MINUTES);
+  const [isLimitReached, setIsLimitReached] = useState(false);
   const [isHeaderOpen, setIsHeaderOpen] = useState(false);
   const [activeMode, setActiveMode] = useState<ModeKey>('focus');
   const [activeCluster, setActiveCluster] = useState<string | null>(null);
@@ -73,6 +83,7 @@ export default function FeedboardPage() {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [guidePrompt, setGuidePrompt] = useState('');
   const [guideResults, setGuideResults] = useState<FeedItem[]>([]);
+  const [isPersonalityOpen, setIsPersonalityOpen] = useState(false);
 
   const allItems = useMemo(() => feedboardService.getAllItems(), []);
   const silenceCards = useMemo(() => allItems.filter(item => item.isSilence), [allItems]);
@@ -100,15 +111,68 @@ export default function FeedboardPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isGuideOpen]);
 
-  const quickStats: QuickStat[] = useMemo(
-    () => [
-      { label: 'Zeit heute', value: '0 Min', note: 'Alles investiert' },
-      { label: 'Fokus-Level', value: '100%', note: '0% verbraucht' },
-      { label: 'Intent heute', value: `„${activeIntent.today}“`, note: 'Guide Statement' },
-      { label: 'Pulse', value: String(silenceCards.length), note: 'Statements in deiner Stille' },
-    ],
-    [activeIntent, silenceCards.length],
-  );
+  useEffect(() => {
+    if (isLimitReached) return;
+
+    const tick = () => {
+      const elapsedMs = Date.now() - sessionStart;
+      const minutes = Math.floor(elapsedMs / 1000 / 60);
+      setConsumedMinutes(minutes);
+      if (minutes >= DAILY_LIMIT_MIN) {
+        setIsLimitReached(true);
+      }
+    };
+
+    tick();
+    const interval = window.setInterval(tick, TIMER_INTERVAL_MS);
+    return () => window.clearInterval(interval);
+  }, [sessionStart, isLimitReached]);
+
+  useEffect(() => {
+    if (isLimitReached) return;
+
+    const timeout = window.setTimeout(() => {
+      setConsumedMinutes(prev => (prev < DAILY_LIMIT_MIN ? DAILY_LIMIT_MIN : prev));
+      setIsLimitReached(true);
+    }, MVP_AUTO_LOGOUT_MS);
+
+    return () => window.clearTimeout(timeout);
+  }, [sessionStart, isLimitReached]);
+
+  const quickStats: QuickStat[] = useMemo(() => {
+    const remainingMinutes = Math.max(DAILY_LIMIT_MIN - consumedMinutes, 0);
+    const focusSpentPercentage = Math.min(
+      100,
+      Math.round((consumedMinutes / DAILY_LIMIT_MIN) * 100),
+    );
+    const focusRemainingPercentage = Math.max(0, 100 - focusSpentPercentage);
+
+    return [
+      {
+        label: 'Zeit heute',
+        value: `${consumedMinutes} Min`,
+        note:
+          remainingMinutes > 0
+            ? `Du hast noch ${remainingMinutes} Min bis du ausgeloggt wirst.`
+            : 'Limit erreicht – Logout steht an.',
+      },
+      {
+        label: 'Fokus-Level',
+        value: `${focusSpentPercentage}% verbraucht`,
+        note: `${focusRemainingPercentage}% übrig`,
+      },
+      {
+        label: 'Intent heute',
+        value: `„${activeIntent.today}“`,
+        note: 'Guide Statement',
+      },
+      {
+        label: 'Pulse',
+        value: String(silenceCards.length),
+        note: 'Statements in deiner Stille',
+      },
+    ];
+  }, [activeIntent, silenceCards.length, consumedMinutes]);
 
   const modeItems = useMemo(() => {
     const clusters = MODE_CONFIG[activeMode].clusters;
@@ -188,6 +252,23 @@ export default function FeedboardPage() {
         onSetFocus={() => setActiveMode('focus')}
       />
 
+      {isLimitReached && (
+        <SessionLimitBanner
+          limitMinutes={DAILY_LIMIT_MIN}
+          consumedMinutes={consumedMinutes}
+          onReset={() => {
+            setIsLimitReached(false);
+            setConsumedMinutes(0);
+            setSessionStart(Date.now());
+          }}
+        />
+      )}
+
+      <PersonalitySection 
+        isOpen={isPersonalityOpen}
+        onToggle={() => setIsPersonalityOpen(!isPersonalityOpen)}
+      />
+
       <div className={`feedboard-shell ${isHeaderOpen ? 'header-open' : ''}`}>
         <div className="feedboard-shell__background" aria-hidden="true" />
 
@@ -223,7 +304,6 @@ export default function FeedboardPage() {
                   }
                   style={{ '--chip-accent': config?.color || '#4ecdc4' } as CSSProperties}
                 >
-                  <span aria-hidden="true">{config?.icon ?? '◯'}</span>
                   {clusterName}
                 </button>
               );
@@ -232,7 +312,6 @@ export default function FeedboardPage() {
 
           {activeClusterConfig && (
             <p className="feedboard-cluster-intro">
-              <span aria-hidden="true">{activeClusterConfig.icon}</span>{' '}
               {activeClusterConfig.intro}
             </p>
           )}
@@ -260,8 +339,8 @@ export default function FeedboardPage() {
               {secondaryItems.map(item => (
                 <FeedCard key={`secondary-${item.id}`} item={item} variant="standard" size="compact" />
               ))}
-            </div>
-          </section>
+          </div>
+        </section>
         )}
       </div>
 
@@ -280,6 +359,7 @@ export default function FeedboardPage() {
     </>
   );
 }
+
 
 type HeaderProps = {
   isOpen: boolean;
@@ -312,7 +392,7 @@ function TickTockHeader({
         aria-expanded={isOpen}
         onClick={onToggle}
       >
-        <span className="ticktock-header__label">TICK TOCK GUIDE</span>
+        <span className="ticktock-header__label">GUIDE</span>
         <span className="ticktock-header__chevron" aria-hidden="true">
           {isOpen ? '▾' : '▸'}
         </span>
@@ -321,7 +401,7 @@ function TickTockHeader({
 
       <div className="ticktock-header__body">
         <div className="ticktock-header__manifest">
-          <div className="ticktock-header__manifest-title">TICK TOCK GUIDE</div>
+          <div className="ticktock-header__manifest-title">GUIDE</div>
           <p className="ticktock-header__manifest-copy">
             Dein Fokus-Feed. Schraub das Hustle-Level runter und hol dir 12 Stunden Fokus zurück – ohne
             schlechter zu performen.
@@ -334,9 +414,9 @@ function TickTockHeader({
             const mode = MODE_CONFIG[modeKey];
             const isActive = activeMode === modeKey;
             return (
-              <button
+            <button
                 key={modeKey}
-                type="button"
+              type="button"
                 role="tab"
                 aria-selected={isActive}
                 className={`ticktock-header__mode ${isActive ? 'is-active' : ''}`}
@@ -380,7 +460,42 @@ function TickTockHeader({
           </div>
         </div>
       </div>
-    </header>
+          </header>
+  );
+}
+
+function FeedboardPersonaPanel() {
+  return (
+    <aside className="ticktock-header__persona-panel">
+      <span className="ticktock-header__persona-label">
+        FYF Feedboard Personality Snippet
+      </span>
+
+      <h3 className="ticktock-header__persona-headline">
+        FYF ist keine Motivationsmaschine.
+      </h3>
+
+      <div className="ticktock-header__persona-text">
+        <p>
+          Die Bot-Logik spiegelt Haltung: Kein Optimierungswahn, kein Coaching, sondern echte Fragen.
+        </p>
+        <p>
+          Jeder Impuls hier basiert auf Wissenschaft, Ethik und der Überzeugung, dass Zeit ein Vermögen ist – nicht nur eine
+Ressource.
+          Klar, unbequem, menschlich – und 100 % transparent, wie Entscheidungen getroffen werden.
+        </p>
+      </div>
+
+      <blockquote className="ticktock-header__persona-quote">
+        „Unser Bot kuratiert, irritiert und fordert dich heraus. Damit du denkst, nicht nur scrollst."
+      </blockquote>
+
+      <div className="ticktock-header__persona-action">
+        <a href="/transparenz" className="ttg-button ttg-button--link">
+          Mehr zur FYF-Methodik
+        </a>
+      </div>
+    </aside>
   );
 }
 
@@ -425,7 +540,7 @@ function FeedCard({ item, variant, size = 'default' }: FeedCardProps) {
         <div className="feed-card__cluster" style={{ color: accent }}>
           <span aria-hidden="true">{icon}</span>
           <span>{item.theme}</span>
-        </div>
+                  </div>
 
         <h3 className="feed-card__title">{item.title}</h3>
 
@@ -523,5 +638,114 @@ function GuideModal({ open, prompt, onPromptChange, onSubmit, onClose, results }
         )}
       </div>
     </div>
+  );
+}
+
+type SessionLimitBannerProps = {
+  limitMinutes: number;
+  consumedMinutes: number;
+  onReset: () => void;
+};
+
+function SessionLimitBanner({ limitMinutes, consumedMinutes, onReset }: SessionLimitBannerProps) {
+  return (
+    <div className="session-limit-banner" role="alert">
+      <div className="session-limit-banner__badge">Dein Limit. Deine Grenze. Dein Move.</div>
+      <div className="session-limit-banner__content">
+        <h3>Du hast dir das Stoppschild selbst gesetzt.</h3>
+        <p>
+          Du warst {consumedMinutes} Minuten im Feedboard. FYF hält dich an deiner Grenze fest.
+          Heute Pause. Morgen wieder rein.
+        </p>
+        <div className="session-limit-banner__actions">
+          <button
+            type="button"
+            className="ttg-button ttg-button--solid"
+            onClick={() => window.location.assign('/logout-placeholder')}
+          >
+            Schmeiß mich raus.
+          </button>
+          <button
+            type="button"
+            className="ttg-button ttg-button--ghost"
+            onClick={onReset}
+          >
+            Grenze lockern, neue Session
+          </button>
+        </div>
+        <p className="session-limit-banner__note session-limit-banner__note--secondary">
+          Änderung der Grenze? Nur nach Re-Login – Client und Server blocken impulsives Lockern.
+          Du wirst ausgeloggt und musst neu einsteigen, bevor du die Einstellungen anfasst.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+type PersonalitySectionProps = {
+  isOpen: boolean;
+  onToggle: () => void;
+};
+
+function PersonalitySection({ isOpen, onToggle }: PersonalitySectionProps) {
+  return (
+    <section className="personality-section">
+      <button
+        type="button"
+        className="personality-section__toggle"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls="personality-content"
+      >
+        <span className="personality-section__label">Erfahre mehr über den Guide</span>
+        <span className="personality-section__chevron" aria-hidden="true">
+          {isOpen ? '▾' : '▸'}
+        </span>
+      </button>
+
+      <div
+        id="personality-content"
+        className={`personality-section__content ${isOpen ? 'is-open' : ''}`}
+        aria-hidden={!isOpen}
+      >
+        <div className="personality-section__inner">
+          <div className="personality-section__badge">FYF Bot-Personality</div>
+          
+          <h3 className="personality-section__headline">
+            FYF ist keine Motivationsmaschine.
+          </h3>
+          
+          <div className="personality-section__text">
+            <p>
+              Die Bot-Logik spiegelt Haltung: Kein Optimierungswahn, kein Coaching, sondern echte Fragen.
+              Jeder Impuls hier basiert auf Wissenschaft, Ethik und der Überzeugung, dass Zeit ein Vermögen ist – nicht nur eine Ressource.
+            </p>
+            <p>
+              Klar, unbequem, menschlich – und 100 % transparent, wie Entscheidungen getroffen werden.
+            </p>
+          </div>
+
+          <blockquote className="personality-section__quote">
+            „Unser Bot kuratiert, irritiert und fordert dich heraus. Damit du denkst, nicht nur scrollst."
+          </blockquote>
+
+          <div className="personality-section__methodik">
+            <h4>Die FYF-Methodik</h4>
+            <ul>
+              <li><strong>Wissenschaftsbasiert:</strong> Jede Empfehlung basiert auf Forschung und Daten</li>
+              <li><strong>Ethisch fundiert:</strong> Transparenz über Algorithmen und Entscheidungsprozesse</li>
+              <li><strong>Zeit als Vermögen:</strong> Fokus auf nachhaltige Produktivität statt Hustle</li>
+              <li><strong>Menschlich:</strong> Keine toxische Positivität, sondern echte Unterstützung</li>
+            </ul>
+          </div>
+
+          <div className="personality-section__action">
+            <a href="/transparenz" className="ttg-button ttg-button--link">
+              Mehr zur FYF-Methodik
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

@@ -1,150 +1,75 @@
 # FYF Quellen & Transparenz
-## Wissenschaftliche Basis
+Wissenschaftliche Basis | Version 1.0 | 25. Oktober 2025
 
-**Version 1.0 | Erstellt: 25.10.2025**
+## Was hinter FYF steckt
+FYF ist kein Zufall. Jede Funktion basiert auf echten Konzepten aus Wissenschaft, Philosophie und Design.
+Wir nennen das: Transparenz als System.
 
----
+Zeit ist unser Vermögen – alles, was wir tun, dreht sich um bewussten Umgang damit.
+Darum zeigen wir, worauf FYF sich stützt.
 
-## 📖 Überblick
+## Die Grundlagen
 
-Diese Bibliothek dokumentiert die wissenschaftlichen Konzepte und Frameworks, auf denen FYF basiert. Alle Methoden sind transparent, nachvollziehbar und wissenschaftlich fundiert.
+**1. Life in Weeks – Tim Urban**
+Wir machen Lebenszeit sichtbar: ca. 4 000 Wochen pro Leben, jede ein Block.
+FYF hilft dir zu sehen, was du wirklich schon gelebt hast – und was dir noch bleibt.
+„Those are your weeks – and they're all you've got."
 
-**FYF-Kernprinzip:** Zeit ist das ultimative Vermögen – wir nutzen nur Konzepte, die diesem Prinzip dienen.
+**2. Eisenhower‑Matrix – Priorisieren mit Haltung**
+Was ist wichtig, was ist nur dringend?
+FYF nutzt diese Logik, um Handlungsdruck von Bedeutung zu trennen:
+Wichtig + nicht dringend = Fokus. Alles andere: delegieren oder streichen.
+„Was wichtig ist, ist selten dringend – und was dringend ist, selten wichtig."
 
----
+**3. PERMA‑Modell – Positive Psychologie (Seligman)**
+Wir balancieren dein Erleben zwischen fünf Säulen:
+Emotion | Engagement | Beziehungen | Sinn | Erfolg.
+FYF analysiert und kuratiert Inhalte so, dass sie dein psychologisches Gleichgewicht stärken.
+„Well‑being exists where meaning and accomplishment meet."
 
-## 1️⃣ Life in Weeks
+**4. Ikigai – Japanisches Lebenskonzept**
+FYF denkt nach der Formel: Was du liebst × was du kannst × was die Welt braucht × was dich versorgt.
+Wir helfen, deine Mitte zu finden – nicht deine Produktivität zu erhöhen.
+„Ikigai is what lets you look forward to tomorrow."
 
-**Konzept:** Visualisierung des gesamten Lebens als Raster von Wochen (ca. 4.000 Wochen bei 80 Jahren Lebenserwartung). Jede Woche wird als einzelner Block dargestellt – macht Endlichkeit sichtbar und fördert bewussten Umgang mit Zeit.
+**5. Self‑Determination Theory – Deci & Ryan**
+Autonomie, Kompetenz und Verbundenheit = Wachstum.
+FYF respektiert Selbststeuerung – deshalb kannst du uns jederzeit stummschalten.
+„Menschen sind von Natur aus neugierig und wollen verstehen."
 
-**Quelle:** Tim Urban, "Your Life in Weeks", Wait But Why (2014)  
-**URL:** https://waitbutwhy.com/2014/05/life-weeks.html
+**6. Deep Work & Time Blocking – Cal Newport**
+FYF baut Fokuszonen statt Dauerbeschallung.
+Wir zeigen, wo du deine Aufmerksamkeit verlierst – und wann du sie zurückgewinnst.
+„Deep work is rare – and that's why it's so valuable."
 
-**Zitat:** *"Those are your weeks and they're all you've got."* – Tim Urban
+**7. Behavioral Economics – Nudging (Thaler & Sunstein)**
+Wir nutzen sanfte, transparente Hinweise – keine Tricks.
+Ein Nudge bleibt nur dann ethisch, wenn du ihn durchschaust und trotzdem willst.
+FYF arbeitet bewusst so – niemals heimlich, immer aufmerksam.
 
----
+**8. Ethical AI Content Curation**
+Unsere KI kuratiert – sie entscheidet nicht.
+Menschliche Auswahl + algorithmische Effizienz = Relevanz ohne Filterblase.
+Du siehst, warum du etwas siehst.
+Keine Blackbox, kein Trust‑Me – System.
 
-## 2️⃣ Eisenhower-Matrix
+## Zusatz: FYF Ethik & Design
+Kein Endless Scroll, keine Belohnungs‑Mechaniken.
 
-**Konzept:** Priorisierungsframework nach zwei Dimensionen: Wichtigkeit vs. Dringlichkeit. Teilt Aufgaben in vier Quadranten:
-- Wichtig + Dringend → Sofort erledigen
-- Wichtig + Nicht dringend → Planen (Deep Work Zone)
-- Nicht wichtig + Dringend → Delegieren
-- Nicht wichtig + Nicht dringend → Eliminieren
+Alles rückverfolgbar: Methoden, Modelle, Quellen.
 
-**Quelle:** Dwight D. Eisenhower (34. US-Präsident)  
-**Popularisiert durch:** Stephen Covey, "First Things First" (1994)
+Der User steuert, FYF folgt.
 
-**Zitat:** *"What is important is seldom urgent and what is urgent is seldom important."* – Dwight D. Eisenhower
+Der Guide ist Kontext, nicht Coach.
 
----
+Begrenzung = Befreiung.
 
-## 3️⃣ PERMA-Modell (Positive Psychologie)
+„Wir geben dir nicht mehr Zeit – wir geben sie dir zurück."
 
-**Konzept:** Framework für Wohlbefinden von Martin Seligman. Fünf Säulen:
-- **P** – Positive Emotion (Freude, Dankbarkeit)
-- **E** – Engagement (Flow, vollständige Absorption)
-- **R** – Relationships (Verbindungen, soziale Bindungen)
-- **M** – Meaning (Sinn, größerer Zweck)
-- **A** – Achievement (Accomplishment, Zielerreichung)
-
-**Quelle:** Martin Seligman, University of Pennsylvania Positive Psychology Center  
-**Paper:** Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being
-
-**Zitat:** *"Well-being cannot exist just in your own head. Well-being is a combination of feeling good as well as actually having meaning, good relationships and accomplishment."* – Martin Seligman
-
----
-
-## 4️⃣ Ikigai (Japanische Philosophie)
-
-**Konzept:** Japanisches Konzept für Lebenssinn und Daseinsberechtigung. Ikigai liegt an der Schnittstelle von:
-- Was du liebst
-- Was du gut kannst
-- Was die Welt braucht
-- Wofür du bezahlt werden kannst
-
-**Quelle:** Japanische Philosophie, popularisiert durch Héctor García & Francesc Miralles, "Ikigai: The Japanese Secret to a Long and Happy Life" (2016)
-
-**Zitat:** *"Ikigai is what allows you to look forward to the future even if you're miserable right now."* – Japanese proverb
-
----
-
-## 5️⃣ Self-Determination Theory (SDT)
-
-**Konzept:** Theorie der intrinsischen Motivation von Deci & Ryan. Drei psychologische Grundbedürfnisse:
-- **Autonomy** (Selbstbestimmung, Kontrolle)
-- **Competence** (Kompetenz, Wirksamkeit)
-- **Relatedness** (Verbundenheit, soziale Eingebundenheit)
-
-Wenn diese erfüllt sind → intrinsische Motivation, Wohlbefinden, Wachstum.
-
-**Quelle:** Edward L. Deci & Richard M. Ryan, University of Rochester  
-**Paper:** Deci, E. L., & Ryan, R. M. (2000). "The 'what' and 'why' of goal pursuits: Human needs and the self-determination of behavior"
-
-**Zitat:** *"The fullest representations of humanity show people to be curious, vital, and self-motivated. At their best, they are agentic and inspired, striving to learn; extend themselves; master new skills; and apply their talents responsibly."* – Deci & Ryan
+## Komplette Quellendoku
+Alle wissenschaftlichen und philosophischen Grundlagen findest du in unserer
+FYF Ethik & Quellen‑Übersicht (Externe Version)
 
 ---
 
-## 6️⃣ Deep Work / Time-Blocking
-
-**Konzept:** 
-- **Deep Work** = Fokussierte, ablenkungsfreie Arbeit an kognitiv anspruchsvollen Aufgaben
-- **Time-Blocking** = Methode, bei der jede Minute des Tages einer spezifischen Aktivität zugewiesen wird
-
-**Quelle:** Cal Newport, "Deep Work: Rules for Focused Success in a Distracted World" (2016)
-
-**Zitat:** *"The ability to perform deep work is becoming increasingly rare at exactly the same time it is becoming increasingly valuable in our economy."* – Cal Newport
-
----
-
-## 7️⃣ Behavioral Economics – Nudging (Ethical)
-
-**Konzept:** Nudging = Sanfte Anstöße, die Menschen zu besseren Entscheidungen führen, ohne Wahlfreiheit einzuschränken. Transparent Nudging = Nudges funktionieren auch, wenn User sie bewusst wahrnimmt → Ethisch vertretbar.
-
-**Quelle:** Richard Thaler & Cass Sunstein, "Nudge: Improving Decisions About Health, Wealth, and Happiness" (2008)
-
-**Zitat:** *"A nudge is any aspect of the choice architecture that alters people's behavior in a predictable way without forbidding any options or significantly changing their economic incentives."* – Thaler & Sunstein
-
----
-
-## 8️⃣ Ethical AI Content Curation
-
-**Konzept:** Hybrid-Modell aus menschlicher Kuratierung + KI-Unterstützung. Prinzipien:
-- **Transparenz:** User sieht, warum Content vorgeschlagen wird
-- **Diversity:** Plurale Perspektiven, keine Filterblasen
-- **Substanz:** Qualität über Klickrate
-- **User-Kontrolle:** Feedback-Loops, Filter, Opt-Out
-
-**Quelle:** Neil Patel, "Ethical AI Content Creation: NP Digital's Guide 2025" (2025)
-
-**Zitat:** *"The best AI content curation combines human judgment with algorithmic efficiency—neither alone is enough."* – Neil Patel
-
----
-
-## 🔗 Zusätzliche Ressourcen
-
-**Weitere relevante Frameworks:**
-- Pareto-Prinzip (80/20): Vilfredo Pareto
-- Stoische Philosophie: Marcus Aurelius, Seneca, Epictetus
-- Digital Minimalism: Cal Newport (2019)
-- Atomic Habits: James Clear (2018)
-
-**Ethik & Transparenz:**
-- DSGVO-Konformität
-- Behavioral Design Ethics
-- Nudging Ethics (Swiss Re)
-
----
-
-## 📌 Wie nutzen wir diese Quellen?
-
-- **Website "Unsere Methoden"-Seite:** Kurzbeschreibung + Link zu Quellen
-- **Guide-Personality:** Basiert auf diesen Prinzipien (Transparenz, Autonomie, Substanz)
-- **Content-Kuratierung:** PERMA + Eisenhower + Ethical AI
-- **FAQ:** "Warum nicht ChatGPT?" → "Unser Guide fragt – ChatGPT antwortet. Wir wollen, dass du denkst, nicht dass du konsumierst."
-
----
-
-**Erstellt von:** FYF Team  
-**Letzte Aktualisierung:** 25.10.2025  
-**Kontakt:** [Deine E-Mail/Website]
+**Erstellt vom FYF Team** | **Letztes Update:** 25.–26. Oktober 2025
