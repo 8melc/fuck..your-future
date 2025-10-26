@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-10-26T17:11:01.449Z",
+  "totalItems": 26,
+  "itemsByFormat": {
+    "Zitat": 3,
+    "Artikel": 12,
+    "Event": 1,
+    "People": 4,
+    "Podcast": 5,
+    "Song": 1
+  },
+  "itemsByThema": {
+    "Zeit & Endlichkeit": 6,
+    "Beziehungen": 1,
+    "Wachstum": 2,
+    "Selbsterkenntnis": 1,
+    "Sinn & Bedeutung": 4,
+    "Freiheit & Orte": 3,
+    "Fokus & Flow": 3,
+    "Geld & Wert": 3,
+    "Kultur & Stimmen": 3
+  },
+  "itemsByPerma": {
+    "Meaning": 13,
+    "Relationships": 3,
+    "Accomplishment": 2,
+    "Engagement": 2,
+    "": 3,
+    "Positive Emotions": 3
+  }
+}

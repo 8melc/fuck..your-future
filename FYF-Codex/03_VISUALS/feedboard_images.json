@@ -1,0 +1,22 @@
+{
+  "feedboard_images": [
+    {"title": "Your Life in Weeks", "filename": "FYF_01_Life-in-Weeks.jpg", "url": "http://localhost:8080/FYF_01_Life-in-Weeks.jpg"},
+    {"title": "Four Thousand Weeks", "filename": "FYF_02_FourThousandWeeks.jpg", "url": "http://localhost:8080/FYF_02_FourThousandWeeks.jpg"},
+    {"title": "Frankl Quote", "filename": "FYF_03_Frankl-Quote.jpg", "url": "http://localhost:8080/FYF_03_Frankl-Quote.jpg"},
+    {"title": "Bali Coworking", "filename": "FYF_04_Bali-Coworking.jpg", "url": "http://localhost:8080/FYF_04_Bali-Coworking.jpg"},
+    {"title": "Nomad Podcast", "filename": "FYF_05_NomadPodcast.jpg", "url": "http://localhost:8080/FYF_05_NomadPodcast.jpg"},
+    {"title": "Jenny Odell", "filename": "FYF_06_Jenny-Odell.jpg", "url": "http://localhost:8080/FYF_06_Jenny-Odell.jpg"},
+    {"title": "Cal Newport", "filename": "FYF_07_Cal-Newport.jpg", "url": "http://localhost:8080/FYF_07_Cal-Newport.jpg"},
+    {"title": "Farnam Street Attention", "filename": "FYF_08_FarnamStreet-Attention.jpg", "url": "http://localhost:8080/FYF_08_FarnamStreet-Attention.jpg"},
+    {"title": "FYF Limit Freedom", "filename": "FYF_09_FYF-Limit-Freedom.jpg", "url": "http://localhost:8080/FYF_09_FYF-Limit-Freedom.jpg"},
+    {"title": "Money as Energy", "filename": "FYF_10_Money-as-Energy.jpg", "url": "http://localhost:8080/FYF_10_Money-as-Energy.jpg"},
+    {"title": "Hidden Brain Enough", "filename": "FYF_11_HiddenBrain-Enough.jpg", "url": "http://localhost:8080/FYF_11_HiddenBrain-Enough.jpg"},
+    {"title": "Psychology of Money", "filename": "FYF_12_Psychology-of-Money.jpg", "url": "http://localhost:8080/FYF_12_Psychology-of-Money.jpg"},
+    {"title": "Psyche Meaning", "filename": "FYF_13_Psyche-Meaning.jpg", "url": "http://localhost:8080/FYF_13_Psyche-Meaning.jpg"},
+    {"title": "On Being Purpose", "filename": "FYF_14_OnBeing-Purpose.jpg", "url": "http://localhost:8080/FYF_14_OnBeing-Purpose.jpg"},
+    {"title": "Ikigai Book", "filename": "FYF_15_Ikigai-Book.jpg", "url": "http://localhost:8080/FYF_15_Ikigai-Book.jpg"},
+    {"title": "Show Your Work", "filename": "FYF_16_Show-Your-Work.jpg", "url": "http://localhost:8080/FYF_16_Show-Your-Work.jpg"},
+    {"title": "Art Resistance", "filename": "FYF_17_Art-Resistance.jpg", "url": "http://localhost:8080/FYF_17_Art-Resistance.jpg"},
+    {"title": "Erykah Badu – Didn't Cha Know", "filename": "FYF_18_Erykah-Badu.jpg", "url": "http://localhost:8080/FYF_18_Erykah-Badu.jpg"}
+  ]
+}

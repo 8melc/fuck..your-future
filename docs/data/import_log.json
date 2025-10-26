@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-10-26T17:01:21.400Z",
+  "stats": {
+    "total": 26,
+    "processed": 26,
+    "imagesOk": 21,
+    "imagesMissing": 5,
+    "issues": [
+      "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_zeit_endlichkeit_why_we_cant.jpg",
+      "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_zeit_endlichkeit_your_life_in.jpg",
+      "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_sinn_bedeutung_you_dont_have.jpg",
+      "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_kultur_stimmen_erykah_badu_didnt.jpg",
+      "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_sinn_bedeutung_purpose_isnt_a.jpg"
+    ]
+  },
+  "issues": [
+    "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_zeit_endlichkeit_why_we_cant.jpg",
+    "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_zeit_endlichkeit_your_life_in.jpg",
+    "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_sinn_bedeutung_you_dont_have.jpg",
+    "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_kultur_stimmen_erykah_badu_didnt.jpg",
+    "Bild fehlt: /Users/melissaconrads/Desktop/MVP2/docs/assets/images/feed_visuals/fyf_sinn_bedeutung_purpose_isnt_a.jpg"
+  ]
+}

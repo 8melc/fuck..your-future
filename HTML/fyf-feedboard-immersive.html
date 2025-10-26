@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FYF Feedboard · Immersive Exploration</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fyf-noir: #070909;
+      --fyf-carbon: #121618;
+      --fyf-ink: #182023;
+      --fyf-cloud: #f3efe8;
+      --fyf-bone: #ded7cf;
+      --fyf-mint: #4ecdc4;
+      --fyf-coral: #ff6b6b;
+      --fyf-gold: #f6c06f;
+      --fyf-sand: #cfc1a8;
+      --shadow-deep: 0 35px 80px rgba(0,0,0,0.55);
+      --noise: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch" /></filter><rect width="300" height="300" filter="url(%23n)" opacity="0.08"/></svg>');
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, rgba(16, 22, 25, 0.95), rgba(6, 9, 11, 1));
+      color: var(--fyf-cloud);
+      line-height: 1.65;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: var(--noise);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .fyf-ambient-light {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.4;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(78,205,196,0.22), transparent 45%),
+        radial-gradient(circle at 75% 10%, rgba(246,192,111,0.18), transparent 55%),
+        radial-gradient(circle at 85% 65%, rgba(255,107,107,0.12), transparent 55%);
+      z-index: 2;
+    }
+
+    .fyf-shell {
+      position: relative;
+      z-index: 3;
+      height: 100vh;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+    }
+
+    header, section, footer {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    /* Timeline ------------------------------------------------------ */
+    .fyf-timeline {
+      position: fixed;
+      left: clamp(12px, 3vw, 32px);
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      gap: 1rem;
+      z-index: 7;
+    }
+
+    .fyf-timeline button {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.3s ease, letter-spacing 0.3s ease;
+    }
+
+    .fyf-timeline button:hover,
+    .fyf-timeline button:focus {
+      color: var(--fyf-mint);
+      letter-spacing: 0.34em;
+      outline: none;
+    }
+
+    /* Hero ---------------------------------------------------------- */
+    header.fyf-hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 10vw, 7rem) clamp(2rem, 6vw, 6rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fyf-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=80') center/cover;
+      opacity: 0.35;
+      transform: scale(1.08);
+      filter: saturate(85%) contrast(90%);
+    }
+
+    .fyf-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7,10,12,0.85) 0%, rgba(7,10,12,0.95) 65%, rgba(7,10,12,0.98) 100%);
+    }
+
+    .fyf-hero-content {
+      position: relative;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(130deg, rgba(16,23,26,0.78), rgba(9,13,15,0.85));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 32px;
+      box-shadow: var(--shadow-deep);
+      max-width: 960px;
+      padding: clamp(2rem, 4vw, 3.5rem);
+      display: grid;
+      gap: clamp(1.5rem, 4vw, 3rem);
+      text-align: center;
+    }
+
+    .fyf-hero-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      justify-content: center;
+      color: var(--fyf-mint);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: clamp(0.68rem, 1.4vw, 0.85rem);
+      padding: 0.55rem 1.3rem;
+      border-radius: 999px;
+      border: 1px solid rgba(78,205,196,0.3);
+      background: rgba(78,205,196,0.1);
+    }
+
+    .fyf-hero-kicker {
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.04em;
+    }
+
+    .fyf-hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3rem, 9vw, 5rem);
+      line-height: 1.08;
+      letter-spacing: -0.028em;
+    }
+
+    .fyf-hero p {
+      font-size: clamp(1.1rem, 2.6vw, 1.35rem);
+      color: rgba(255,255,255,0.78);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Explore Deck -------------------------------------------------- */
+    .fyf-explore-deck {
+      width: min(980px, 90vw);
+      margin: clamp(-4rem, -8vw, -5.5rem) auto clamp(3rem, 8vw, 5.5rem);
+      background: linear-gradient(160deg, rgba(18,24,26,0.9), rgba(8,12,13,0.85));
+      border-radius: 28px;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-deep);
+      display: grid;
+      gap: clamp(1rem, 3vw, 1.75rem);
+    }
+
+    .fyf-explore-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .fyf-explore-top h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2rem);
+    }
+
+    .fyf-explore-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .fyf-chip-action {
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.75);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .fyf-chip-action:hover,
+    .fyf-chip-action:focus {
+      color: var(--fyf-mint);
+      border-color: rgba(78,205,196,0.45);
+      outline: none;
+    }
+
+    .fyf-chip-action[data-active="true"] {
+      background: rgba(78,205,196,0.14);
+      color: var(--fyf-mint);
+      border-color: rgba(78,205,196,0.45);
+    }
+
+    /* Sections ------------------------------------------------------ */
+    section.fyf-section {
+      position: relative;
+      padding: clamp(6rem, 9vw, 7.5rem) 0 clamp(5rem, 7vw, 6rem);
+    }
+
+    .fyf-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top center, rgba(255,255,255,0.04), transparent 55%);
+      pointer-events: none;
+    }
+
+    .fyf-section-inner {
+      width: min(1180px, 92vw);
+      margin: 0 auto;
+      display: grid;
+      gap: clamp(2rem, 5vw, 3.5rem);
+    }
+
+    .fyf-section-header {
+      display: grid;
+      gap: clamp(1rem, 3vw, 1.8rem);
+      max-width: 720px;
+    }
+
+    .fyf-section-kicker {
+      font-family: 'Crimson Pro', serif;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      color: rgba(255,255,255,0.6);
+    }
+
+    .fyf-section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.015em;
+    }
+
+    .fyf-section-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .fyf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .fyf-card {
+      background: linear-gradient(155deg, rgba(18,24,26,0.95), rgba(12,17,19,0.85));
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-deep);
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      transition: transform 0.45s cubic-bezier(0.19,1,0.22,1), box-shadow 0.45s ease;
+    }
+
+    .fyf-card:hover { transform: translateY(-10px); }
+
+    .fyf-card-visual {
+      position: relative;
+      height: clamp(200px, 32vw, 240px);
+      overflow: hidden;
+    }
+
+    .fyf-card-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+      transition: transform 7s ease, filter 0.45s ease;
+    }
+
+    .fyf-card:hover .fyf-card-visual img { transform: scale(1.18); }
+
+    .fyf-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(6,10,12,0.1), rgba(6,10,12,0.8));
+    }
+
+    .fyf-card-content {
+      padding: clamp(1.4rem, 3vw, 1.9rem);
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .fyf-card-kicker {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .fyf-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+      letter-spacing: -0.01em;
+    }
+
+    .fyf-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .fyf-card-guide {
+      border-left: 3px solid rgba(78,205,196,0.5);
+      padding-left: 1rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+    }
+
+    .fyf-card-actions {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .fyf-chip {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .fyf-chip--mint {
+      background: rgba(78,205,196,0.12);
+      color: var(--fyf-mint);
+      border: 1px solid rgba(78,205,196,0.35);
+    }
+
+    /* Parallax ------------------------------------------------------ */
+    .fyf-parallax {
+      position: relative;
+      width: min(1200px, 94vw);
+      margin: clamp(4rem, 10vw, 6.5rem) auto;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.09);
+      box-shadow: var(--shadow-deep);
+    }
+
+    .fyf-parallax img {
+      width: 100%;
+      height: clamp(320px, 42vw, 460px);
+      object-fit: cover;
+      transform: scale(1.12);
+      transition: transform 10s ease;
+    }
+
+    .fyf-parallax:hover img { transform: scale(1.22); }
+
+    .fyf-parallax-caption {
+      position: absolute;
+      inset: auto auto 0 0;
+      width: 100%;
+      padding: clamp(1.3rem, 3vw, 1.9rem);
+      background: linear-gradient(180deg, rgba(6,9,11,0) 0%, rgba(6,9,11,0.8) 55%, rgba(6,9,11,0.92) 100%);
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .fyf-parallax-caption h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.4rem, 3.2vw, 1.95rem);
+    }
+
+    /* Guide Orb & Portal -------------------------------------------- */
+    .fyf-guide-orb {
+      position: fixed;
+      right: clamp(1.5rem, 4vw, 2.5rem);
+      bottom: clamp(1.5rem, 4vw, 2.5rem);
+      width: clamp(58px, 10vw, 72px);
+      height: clamp(58px, 10vw, 72px);
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(20,30,32,0.95), rgba(9,13,15,0.9));
+      border: 1px solid rgba(78,205,196,0.4);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.45), 0 0 35px rgba(78,205,196,0.25);
+      display: grid;
+      place-items: center;
+      font-size: 1.6rem;
+      color: var(--fyf-mint);
+      cursor: pointer;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      z-index: 8;
+    }
+
+    .fyf-guide-orb:hover { transform: translateY(-6px); }
+
+    .fyf-guide-portal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,7,9,0.78);
+      backdrop-filter: blur(14px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.5rem, 5vw, 3.5rem);
+      z-index: 20;
+    }
+
+    .fyf-guide-portal.open { display: flex; }
+
+    .fyf-guide-dialog {
+      width: min(960px, 92vw);
+      background: linear-gradient(160deg, rgba(22,27,29,0.95), rgba(10,14,16,0.87));
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: clamp(2rem, 4vw, 3.2rem);
+      box-shadow: var(--shadow-deep);
+      display: grid;
+      gap: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    .fyf-guide-dialog header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .fyf-guide-dialog h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.9rem, 4vw, 2.4rem);
+    }
+
+    .fyf-guide-dialog button.close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.55);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    #fyf-guide-form {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    #fyf-guide-input {
+      padding: 1rem 1.35rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.04);
+      color: var(--fyf-cloud);
+      font-size: 1.05rem;
+    }
+
+    #fyf-guide-input:focus {
+      outline: 2px solid rgba(78,205,196,0.45);
+      border-color: rgba(78,205,196,0.45);
+    }
+
+    #fyf-guide-response {
+      display: grid;
+      gap: 1.6rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .fyf-guide-response-card {
+      padding: 1.1rem 1.2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    /* Outro */
+    footer.fyf-outro {
+      padding: clamp(4rem, 9vw, 6.5rem) clamp(1.8rem, 5vw, 3rem);
+      text-align: center;
+      position: relative;
+    }
+
+    .fyf-outro::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 55%);
+      pointer-events: none;
+    }
+
+    .fyf-outro-content {
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1.6rem;
+    }
+
+    .fyf-outro h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4.6vw, 3rem);
+    }
+
+    .fyf-outro-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .fyf-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .fyf-cta--primary {
+      background: linear-gradient(120deg, rgba(78,205,196,0.92), rgba(246,192,111,0.9));
+      color: #091012;
+      border-color: transparent;
+      box-shadow: 0 16px 35px rgba(78,205,196,0.25);
+    }
+
+    .fyf-cta:hover { transform: translateY(-2px); }
+
+    @media (max-width: 1024px) {
+      .fyf-timeline { display: none; }
+    }
+
+    @media (max-width: 720px) {
+      body { overflow-y: auto; }
+      .fyf-shell { height: auto; scroll-snap-type: none; }
+      header, section, footer { scroll-snap-align: none; }
+      .fyf-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="fyf-ambient-light"></div>
+  <nav class="fyf-timeline" aria-label="Sektionen">
+    <button data-target="hero">Intro</button>
+    <button data-target="module-focus">Fokus</button>
+    <button data-target="module-knowledge">Wissen</button>
+    <button data-target="module-voices">Stimmen</button>
+    <button data-target="module-actions">Aktion</button>
+  </nav>
+
+  <div class="fyf-shell">
+    <header class="fyf-hero" id="hero">
+      <div class="fyf-hero-content">
+        <span class="fyf-hero-highlight">FYF FEEDBOARD · 01</span>
+        <span class="fyf-hero-kicker">Guide-Kanal für Mara Jensen · Freiheit · Fokus · Wirkung</span>
+        <h1>Das ist kein Feed. Es ist die Bühne, auf der deine Zeitlogik Form bekommt.</h1>
+        <p>FYF filtert für dich. Keine Content-Masse, sondern kuratierte Fokusmodule, Stimmen und Aktionen, die deine
+          Ziel-Logik stärken. Der Guide bleibt ambient und hört zu, was du brauchst.</p>
+      </div>
+    </header>
+
+    <div class="fyf-explore-deck" role="region" aria-labelledby="explore-title">
+      <div class="fyf-explore-top">
+        <h2 id="explore-title">Was brauchst du jetzt?</h2>
+        <p>Wähle einen Fokus oder frag den Guide. Alles zahlt auf dein Ziel „Freiheit spüren, bevor ich 50 bin“ ein.</p>
+      </div>
+      <div class="fyf-explore-chips">
+        <button class="fyf-chip-action" data-filter="focus" data-active="true">Fokusblöcke</button>
+        <button class="fyf-chip-action" data-filter="knowledge">Wissen</button>
+        <button class="fyf-chip-action" data-filter="voices">Stimmen</button>
+        <button class="fyf-chip-action" data-filter="actions">Aktion jetzt</button>
+        <button class="fyf-chip-action" data-filter="all">Alles zeigen</button>
+      </div>
+    </div>
+
+    <main>
+      <section class="fyf-section" id="module-focus" data-category="focus">
+        <div class="fyf-section-inner">
+          <div class="fyf-section-header">
+            <span class="fyf-section-kicker">Frequenz · Fokusblöcke</span>
+            <h2 class="fyf-section-title">Freiheit entsteht in Slots, die du nicht verhandelst.</h2>
+            <p class="fyf-section-subtitle">Diese Module drehen deine Woche von „verfügbar“ auf „absichtlich“.</p>
+          </div>
+          <div class="fyf-grid fyf-grid--focus"></div>
+        </div>
+      </section>
+
+      <div class="fyf-parallax" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80" alt="Klippenlandschaft im Abendlicht" />
+        <div class="fyf-parallax-caption">
+          <span class="fyf-card-kicker">Guide Stimme</span>
+          <h3>„Freiheit ist das Resultat radikaler Termindisziplin.“</h3>
+          <p>FYF ordnet jeden Block in deinen Kalender ein. Sag dem Guide Bescheid, wenn ein Slot kollidiert.</p>
+        </div>
+      </div>
+
+      <section class="fyf-section" id="module-knowledge" data-category="knowledge">
+        <div class="fyf-section-inner">
+          <div class="fyf-section-header">
+            <span class="fyf-section-kicker">Wissen · Tiefe</span>
+            <h2 class="fyf-section-title">Impulse, die dein Denken wirklich verschieben.</h2>
+            <p class="fyf-section-subtitle">Essays, Audio, Sessions – nur das, was deine Narrative neu verdrahtet.</p>
+          </div>
+          <div class="fyf-grid fyf-grid--knowledge"></div>
+        </div>
+      </section>
+
+      <div class="fyf-parallax" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1463100099107-aa0980c362e6?auto=format&fit=crop&w=1600&q=80" alt="Menschen in tiefer Unterhaltung" />
+        <div class="fyf-parallax-caption">
+          <span class="fyf-card-kicker">Guide Whisper</span>
+          <h3>„Dein Ziel braucht Stimmen, die dein Narrativ challengen.“</h3>
+          <p>FYF verbindet dich mit Gesprächen, die Freiheit nicht romantisieren, sondern real machen.</p>
+        </div>
+      </div>
+
+      <section class="fyf-section" id="module-voices" data-category="voices">
+        <div class="fyf-section-inner">
+          <div class="fyf-section-header">
+            <span class="fyf-section-kicker">Stimmen · Menschen</span>
+            <h2 class="fyf-section-title">Perspektiven, die radikale Entscheidungen eingeordnet haben.</h2>
+            <p class="fyf-section-subtitle">Diese Stimmen helfen dir, Freiheit und Verantwortung zu synchronisieren.</p>
+          </div>
+          <div class="fyf-grid fyf-grid--voices"></div>
+        </div>
+      </section>
+
+      <section class="fyf-section" id="module-actions" data-category="actions">
+        <div class="fyf-section-inner">
+          <div class="fyf-section-header">
+            <span class="fyf-section-kicker">Aktion · Jetzt</span>
+            <h2 class="fyf-section-title">Was du heute committen kannst.</h2>
+            <p class="fyf-section-subtitle">FYF schlägt Actions vor, die sofort in deinen Kalender passen. Kein später. Jetzt.</p>
+          </div>
+          <div class="fyf-grid fyf-grid--actions"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="fyf-outro" id="outro">
+      <div class="fyf-outro-content">
+        <h2>Der Guide kuratiert. Du entscheidest.</h2>
+        <p>Sprich mit dem Guide, committe Actions oder vertiefe Wissen. FYF arbeitet für dich, sobald du sagst, was Gewicht hat.</p>
+        <div class="fyf-outro-actions">
+          <a href="#" class="fyf-cta fyf-cta--primary" data-open-guide>Guide fragen</a>
+          <a href="#module-focus" class="fyf-cta">Fokus sichern</a>
+          <a href="#module-knowledge" class="fyf-cta">Wissen vertiefen</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="fyf-guide-orb" data-open-guide aria-label="Guide öffnen">🜂</div>
+
+  <div class="fyf-guide-portal" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+    <div class="fyf-guide-dialog">
+      <header>
+        <h2 id="guide-title">Frag den FYF Guide</h2>
+        <button class="close" aria-label="Guide schließen">&times;</button>
+      </header>
+      <p>Schreib, was du brauchst. z.B. „Wie plane ich 3 Monate Freiheit?“ oder „Welche Stimmen verstehe Freiheit radikal?“</p>
+      <form id="fyf-guide-form">
+        <label class="sr-only" for="fyf-guide-input">Frage an den Guide</label>
+        <input id="fyf-guide-input" type="text" placeholder="Hey Guide, erzähl mir etwas über..." required>
+      </form>
+      <div id="fyf-guide-response"></div>
+    </div>
+  </div>
+
+  
+  <script>
+    const data = {
+      focus: [
+        {
+          image: 'https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Fokusblock · 90 Min',
+          title: 'Deep Work Window · Donnerstags 08:00—09:30',
+          meta: ['🧭 Kein Kalender-Share', '✍️ Output: Strategische Entscheidung'],
+          guide: 'Du nennst Freiheit dein Ziel. Aber dein Kalender gehört noch Projekten anderer. Dieser Block ist nicht verhandelbar.',
+          chips: ['Commitment', 'Reminder aktiv']
+        },
+        {
+          image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Micro Shift · 25 Min',
+          title: 'Alltags-Entrümpelung · täglich 17:10',
+          meta: ['♻️ Autopilot Reset', '📆 Trigger: Handy nach Feierabend'],
+          guide: 'Freiheit ohne leere Slots ist Theorie. Dieser Micro-Shift killt dein Alltags-Bloat.',
+          chips: ['Audio Guide', 'Habit Stack']
+        },
+        {
+          image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Guide Prompt · 12 Min',
+          title: 'Sunday Reset · Was zahlt wirklich ein?',
+          meta: ['🧠 Prioritäten-Hygiene', '🎧 Optionale Guide-Stimme'],
+          guide: 'Du sammelst Freedom-Ideen, aber jede Woche füllst du mit gefälligen Tasks. Dieser Reset killt das Bloat.',
+          chips: ['Journal', 'Download']
+        }
+      ],
+      knowledge: [
+        {
+          image: 'https://images.unsplash.com/photo-1459257868276-5e65389e2722?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Essay · Oliver Burkeman',
+          title: 'Four Thousand Weeks · Sinnvolle Grenzen',
+          meta: ['⏱️ 22 Min Audio', '🗓️ Samstag 09:30'],
+          guide: 'Du verhandelst ständig Carve-outs – dieses Essay erklärt, warum Grenzen Freiheit erzeugen.',
+          chips: ['Audio', 'Download']
+        },
+        {
+          image: 'https://images.unsplash.com/photo-1513436539083-9d212273e192?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Perspective · Psyche.co',
+          title: 'The Discipline of Freedom',
+          meta: ['📄 9 Min Lesen', '🗣️ Kommentar vom Guide'],
+          guide: 'Freiheit ohne Rituale endet in Chaos. Lies das langsam und streich zwei Commitments.',
+          chips: ['Lesen', 'Guide Kommentar']
+        },
+        {
+          image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'FYF Session',
+          title: '1:1 Guide Call · Time as Asset',
+          meta: ['🗓️ 30. Okt · 19:00', '📍 Remote'],
+          guide: 'Wir challengen, ob dein Setup Freiheit wirklich trägt. Kein Smalltalk.',
+          chips: ['Session', 'Kalender']
+        }
+      ],
+      voices: [
+        {
+          image: 'https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'FYF Voice Note',
+          title: '„Freiheit ist mein Output, nicht mein Zufall“',
+          meta: ['🎙️ 12 Min Audio', 'Speaker: Lena · Nomad CEO'],
+          guide: 'Hör zu, wie sie Fokusblöcke verteidigt. Du musst das adaptieren – nicht bewundern.',
+          chips: ['Anhören', 'Speichern']
+        },
+        {
+          image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Interview · FYF People',
+          title: 'Kai · Ex-Hedgefonds, jetzt Slow Capital',
+          meta: ['🗣️ 18 Min Text', '🧭 Geld als Zeitvehikel'],
+          guide: 'Du möchtest Freiheit finanzieren. Lies, wie Kai Time & Kapital synct.',
+          chips: ['Lesen', 'Kontakt']
+        }
+      ],
+      actions: [
+        {
+          image: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Aktion · Heute',
+          title: 'Bullshit-Meeting Audit · 16:30',
+          meta: ['⏱️ 20 Min', 'Outcome: 3 Meetings streichen'],
+          guide: 'Du willst Freiheit? Dann entferne Zeitfresser heute, nicht nächste Woche.',
+          chips: ['Checkliste', 'Reminder']
+        },
+        {
+          image: 'https://images.unsplash.com/photo-1496425740422-541c8e8e8d4b?auto=format&fit=crop&w=1200&q=80',
+          kicker: 'Experiment · 7 Tage',
+          title: 'Morning First · Kein Screen vor 09:00',
+          meta: ['📆 Start: Morgen', '🧠 Fokus: Aufmerksamkeit'],
+          guide: 'Deine Freiheit verglüht morgens im Feed. Test das 7 Tage.',
+          chips: ['Experiment', 'Guide Check-In']
+        }
+      ]
+    };
+
+    const grids = {
+      focus: document.querySelector('.fyf-grid--focus'),
+      knowledge: document.querySelector('.fyf-grid--knowledge'),
+      voices: document.querySelector('.fyf-grid--voices'),
+      actions: document.querySelector('.fyf-grid--actions'),
+    };
+
+    const renderCard = (item) => {
+      const meta = item.meta.map(m => `<span>${m}</span>`).join('');
+      const chips = item.chips.map(ch => `<span class="fyf-chip ${ch.toLowerCase().includes('commit') ? 'fyf-chip--mint' : ''}">${ch}</span>`).join('');
+      return `
+        <article class="fyf-card">
+          <div class="fyf-card-visual">
+            <img src="${item.image}" alt="" loading="lazy" />
+            <div class="fyf-card-overlay"></div>
+          </div>
+          <div class="fyf-card-content">
+            <span class="fyf-card-kicker">${item.kicker}</span>
+            <h3 class="fyf-card-title">${item.title}</h3>
+            <div class="fyf-card-meta">${meta}</div>
+            <p class="fyf-card-guide">${item.guide}</p>
+            <div class="fyf-card-actions">${chips}</div>
+          </div>
+        </article>
+      `;
+    };
+
+    Object.entries(data).forEach(([key, items]) => {
+      const grid = grids[key];
+      if (grid) grid.innerHTML = items.map(renderCard).join('');
+    });
+
+    /* Timeline navigation */
+    document.querySelectorAll('.fyf-timeline button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.target;
+        const section = document.getElementById(id);
+        if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    /* Explore chips */
+    const chips = document.querySelectorAll('.fyf-chip-action');
+    const sections = document.querySelectorAll('section[data-category]');
+
+    const applyFilter = (filter) => {
+      chips.forEach(c => c.dataset.active = c.dataset.filter === filter ? 'true' : 'false');
+      let targetSection = null;
+      sections.forEach(section => {
+        if (filter === 'all' || section.dataset.category === filter) {
+          section.style.display = '';
+          if (!targetSection && section.dataset.category === filter) targetSection = section;
+        } else {
+          section.style.display = 'none';
+        }
+      });
+      if (filter === 'all') {
+        sections.forEach(section => section.style.display = '');
+      }
+      if (filter !== 'all' && targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => applyFilter(chip.dataset.filter));
+    });
+
+    /* Guide portal */
+    const guideOrb = document.querySelector('[data-open-guide]');
+    const guidePortal = document.querySelector('.fyf-guide-portal');
+    const guideClose = guidePortal.querySelector('.close');
+    const guideForm = document.getElementById('fyf-guide-form');
+    const guideInput = document.getElementById('fyf-guide-input');
+    const guideResponse = document.getElementById('fyf-guide-response');
+
+    const openGuide = () => {
+      guidePortal.classList.add('open');
+      guideInput.focus();
+    };
+
+    const closeGuide = () => {
+      guidePortal.classList.remove('open');
+      guideForm.reset();
+      guideResponse.innerHTML = '';
+    };
+
+    document.querySelectorAll('[data-open-guide]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        openGuide();
+      });
+    });
+
+    guideClose.addEventListener('click', closeGuide);
+    guidePortal.addEventListener('click', (e) => {
+      if (e.target === guidePortal) closeGuide();
+    });
+
+    guideForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const prompt = guideInput.value.trim();
+      if (!prompt) return;
+
+      const keyword = prompt.toLowerCase();
+      let deckKey = 'all';
+      if (keyword.includes('fokus') || keyword.includes('block')) deckKey = 'focus';
+      else if (keyword.includes('wissen') || keyword.includes('essay')) deckKey = 'knowledge';
+      else if (keyword.includes('stimme') || keyword.includes('mensch')) deckKey = 'voices';
+      else if (keyword.includes('aktion') || keyword.includes('heute')) deckKey = 'actions';
+
+      const deck = deckKey === 'all'
+        ? Object.values(data).flat().slice(0, 4)
+        : data[deckKey];
+
+      guideResponse.innerHTML = deck
+        .map(item => `
+          <div class="fyf-guide-response-card">
+            <span class="fyf-card-kicker">${item.kicker}</span>
+            <strong>${item.title}</strong>
+            <small>${item.meta.join(' · ')}</small>
+            <p>${item.guide}</p>
+          </div>
+        `)
+        .join('');
+    });
+  </script>
+</body>
+</html>

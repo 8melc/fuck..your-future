@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { feedboardService } from '@/lib/feedboardService';
+import { FeedItem, ClusterSection } from '@/types/feedboard';
 import './feedboard.css';
 
 type SliderCard = {
@@ -131,8 +133,31 @@ const KEYWORD_MAP: Array<{ keywords: string[]; indices: number[] }> = [
 export default function FeedboardPage() {
   const [guideOpen, setGuideOpen] = useState(false);
   const [guidePrompt, setGuidePrompt] = useState('');
-  const [guideResults, setGuideResults] = useState<ThemeItem[]>([]);
+  const [guideResults, setGuideResults] = useState<FeedItem[]>([]);
+  const [clusters, setClusters] = useState<ClusterSection[]>([]);
+  const [personalizedItems, setPersonalizedItems] = useState<FeedItem[]>([]);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  // Lade Feedboard-Daten
+  useEffect(() => {
+    const loadFeedData = () => {
+      const clustersData = feedboardService.getItemsByCluster();
+      setClusters(clustersData);
+      
+      // Simuliere User-Profil für Personalisierung
+      const mockUserProfile = {
+        goals: ['freiheit', 'fokus', 'zeit'],
+        interests: ['podcast', 'lesen'],
+        musicDNA: ['ambient', 'jazz'],
+        timeStyle: 'deep'
+      };
+      
+      const personalized = feedboardService.getPersonalizedItems(mockUserProfile);
+      setPersonalizedItems(personalized);
+    };
+    
+    loadFeedData();
+  }, []);
 
   useEffect(() => {
     TIMELINE_SECTIONS.forEach(({ id }) => {
@@ -156,12 +181,12 @@ export default function FeedboardPage() {
 
   const handleGuideSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const prompt = guidePrompt.trim().toLowerCase();
+    const prompt = guidePrompt.trim();
     if (!prompt) return;
 
-    const match = KEYWORD_MAP.find((entry) => entry.keywords.some((keyword) => prompt.includes(keyword)));
-    const items = match ? match.indices.map((i) => THEME_ITEMS[i % THEME_ITEMS.length]) : THEME_ITEMS.slice(0, 3);
-    setGuideResults(items);
+    // Suche in den echten Feed-Daten
+    const searchResults = feedboardService.searchItems(prompt);
+    setGuideResults(searchResults.slice(0, 6)); // Top 6 Ergebnisse
   };
 
   return (
@@ -192,17 +217,26 @@ export default function FeedboardPage() {
         <section className="feedboard-section" id="slider">
           <div className="feedboard-sectionInner">
             <div className="feedboard-sectionHeader">
-              <span className="feedboard-sectionKicker">Moodboard · Materielle Welt</span>
-              <h2 className="feedboard-sectionTitle">Zieh durch deine nächste Kulisse.</h2>
-              <p className="feedboard-sectionSubtitle">Swipe durch kuratierte Statements – jeder Slide ein anderer Blick auf dein Freedom-Narrativ.</p>
+              <span className="feedboard-sectionKicker">Kuratierte Inhalte · Dein Fokus</span>
+              <h2 className="feedboard-sectionTitle">Dein Feedboard wartet auf dich.</h2>
+              <p className="feedboard-sectionSubtitle">Jeder Inhalt ist kuratiert für deine Ziele – keine Zeitverschwendung, nur Substanz.</p>
             </div>
             <div className="feedboard-cardSlider">
-              {SLIDER_CARDS.map((card) => (
-                <article className="feedboard-sliderCard" key={card.title}>
-                  <div className="feedboard-sliderImage" style={{ backgroundImage: `url(${card.image})` }} />
+              {personalizedItems.slice(0, 6).map((item) => (
+                <article className="feedboard-sliderCard" key={item.id}>
+                  <div 
+                    className="feedboard-sliderImage" 
+                    style={{ 
+                      backgroundImage: `url(${item.image || 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80'})` 
+                    }} 
+                  />
                   <div className="feedboard-sliderContent">
-                    <h3>{card.title}</h3>
-                    <p>{card.subtitle}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    <div className="feedboard-sliderMeta">
+                      <span className="feedboard-format">{item.format}</span>
+                      <span className="feedboard-thema">{item.theme}</span>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -213,19 +247,24 @@ export default function FeedboardPage() {
         <section className="feedboard-section" id="carousel">
           <div className="feedboard-sectionInner">
             <div className="feedboard-sectionHeader">
-              <span className="feedboard-sectionKicker">Play · Experimente</span>
-              <h2 className="feedboard-sectionTitle">Aktiviere deinen Fokus spielerisch.</h2>
-              <p className="feedboard-sectionSubtitle">Diese Experimente brechen deine Muster und lassen dir Raum für Testläufe – wie Google Arts & Culture, nur auf Freiheit getunt.</p>
+              <span className="feedboard-sectionKicker">Themen-Cluster · Deine Interessen</span>
+              <h2 className="feedboard-sectionTitle">Entdecke deine Wissensgebiete.</h2>
+              <p className="feedboard-sectionSubtitle">Jeder Cluster enthält kuratierte Inhalte zu einem spezifischen Thema – wähle, was dich interessiert.</p>
             </div>
             <div className="feedboard-gamesCarousel">
-              {CAROUSEL_ITEMS.map((item) => (
+              {clusters.slice(0, 6).map((cluster) => (
                 <button
-                  key={item.name}
+                  key={cluster.thema}
                   type="button"
                   className="feedboard-game"
-                  style={{ background: item.gradient }}
+                  style={{ 
+                    background: `linear-gradient(135deg, ${cluster.color}20, ${cluster.color}40)`,
+                    borderColor: cluster.color
+                  }}
                 >
-                  {item.name}
+                  <span className="feedboard-clusterIcon">{cluster.icon}</span>
+                  <span className="feedboard-clusterTitle">{cluster.thema}</span>
+                  <span className="feedboard-clusterCount">{cluster.items.length} Items</span>
                 </button>
               ))}
             </div>
@@ -235,18 +274,27 @@ export default function FeedboardPage() {
         <section className="feedboard-section" id="gallery">
           <div className="feedboard-sectionInner">
             <div className="feedboard-sectionHeader">
-              <span className="feedboard-sectionKicker">Stimmen · Orte</span>
-              <h2 className="feedboard-sectionTitle">Menschen & Museen, die dir Kontext geben.</h2>
-              <p className="feedboard-sectionSubtitle">Wir holen Stimmen aus der Welt, die Freiheit nicht romantisieren, sondern gestalten. Ein digitaler Museumsgang nur für dich.</p>
+              <span className="feedboard-sectionKicker">Stimmen · Menschen</span>
+              <h2 className="feedboard-sectionTitle">Menschen, deren Stimmen dir Kontext geben.</h2>
+              <p className="feedboard-sectionSubtitle">Entdecke Autoren, Denker und Kreative, die deine Perspektive erweitern – kuratiert für deine Ziele.</p>
             </div>
             <div className="feedboard-museumGallery">
-              {GALLERY_ITEMS.map((item) => (
-                <article className="feedboard-museumCard" key={item.name}>
-                  <div className="feedboard-museumImage" style={{ backgroundImage: `url(${item.image})` }} />
+              {feedboardService.getItemsByFormat('People').slice(0, 6).map((item) => (
+                <article className="feedboard-museumCard" key={item.id}>
+                  <div 
+                    className="feedboard-museumImage" 
+                    style={{ 
+                      backgroundImage: `url(${item.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'})` 
+                    }} 
+                  />
                   <div className="feedboard-museumContent">
-                    <h3>{item.name}</h3>
-                    <p className="feedboard-museumCountry">{item.country}</p>
+                    <h3>{item.title}</h3>
+                    <p className="feedboard-museumCountry">{item.source}</p>
                     <p>{item.description}</p>
+                    <div className="feedboard-museumMeta">
+                      <span className="feedboard-perma">{item.perma}</span>
+                      <span className="feedboard-thema">{item.theme}</span>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -257,17 +305,30 @@ export default function FeedboardPage() {
         <section className="feedboard-section" id="themes">
           <div className="feedboard-sectionInner">
             <div className="feedboard-sectionHeader">
-              <span className="feedboard-sectionKicker">Explore · Welten</span>
+              <span className="feedboard-sectionKicker">Explore · Cluster</span>
               <h2 className="feedboard-sectionTitle">Dein Guide zeigt dir Welten, die deine Perspektive weiten.</h2>
-              <p className="feedboard-sectionSubtitle">Jede Karte ist ein Ticket in eine andere Zeit, Kultur oder Haltung. Pick eine – der Guide erzählt dir den Kontext.</p>
+              <p className="feedboard-sectionSubtitle">Jeder Cluster ist ein Themengebiet mit kuratierten Inhalten. Wähle einen – der Guide zeigt dir die besten Inhalte.</p>
             </div>
             <div className="feedboard-themeGrid">
-              {THEME_ITEMS.map((item) => (
-                <article className="feedboard-themeCard" key={item.title} style={{ backgroundImage: `url(${item.image})` }}>
+              {clusters.map((cluster) => (
+                <article 
+                  className="feedboard-themeCard" 
+                  key={cluster.thema}
+                  style={{ 
+                    backgroundImage: `linear-gradient(135deg, ${cluster.color}20, ${cluster.color}40), url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80')` 
+                  }}
+                >
                   <div className="feedboard-themeOverlay">
-                    <h3>{item.title}</h3>
-                    <p>{item.subtitle}</p>
-                    <button type="button">{item.action}</button>
+                    <h3>{cluster.thema}</h3>
+                    <p>{cluster.items.length} kuratierte Inhalte</p>
+                    <div className="feedboard-clusterPreview">
+                      {cluster.items.slice(0, 3).map((item, index) => (
+                        <span key={index} className="feedboard-previewItem">
+                          {item.format} • {item.perma}
+                        </span>
+                      ))}
+                    </div>
+                    <button type="button">Cluster erkunden</button>
                   </div>
                 </article>
               ))}
@@ -335,11 +396,15 @@ export default function FeedboardPage() {
           <div className="feedboard-guideResults">
             {guideResults.length > 0
               ? guideResults.map((item) => (
-                  <div className="feedboard-guideCard" key={item.title}>
+                  <div className="feedboard-guideCard" key={item.id}>
                     <span className="feedboard-cardKicker">FYF Empfehlung</span>
                     <strong>{item.title}</strong>
-                    <p>{item.subtitle}</p>
-                    <span className="feedboard-chip feedboard-chipMint">{item.action}</span>
+                    <p>{item.description}</p>
+                    <div className="feedboard-guideMeta">
+                      <span className="feedboard-chip feedboard-chipMint">{item.format}</span>
+                      <span className="feedboard-chip">{item.theme}</span>
+                      <span className="feedboard-chip">{item.perma}</span>
+                    </div>
                   </div>
                 ))
               : (

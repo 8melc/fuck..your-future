@@ -151,3 +151,34 @@ This is a private project. For questions or feedback, please contact the develop
 ---
 
 **FYF - Fuck Your Future** - Transform your life with powerful visualization tools.
+
+## Guide Dashboard
+
+- **Route:** `/guide/dashboard`
+- **Purpose:** Control layer for FYF - consolidates Feedboard content with persistent state
+- **Data Flow:** Managed by `useGuideState` hook with localStorage persistence, ready for live feed integration
+- **Storage:** LocalStorage key `fyf-guide-dashboard`
+- **Relationship:** Feedboard = Experience Layer, Guide Dashboard = Control Layer
+
+### Architecture
+
+The Guide Dashboard is a comprehensive control center that consolidates all Feedboard content (Focus, Knowledge, Voices, Actions, Explore) with persistent state management. It serves as the **control layer** where users can manage and interact with their curated content.
+
+### Data Model
+
+All data flows through typed interfaces (`FeedItem`, `ThemeItem`, `GuideState`) defined in `src/hooks/useGuideState.ts`, making future API/real-time feed integration a simple swap. Data is persisted locally via localStorage but structured to easily connect to backend APIs.
+
+### Key Features
+
+- **Desktop Layout:** 260px fixed sidebar + flexible content area
+- **Mobile Layout:** Single column with collapsible hamburger menu (breakpoint: 768px)
+- **Sections:** Intro, Fokus, Wissen, Stimmen, Aktionen, Guide, Explore
+- **Interactions:** Add, remove, activate items; check/uncheck actions; view conversation history
+- **Styling:** FYF design language with Mint accent colors, Space Grotesk typography, soft glow effects
+
+### Future Integration
+
+The dashboard is prepared for live feed integration:
+- TODO: Connect with Feedboard dispatch event `fyf:addFocus`
+- TODO: Replace mock data with API calls to `/api/feedboard/*`
+- TODO: Implement real-time sync via WebSocket/SSE
