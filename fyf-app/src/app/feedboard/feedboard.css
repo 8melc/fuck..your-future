@@ -93,16 +93,16 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(7, 10, 12, 0.85) 0%, rgba(7, 10, 12, 0.95) 65%, rgba(7, 10, 12, 0.98) 100%);
+  background: linear-gradient(180deg, rgba(7, 10, 12, 0.75) 0%, rgba(7, 10, 12, 0.90) 65%, rgba(7, 10, 12, 0.95) 100%);
 }
 
 .feedboard-heroContent {
   position: relative;
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(6px);
   background: linear-gradient(130deg, rgba(16, 23, 26, 0.78), rgba(9, 13, 15, 0.85));
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 32px;
-  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
   max-width: 960px;
   padding: clamp(2rem, 4vw, 3.5rem);
   display: grid;
@@ -266,6 +266,23 @@
   display: none;
 }
 
+.feedboard-cardLink {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.25s ease;
+}
+
+.feedboard-cardLink:hover {
+  transform: translateY(-6px);
+}
+
+.feedboard-cardLink:focus {
+  outline: 2px solid #4ecdc4;
+  outline-offset: 4px;
+}
+
 .feedboard-sliderCard {
   position: relative;
   border-radius: 24px;
@@ -278,7 +295,6 @@
 }
 
 .feedboard-sliderCard:hover {
-  transform: translateY(-6px);
   box-shadow: 0 26px 55px rgba(0, 0, 0, 0.45);
 }
 
@@ -415,6 +431,70 @@
   color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.feedboard-info {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.feedboard-infoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(78, 205, 196, 0.2);
+  border: 1px solid rgba(78, 205, 196, 0.4);
+  color: #4ecdc4;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.feedboard-infoIcon:hover,
+.feedboard-infoIcon:focus {
+  background: rgba(78, 205, 196, 0.3);
+  transform: scale(1.1);
+  outline: none;
+}
+
+.feedboard-infoTooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  min-width: 240px;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
+  background: rgba(16, 23, 26, 0.95);
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 12px;
+  color: var(--fyf-cream);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: all 0.25s ease;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.feedboard-info:hover .feedboard-infoTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.feedboard-infoIcon:focus ~ .feedboard-infoTooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .feedboard-themeGrid {

@@ -224,20 +224,26 @@ export default function FeedboardPage() {
             <div className="feedboard-cardSlider">
               {personalizedItems.slice(0, 6).map((item) => (
                 <article className="feedboard-sliderCard" key={item.id}>
-                  <div 
-                    className="feedboard-sliderImage" 
-                    style={{ 
-                      backgroundImage: `url(${item.image || 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80'})` 
-                    }} 
-                  />
-                  <div className="feedboard-sliderContent">
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                    <div className="feedboard-sliderMeta">
-                      <span className="feedboard-format">{item.format}</span>
-                      <span className="feedboard-thema">{item.theme}</span>
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="feedboard-cardLink">
+                    <div 
+                      className="feedboard-sliderImage" 
+                      style={{ 
+                        backgroundImage: `url(${item.image || 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80'})` 
+                      }} 
+                    />
+                    <div className="feedboard-sliderContent">
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                      <div className="feedboard-sliderMeta">
+                        <span className="feedboard-format">{item.format}</span>
+                        <span className="feedboard-thema">{item.theme}</span>
+                      </div>
+                      <div className="feedboard-info">
+                        <span className="feedboard-infoIcon" aria-label="Warum sehe ich das?" tabIndex={0}>?</span>
+                        <div className="feedboard-infoTooltip">{item.guideWhy}</div>
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 </article>
               ))}
             </div>
@@ -281,21 +287,27 @@ export default function FeedboardPage() {
             <div className="feedboard-museumGallery">
               {feedboardService.getItemsByFormat('People').slice(0, 6).map((item) => (
                 <article className="feedboard-museumCard" key={item.id}>
-                  <div 
-                    className="feedboard-museumImage" 
-                    style={{ 
-                      backgroundImage: `url(${item.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'})` 
-                    }} 
-                  />
-                  <div className="feedboard-museumContent">
-                    <h3>{item.title}</h3>
-                    <p className="feedboard-museumCountry">{item.source}</p>
-                    <p>{item.description}</p>
-                    <div className="feedboard-museumMeta">
-                      <span className="feedboard-perma">{item.perma}</span>
-                      <span className="feedboard-thema">{item.theme}</span>
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="feedboard-cardLink">
+                    <div 
+                      className="feedboard-museumImage" 
+                      style={{ 
+                        backgroundImage: `url(${item.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'})` 
+                      }} 
+                    />
+                    <div className="feedboard-museumContent">
+                      <h3>{item.title}</h3>
+                      <p className="feedboard-museumCountry">{item.source}</p>
+                      <p>{item.description}</p>
+                      <div className="feedboard-museumMeta">
+                        <span className="feedboard-perma">{item.perma}</span>
+                        <span className="feedboard-thema">{item.theme}</span>
+                      </div>
+                      <div className="feedboard-info">
+                        <span className="feedboard-infoIcon" aria-label="Warum sehe ich das?" tabIndex={0}>?</span>
+                        <div className="feedboard-infoTooltip">{item.guideWhy}</div>
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 </article>
               ))}
             </div>
@@ -318,18 +330,28 @@ export default function FeedboardPage() {
                     backgroundImage: `linear-gradient(135deg, ${cluster.color}20, ${cluster.color}40), url('https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80')` 
                   }}
                 >
-                  <div className="feedboard-themeOverlay">
-                    <h3>{cluster.thema}</h3>
-                    <p>{cluster.items.length} kuratierte Inhalte</p>
-                    <div className="feedboard-clusterPreview">
-                      {cluster.items.slice(0, 3).map((item, index) => (
-                        <span key={index} className="feedboard-previewItem">
-                          {item.format} • {item.perma}
-                        </span>
-                      ))}
+                  <a 
+                    href={cluster.items[0]?.link || '#'} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="feedboard-cardLink"
+                  >
+                    <div className="feedboard-themeOverlay">
+                      <h3>{cluster.thema}</h3>
+                      <p>{cluster.items.length} kuratierte Inhalte</p>
+                      <div className="feedboard-clusterPreview">
+                        {cluster.items.slice(0, 3).map((item, index) => (
+                          <span key={index} className="feedboard-previewItem">
+                            {item.format} • {item.perma}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="feedboard-info">
+                        <span className="feedboard-infoIcon" aria-label="Warum sehe ich das?" tabIndex={0}>?</span>
+                        <div className="feedboard-infoTooltip">{cluster.items[0]?.guideWhy}</div>
+                      </div>
                     </div>
-                    <button type="button">Cluster erkunden</button>
-                  </div>
+                  </a>
                 </article>
               ))}
             </div>
