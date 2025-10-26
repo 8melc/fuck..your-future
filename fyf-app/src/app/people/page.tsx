@@ -36,7 +36,7 @@ export default function People() {
             <Link href="/life-weeks" className="text-fyf-steel hover:text-fyf-mint transition-colors">
               Life Weeks
             </Link>
-            <Link href="/guide" className="text-fyf-steel hover:text-fyf-mint transition-colors">
+            <Link href="/feedboard" className="text-fyf-steel hover:text-fyf-mint transition-colors">
               Guide
             </Link>
           </nav>

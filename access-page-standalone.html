@@ -73,7 +73,7 @@
 
         /* Access Container */
         .access-container {
-            max-width: 800px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 40px 20px;
             min-height: 100vh;
@@ -188,9 +188,9 @@
 
         .step-content {
             width: 100%;
-            max-width: 600px;
+            max-width: none;
             animation: fadeInUp 0.5s ease;
-            padding: 0 1rem;
+            padding: 0;
         }
 
 
@@ -228,8 +228,9 @@
 
         /* Form Content */
         .form-content {
-            max-width: 500px;
-            margin: 0 auto;
+            max-width: none;
+            margin: 0;
+            width: 100%;
         }
 
         .form-group {
@@ -325,8 +326,8 @@
         /* Lifestyle Chips */
         .lifestyle-chips {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
             margin-top: 1rem;
         }
 
@@ -376,9 +377,9 @@
 
         /* Philosophy Chips */
         .philosophy-chips {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
             margin-top: 1rem;
         }
 
@@ -431,11 +432,12 @@
 
         /* Step Subline Styling */
         .step-subline {
-            font-size: 0.95rem;
-            color: #6B7280;
+            font-size: 0.85rem;
+            color: var(--fyf-steel);
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-top: 1rem;
             font-weight: 400;
+            font-style: italic;
         }
 
         /* Visual Feedback Animations */
@@ -480,348 +482,6 @@
             font-weight: 600;
         }
 
-        /* Completion Screen Styles */
-        .completion-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        .completion-hero {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .completion-title {
-            font-family: var(--font-display);
-            font-size: 3rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .completion-subtitle {
-            font-size: 1.25rem;
-            color: rgba(209, 213, 219, 1);
-            line-height: 1.6;
-            max-width: 32rem;
-            margin: 0 auto;
-        }
-
-        /* Value Proposition */
-        .value-proposition {
-            max-width: 48rem;
-            margin: 0 auto 5rem;
-        }
-
-        .value-proposition h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: white;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .value-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.5rem 0;
-        }
-
-        .value-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .value-icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-            margin-top: 0.125rem;
-        }
-
-        .value-text {
-            font-size: 1rem;
-            color: rgba(209, 213, 219, 1);
-            line-height: 1.625;
-            margin: 0;
-        }
-
-        .goal-highlight {
-            color: var(--fyf-mint);
-        }
-
-        .value-microcopy {
-            font-size: 0.875rem;
-            color: rgba(209, 213, 219, 1);
-            text-align: center;
-        }
-
-        /* Zeitwert Panel */
-        .zeitwert-panel {
-            max-width: 64rem;
-            margin: 0 auto 5rem;
-            padding: 2rem;
-            background: rgba(4, 18, 20, 0.4);
-            border: 1px solid rgba(0, 183, 183, 0.2);
-            border-radius: 1.25rem;
-            text-align: center;
-        }
-
-        .zeitwert-panel h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 2rem;
-        }
-
-        .zeitwert-metrics {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        @media (min-width: 640px) {
-            .zeitwert-metrics {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .zeitwert-metric {
-            text-align: center;
-        }
-
-        .zeitwert-metric .metric-value {
-            font-family: var(--font-display);
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: var(--fyf-mint);
-            margin-bottom: 0.5rem;
-        }
-
-        .zeitwert-metric .metric-label {
-            font-size: 1rem;
-            font-weight: 500;
-            color: rgba(209, 213, 219, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .metrics-microcopy {
-            font-size: 1rem;
-            color: rgba(209, 213, 219, 1);
-            max-width: 32rem;
-            margin: 0 auto;
-        }
-
-
-        /* Next Steps */
-        .next-steps {
-            max-width: 80rem;
-            margin: 0 auto 5rem;
-        }
-
-        .next-steps h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: white;
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .next-steps-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .next-step-card {
-            background: rgba(4, 18, 20, 0.4);
-            border: 1px solid rgba(0, 183, 183, 0.15);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .next-step-card h3 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: white;
-            margin: 0 0 0.5rem 0;
-        }
-
-        .status-icon {
-            font-size: 1.875rem;
-            margin-bottom: 1rem;
-        }
-
-        .status-icon.coming-soon {
-            opacity: 0.5;
-        }
-
-        .next-step-card p {
-            color: rgba(209, 213, 219, 1);
-            line-height: 1.625;
-            margin: 0;
-        }
-
-        .next-steps-microcopy {
-            font-size: 0.875rem;
-            color: rgba(209, 213, 219, 1);
-            text-align: center;
-        }
-
-        /* Goal Reminder */
-        .goal-reminder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.75rem;
-            text-align: center;
-        }
-
-        .goal-badge-large {
-            display: inline-block;
-            background: rgba(0, 183, 183, 0.18);
-            border: 1px solid rgba(0, 183, 183, 0.35);
-            backdrop-filter: blur(12px);
-            color: var(--fyf-mint);
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .goal-badge-empty {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .goal-badge-empty a {
-            color: var(--fyf-mint);
-            text-decoration: none;
-        }
-
-        .goal-badge-empty a:hover {
-            text-decoration: underline;
-        }
-
-        .goal-microcopy {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Ambient Glow */
-        .ambient-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 183, 183, 0.1) 0%, transparent 70%);
-            filter: blur(180px);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        /* Motion System */
-        [data-motion="fade-up"] {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        [data-motion="fade-up"].motion-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Screen Reader Only */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* CTA Group Styles */
-        .cta-group {
-            max-width: 32rem;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .cta-group .cta-btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-group .cta-btn.primary {
-            background: var(--fyf-mint);
-            color: #1e293b;
-            box-shadow: 0 4px 12px rgba(0, 183, 183, 0.3);
-            margin-bottom: 1.5rem;
-            width: 100%;
-        }
-
-        .cta-group .cta-btn.primary:hover {
-            background: #00a8a8;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(0, 183, 183, 0.4);
-        }
-
-        .secondary-ctas {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta-group .cta-btn.secondary {
-            background: transparent;
-            color: var(--fyf-mint);
-            border: 1px solid var(--fyf-mint);
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .cta-group .cta-btn.secondary:hover {
-            background: rgba(0, 183, 183, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .tertiary-link {
-            display: inline-block;
-            color: rgba(107, 114, 128, 1);
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: color 0.3s ease;
-        }
-
-        .tertiary-link:hover {
-            color: rgba(156, 163, 175, 1);
-            text-decoration: underline;
-        }
 
 
         .form-group label {
@@ -900,8 +560,8 @@
         /* Music Genres */
         .music-genres {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
         }
 
         .genre-btn {
@@ -933,8 +593,8 @@
         /* Interests Grid */
         .interests-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
         }
 
         .interest-btn {
@@ -983,9 +643,9 @@
         }
 
         .complete-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
             margin-bottom: 40px;
         }
 
@@ -1137,9 +797,16 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .access-container {
+                max-width: 1000px;
+            }
+        }
+
         @media (max-width: 768px) {
             .access-container {
                 padding: 20px 15px;
+                max-width: 100%;
             }
             
             .step-heading {
@@ -1154,10 +821,29 @@
                 font-size: 2.5rem;
             }
             
-            
             .complete-stats {
-                flex-direction: column;
+                grid-template-columns: 1fr;
                 gap: 20px;
+            }
+            
+            .lifestyle-chips {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .philosophy-chips {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .music-genres {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 12px;
+            }
+            
+            .interests-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 12px;
             }
             
             .nav-btn {
@@ -1180,11 +866,6 @@
             .chip {
                 padding: 6px 12px;
                 font-size: 0.8rem;
-            }
-            
-            .lifestyle-chips {
-                grid-template-columns: 1fr;
-                gap: 8px;
             }
             
             .lifestyle-chip {
@@ -1292,6 +973,22 @@
 
         .form-group.error .error-message {
             display: block;
+        }
+
+        /* Step 8 - Completion Styles - Angepasst an Schritt 1-7 Design */
+        .goal-reminder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .goal-microcopy {
+            font-size: 0.85rem;
+            color: var(--fyf-steel);
+            font-style: italic;
         }
     </style>
 </head>
@@ -1827,102 +1524,126 @@
                 }
 
                 return `
-                    <div class="completion-content">
-                        <!-- Hero Section -->
-                        <section class="completion-hero" data-motion="fade-up">
-                            <h1 class="completion-title">Das ist FYF.</h1>
-                            <p class="completion-subtitle">Keine App. Kein Tool. Dein System, um Zeit als Vermögen zu verstehen – und bewusst einzusetzen.</p>
-                        </section>
+                    <div class="form-content">
+
+                        <!-- Pillar Section -->
+                        <div class="form-group">
+                            <div class="lifestyle-chips">
+                                <div class="lifestyle-chip lifestyle-chip--selected">
+                                    <span class="chip-icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polygon points="10 10 16 8 14 14 8 16 10 10"></polygon>
+                                        </svg>
+                                    </span>
+                                    <div class="lifestyle-chip__content">
+                                        <span class="lifestyle-chip__label">GUIDE</span>
+                                        <span class="lifestyle-chip__description">Personalisierte Impulse, die zu deinem Ziel passen – nicht zu Algorithmen.</span>
+                                    </div>
+                                </div>
+                                <div class="lifestyle-chip lifestyle-chip--selected">
+                                    <span class="chip-icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                    </span>
+                                    <div class="lifestyle-chip__content">
+                                        <span class="lifestyle-chip__label">PEOPLE</span>
+                                        <span class="lifestyle-chip__description">Kuratierte Persönlichkeiten mit echten Perspektiven. Keine Influencer, sondern Haltung.</span>
+                                    </div>
+                                </div>
+                                <div class="lifestyle-chip lifestyle-chip--selected">
+                                    <span class="chip-icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <circle cx="12" cy="10" r="3"></circle>
+                                            <path d="M7 21a7 7 0 0 1 10 0"></path>
+                                        </svg>
+                                    </span>
+                                    <div class="lifestyle-chip__content">
+                                        <span class="lifestyle-chip__label">ACCESS</span>
+                                        <span class="lifestyle-chip__description">Erlebnisse, die deine Zeit spürbar machen – real und digital.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Value Proposition -->
-                        <section class="value-proposition" data-motion="fade-up">
-                            <h2>Was bringt dir dein Profil?</h2>
-                            <ul class="value-list">
-                                <li class="value-item">
-                                    <span class="value-icon" aria-hidden="true">🎯</span>
-                                    <p class="value-text">
-                                        Dein Ziel "<strong class="goal-highlight">${goalText || 'Noch nicht definiert'}</strong>" ist dein Nordstern – alles, was du siehst, zahlt darauf ein.
-                                    </p>
-                                </li>
-                                <li class="value-item">
-                                    <span class="value-icon" aria-hidden="true">💭</span>
-                                    <p class="value-text">
-                                        Deine Zeit-Philosophie formt den Guide – keine generischen Tipps, nur was zu dir passt.
-                                    </p>
-                                </li>
-                                <li class="value-item">
-                                    <span class="value-icon" aria-hidden="true">🏃</span>
-                                    <p class="value-text">
-                                        Dein Lebensstil bestimmt, wie du Impulse bekommst – in deinem Tempo, deinem Kontext.
-                                    </p>
-                                </li>
-                            </ul>
-                            <p class="value-microcopy">→ Kurz: Ab jetzt arbeitet FYF für dich – nicht andersrum.</p>
-                        </section>
-
-                        <!-- Zeitwert Panel -->
-                        <section class="zeitwert-panel" data-motion="fade-up">
-                            <h2>Dein Zeitwert – du hast ihn gesehen.</h2>
-                            <div class="zeitwert-metrics">
-                                <div class="zeitwert-metric">
-                                    <div class="metric-value">${typeof timeMetrics.weeksLived === 'number' ? timeMetrics.weeksLived.toLocaleString() : timeMetrics.weeksLived}</div>
-                                    <div class="metric-label">Wochen<br/>Gelebt</div>
+                        <div class="form-group">
+                            <label>Was bringt dir dein Profil?</label>
+                            <div class="philosophy-chips">
+                                <div class="philosophy-chip philosophy-chip--selected">
+                                    <span class="chip-icon" aria-hidden="true">🎯</span>
+                                    <span class="philosophy-chip__text">Dein Ziel ist dein Nordstern – alles, was du siehst, zahlt darauf ein.</span>
                                 </div>
-                                <div class="zeitwert-metric">
-                                    <div class="metric-value">${typeof timeMetrics.weeksRemaining === 'number' ? timeMetrics.weeksRemaining.toLocaleString() : timeMetrics.weeksRemaining}</div>
-                                    <div class="metric-label">Wochen<br/>Übrig</div>
+                                <div class="philosophy-chip philosophy-chip--selected">
+                                    <span class="chip-icon" aria-hidden="true">💭</span>
+                                    <span class="philosophy-chip__text">Deine Zeit-Philosophie formt den Guide – keine generischen Tipps, nur was zu dir passt.</span>
                                 </div>
-                                <div class="zeitwert-metric">
-                                    <div class="metric-value">${typeof timeMetrics.daysRemaining === 'number' ? timeMetrics.daysRemaining.toLocaleString() : timeMetrics.daysRemaining}</div>
-                                    <div class="metric-label">Tage<br/>Übrig</div>
+                                <div class="philosophy-chip philosophy-chip--selected">
+                                    <span class="chip-icon" aria-hidden="true">🏃</span>
+                                    <span class="philosophy-chip__text">Dein Lebensstil bestimmt, wie du Impulse bekommst – in deinem Tempo, deinem Kontext.</span>
                                 </div>
                             </div>
-                            <p class="metrics-microcopy">
-                                Das ist dein Vermögen, um "<strong class="goal-highlight">${goalText || 'dein Ziel'}</strong>" Realität zu machen.<br/>
-                                Wie du es einsetzt, entscheidest nur du.
-                            </p>
-                        </section>
+                            <p class="step-subline">Kurz: Ab jetzt arbeitet FYF für dich – nicht andersrum.</p>
+                        </div>
 
-                        <!-- What's Next -->
-                        <section class="next-steps" data-motion="fade-up">
-                            <h2>Was kommt als Nächstes?</h2>
-                            <div class="next-steps-cards">
-                                <div class="next-step-card">
-                                    <h3>PEOPLE</h3>
-                                    <div class="status-icon" aria-hidden="true">✅</div>
-                                    <p>Kuratierte Perspektiven. Keine Influencer, sondern Haltung.</p>
+                        <!-- Time Metrics -->
+                        <div class="form-group">
+                            <label>Dein Zeitwert – du kennst ihn jetzt.</label>
+                            <div class="complete-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${typeof timeMetrics.weeksLived === 'number' ? timeMetrics.weeksLived.toLocaleString('de-DE') : timeMetrics.weeksLived}</div>
+                                    <div class="stat-label">Wochen<br/>Gelebt</div>
                                 </div>
-                                <div class="next-step-card">
-                                    <h3>ACCESS</h3>
-                                    <div class="status-icon" aria-hidden="true">✅</div>
-                                    <p>Erlebnisse, die deine Zeit spürbar machen – real und digital.</p>
+                                <div class="stat-item">
+                                    <div class="stat-value">${typeof timeMetrics.weeksRemaining === 'number' ? timeMetrics.weeksRemaining.toLocaleString('de-DE') : timeMetrics.weeksRemaining}</div>
+                                    <div class="stat-label">Wochen<br/>Übrig</div>
                                 </div>
-                                <div class="next-step-card">
-                                    <h3>GUIDE</h3>
-                                    <div class="status-icon coming-soon" aria-hidden="true">🔜</div>
-                                    <p>Personalisierte Impulse basierend auf deinem Profil. Bald verfügbar.</p>
+                                <div class="stat-item">
+                                    <div class="stat-value">${typeof timeMetrics.daysRemaining === 'number' ? timeMetrics.daysRemaining.toLocaleString('de-DE') : timeMetrics.daysRemaining}</div>
+                                    <div class="stat-label">Tage<br/>Übrig</div>
                                 </div>
                             </div>
-                            <p class="next-steps-microcopy">Du kannst direkt starten. Dein Profil bleibt gespeichert.</p>
-                        </section>
+                            <p class="step-subline">Das ist dein Vermögen. Wie du es einsetzt, entscheidest nur du. Jetzt hast du die Tools dafür.</p>
+                        </div>
 
-                        <!-- CTA Group -->
-                        <section class="cta-group" data-motion="fade-up">
-                            <a href="/people" class="cta-btn primary">
-                                PEOPLE ENTDECKEN →
-                            </a>
-                            <div class="secondary-ctas">
-                                <a href="/access" class="cta-btn secondary">
-                                    ACCESS ERKUNDEN →
-                                </a>
-                                <a href="/dashboard" class="cta-btn secondary">
-                                    DASHBOARD ANSEHEN →
-                                </a>
+                        <!-- Next Steps -->
+                        <div class="form-group">
+                            <label>Was kommt als Nächstes?</label>
+                            <div class="lifestyle-chips">
+                                <div class="lifestyle-chip lifestyle-chip--selected">
+                                    <div class="lifestyle-chip__content">
+                                        <span class="lifestyle-chip__label">PEOPLE</span>
+                                        <span class="lifestyle-chip__description">Menschen finden, die deine Perspektive teilen – kuratiert, nicht algorithmisch.</span>
+                                    </div>
+                                </div>
+                                <div class="lifestyle-chip lifestyle-chip--selected">
+                                    <div class="lifestyle-chip__content">
+                                        <span class="lifestyle-chip__label">ACCESS</span>
+                                        <span class="lifestyle-chip__description">Erlebnisse, die deine Zeit spürbar machen – real und digital.</span>
+                                    </div>
+                                </div>
+                                <div class="lifestyle-chip">
+                                    <div class="lifestyle-chip__content">
+                                        <span class="lifestyle-chip__label">GUIDE</span>
+                                        <span class="lifestyle-chip__description">Personalisierte Impulse basierend auf deinem Profil. Bald verfügbar.</span>
+                                    </div>
+                                </div>
                             </div>
-                            <a href="/life-weeks" class="tertiary-link">
-                                ← Zurück zu Life in Weeks
-                            </a>
-                        </section>
+                            <p class="step-subline">Du kannst direkt starten – oder später wiederkommen. Dein Profil bleibt gespeichert.</p>
+                        </div>
+
+                        <!-- Goal Reminder -->
+                        <div class="form-group">
+                            <div class="goal-reminder">
+                                <div class="goal-badge-large">Dein Ziel: ${goalText || 'Noch nicht definiert'}</div>
+                                <p class="goal-microcopy">Alles, was du ab jetzt in FYF siehst, ist darauf ausgerichtet.</p>
+                            </div>
+                        </div>
                     </div>
                 `;
             }
@@ -2189,3 +1910,4 @@
     </script>
 </body>
 </html>
+

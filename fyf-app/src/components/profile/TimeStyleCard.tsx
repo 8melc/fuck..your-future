@@ -1,15 +1,16 @@
 import { Profile } from '@/types/profile';
-import { ClockIcon, GlobeIcon } from './icons';
+import { ClockIcon, GlobeIcon, PenSquareIcon } from './icons';
 
 interface TimeStyleCardProps {
   profile: Profile;
+  onEdit?: () => void;
 }
 
-const TimeStyleCard = ({ profile }: TimeStyleCardProps) => {
+const TimeStyleCard = ({ profile, onEdit }: TimeStyleCardProps) => {
   const { timePhilosophy, lifestyle } = profile;
 
   return (
-    <section className="fyf-card motion-fade-up" aria-labelledby="time-style-heading">
+    <section id="zeit-profil" className="fyf-card motion-fade-up" aria-labelledby="time-style-heading">
       <header className="flex items-center justify-between gap-4">
         <div>
           <h2 id="time-style-heading" className="fyf-subheading">
@@ -17,6 +18,16 @@ const TimeStyleCard = ({ profile }: TimeStyleCardProps) => {
           </h2>
           <p className="fyf-microcopy">Deine Haltung zur Zeit und dein Alltag setzen den Rahmen für den Guide.</p>
         </div>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="fyf-btn fyf-btn--ghost inline-flex items-center gap-2"
+          >
+            <PenSquareIcon className="h-4 w-4" aria-hidden="true" />
+            Bearbeiten
+          </button>
+        )}
       </header>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">

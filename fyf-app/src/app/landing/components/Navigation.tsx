@@ -3,7 +3,7 @@ type NavigationProps = {
 };
 
 const links = [
-  { id: "guide", label: "Guide", href: "/guide", accent: "text-[#95FF8D]" },
+  { id: "guide", label: "Guide", href: "/feedboard", accent: "text-[#95FF8D]" },
   { id: "people", label: "People", href: "/people", accent: "text-[#FF595E]" },
   { id: "events", label: "Events", href: "/events", accent: "text-[#C5C7C9]" },
 ];

@@ -4644,13 +4644,26 @@ body.card-expanded .feed-card:not(.expanded) {
 }
 
 .fyf-modal {
-  width: min(680px, 100%);
+  width: min(860px, 100%);
   border-radius: 24px;
   background: rgba(6, 18, 20, 0.92);
   border: 1px solid rgba(0, 183, 183, 0.25);
   box-shadow: 0 32px 70px rgba(0, 20, 25, 0.65);
   padding: 2.5rem;
   outline: none;
+}
+
+@media (max-width: 768px) {
+  .fyf-modal {
+    width: min(640px, 95vw);
+  }
+}
+
+@media (max-width: 640px) {
+  .fyf-modal {
+    width: 95vw;
+    padding: 2rem;
+  }
 }
 
 .fyf-input {

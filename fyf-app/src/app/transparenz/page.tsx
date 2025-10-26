@@ -16,7 +16,7 @@ export default function Transparenz() {
             <Link href="/life-weeks" className="transition-colors" style={{ color: 'var(--fyf-muted)' }}>
               Life Weeks
             </Link>
-            <Link href="/guide" className="transition-colors" style={{ color: 'var(--fyf-muted)' }}>
+            <Link href="/feedboard" className="transition-colors" style={{ color: 'var(--fyf-muted)' }}>
               Guide
             </Link>
             <Link href="/people" className="transition-colors" style={{ color: 'var(--fyf-muted)' }}>

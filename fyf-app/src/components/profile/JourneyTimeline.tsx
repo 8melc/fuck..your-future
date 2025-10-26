@@ -1,8 +1,9 @@
 import { Profile } from '@/types/profile';
-import { CompassIcon, MessageIcon, TargetIcon, UsersIcon } from './icons';
+import { CompassIcon, MessageIcon, TargetIcon, UsersIcon, PenSquareIcon } from './icons';
 
 interface JourneyTimelineProps {
   journey: Profile['journey'];
+  onEdit?: () => void;
 }
 
 const typeIconMap: Record<Profile['journey'][number]['type'], JSX.Element> = {
@@ -20,11 +21,11 @@ const formatTimestamp = (timestamp: string) =>
     timeZone: 'UTC',
   }).format(new Date(timestamp));
 
-const JourneyTimeline = ({ journey }: JourneyTimelineProps) => {
+const JourneyTimeline = ({ journey, onEdit }: JourneyTimelineProps) => {
   const items = [...journey].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   return (
-    <section className="fyf-card motion-fade-up" aria-labelledby="journey-heading">
+    <section id="journey" className="fyf-card motion-fade-up" aria-labelledby="journey-heading">
       <header className="flex items-center justify-between gap-4">
         <div>
           <h2 id="journey-heading" className="fyf-subheading">
@@ -32,6 +33,16 @@ const JourneyTimeline = ({ journey }: JourneyTimelineProps) => {
           </h2>
           <p className="fyf-microcopy">Deine letzten Schritte in FYF – damit dein Momentum sichtbar bleibt.</p>
         </div>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="fyf-btn fyf-btn--ghost inline-flex items-center gap-2"
+          >
+            <PenSquareIcon className="h-4 w-4" aria-hidden="true" />
+            Bearbeiten
+          </button>
+        )}
       </header>
 
       {items.length === 0 ? (

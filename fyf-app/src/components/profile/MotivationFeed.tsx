@@ -1,8 +1,9 @@
 import { Profile } from '@/types/profile';
-import { SparklesIcon, FlameIcon, TargetIcon } from './icons';
+import { SparklesIcon, FlameIcon, TargetIcon, PenSquareIcon } from './icons';
 
 interface MotivationFeedProps {
   profile: Profile;
+  onEdit?: () => void;
 }
 
 const iconByTone: Record<Profile['feedback'][number]['tone'], JSX.Element> = {
@@ -11,11 +12,11 @@ const iconByTone: Record<Profile['feedback'][number]['tone'], JSX.Element> = {
   reflecting: <TargetIcon className="h-4 w-4" />,
 };
 
-const MotivationFeed = ({ profile }: MotivationFeedProps) => {
+const MotivationFeed = ({ profile, onEdit }: MotivationFeedProps) => {
   const entries = profile.feedback;
 
   return (
-    <section className="fyf-card motion-fade-up" aria-labelledby="motivation-heading">
+    <section id="feedback" className="fyf-card motion-fade-up" aria-labelledby="motivation-heading">
       <header className="flex items-center justify-between gap-4">
         <div>
           <h2 id="motivation-heading" className="fyf-subheading">
@@ -25,6 +26,16 @@ const MotivationFeed = ({ profile }: MotivationFeedProps) => {
             Kurz, klar, substanziell – damit du dran bleibst und dein Ziel stärker wird.
           </p>
         </div>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="fyf-btn fyf-btn--ghost inline-flex items-center gap-2"
+          >
+            <PenSquareIcon className="h-4 w-4" aria-hidden="true" />
+            Bearbeiten
+          </button>
+        )}
       </header>
 
       {entries.length === 0 ? (

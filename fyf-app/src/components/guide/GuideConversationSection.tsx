@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { GuidePromptHistory } from '@/hooks/useGuideState';
 
 interface GuideConversationSectionProps {
@@ -5,6 +6,41 @@ interface GuideConversationSectionProps {
 }
 
 export default function GuideConversationSection({ prompts }: GuideConversationSectionProps) {
+  const [formattedDates, setFormattedDates] = useState<Record<string, string>>({});
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Format dates only on client side to prevent hydration mismatch
+  useEffect(() => {
+    if (!isClient) return;
+
+    const formatDate = (dateString: string) => {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+      
+      if (diffInHours < 24) {
+        return `vor ${diffInHours}h`;
+      } else if (diffInHours < 48) {
+        return 'gestern';
+      } else {
+        const days = Math.floor(diffInHours / 24);
+        return `vor ${days} Tagen`;
+      }
+    };
+
+    const formatted = prompts.reduce((acc, item) => {
+      acc[item.createdAt] = formatDate(item.createdAt);
+      return acc;
+    }, {} as Record<string, string>);
+
+    setFormattedDates(formatted);
+  }, [prompts, isClient]);
+
   if (prompts.length === 0) {
     return (
       <section className="guide-section" id="guide">
@@ -19,21 +55,6 @@ export default function GuideConversationSection({ prompts }: GuideConversationS
       </section>
     );
   }
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
-    if (diffInHours < 24) {
-      return `vor ${diffInHours}h`;
-    } else if (diffInHours < 48) {
-      return 'gestern';
-    } else {
-      const days = Math.floor(diffInHours / 24);
-      return `vor ${days} Tagen`;
-    }
-  };
 
   return (
     <section className="guide-section" id="guide">
@@ -61,7 +82,9 @@ export default function GuideConversationSection({ prompts }: GuideConversationS
             </div>
             
             <div className="guide-conversation-time">
-              <time dateTime={item.createdAt}>{formatDate(item.createdAt)}</time>
+              <time dateTime={item.createdAt}>
+                {isClient ? (formattedDates[item.createdAt] || 'Lade...') : 'Lade...'}
+              </time>
             </div>
           </div>
         ))}

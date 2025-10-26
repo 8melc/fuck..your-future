@@ -9,6 +9,7 @@ import JourneyTimeline from '@/components/profile/JourneyTimeline';
 import MotivationFeed from '@/components/profile/MotivationFeed';
 import GoalModal from '@/components/profile/GoalModal';
 import UsageLimitSettings from '@/components/profile/UsageLimitSettings';
+import FilterTodoCard from '@/components/profile/FilterTodoCard';
 import { Profile } from '@/types/profile';
 import useRevealOnScroll from '@/hooks/useRevealOnScroll';
 import { useUsageStore } from '@/stores/usageStore';
@@ -128,6 +129,9 @@ export default function ProfileV2Page() {
   const [isGoalModalOpen, setGoalModalOpen] = useState(false);
   const timeMetrics = useMemo(() => computeTimeMetrics(profile), [profile]);
   const { fetchUsageData } = useUsageStore();
+  const handleEditSection = useCallback((section: string) => {
+    window.alert(`Bearbeitung für „${section}“ ist in Arbeit.`);
+  }, []);
 
   useRevealOnScroll();
 
@@ -176,11 +180,16 @@ export default function ProfileV2Page() {
         <GoalWidget profile={profile} onEditGoal={() => setGoalModalOpen(true)} />
 
         <div className="flex flex-col gap-8">
-          <TimeStyleCard profile={profile} />
-          <EnergyFeeds profile={profile} onConnectSpotify={handleConnectSpotify} />
-          <UsageLimitSettings />
-          <JourneyTimeline journey={profile.journey} />
-          <MotivationFeed profile={profile} />
+          <TimeStyleCard profile={profile} onEdit={() => handleEditSection('Zeit-Profil')} />
+          <EnergyFeeds
+            profile={profile}
+            onConnectSpotify={handleConnectSpotify}
+            onEdit={() => handleEditSection('Energie-Feeds')}
+          />
+          <UsageLimitSettings onEdit={() => handleEditSection('Tageslimit')} />
+          <FilterTodoCard onEdit={() => handleEditSection('Filter-Funktion')} />
+          <JourneyTimeline journey={profile.journey} onEdit={() => handleEditSection('Journey')} />
+          <MotivationFeed profile={profile} onEdit={() => handleEditSection('Feedback & Impulse')} />
         </div>
       </div>
 

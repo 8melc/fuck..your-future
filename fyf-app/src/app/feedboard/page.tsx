@@ -84,6 +84,7 @@ export default function FeedboardPage() {
   const [guidePrompt, setGuidePrompt] = useState('');
   const [guideResults, setGuideResults] = useState<FeedItem[]>([]);
   const [isPersonalityOpen, setIsPersonalityOpen] = useState(false);
+  const [activeFormat, setActiveFormat] = useState<string>('Alle');
 
   const allItems = useMemo(() => feedboardService.getAllItems(), []);
   const silenceCards = useMemo(() => allItems.filter(item => item.isSilence), [allItems]);
@@ -139,6 +140,11 @@ export default function FeedboardPage() {
     return () => window.clearTimeout(timeout);
   }, [sessionStart, isLimitReached]);
 
+  const formatOptions = useMemo(() => {
+    const formats = Array.from(new Set(standardItems.map(item => item.format))).sort();
+    return ['Alle', ...formats];
+  }, [standardItems]);
+
   const quickStats: QuickStat[] = useMemo(() => {
     const remainingMinutes = Math.max(DAILY_LIMIT_MIN - consumedMinutes, 0);
     const focusSpentPercentage = Math.min(
@@ -179,12 +185,23 @@ export default function FeedboardPage() {
     return standardItems.filter(item => clusters.includes(item.theme));
   }, [standardItems, activeMode]);
 
-  const filteredItems = useMemo(() => {
-    if (!activeCluster) {
-      return modeItems;
+  useEffect(() => {
+    if (activeFormat !== 'Alle' && !formatOptions.includes(activeFormat)) {
+      setActiveFormat('Alle');
     }
-    return modeItems.filter(item => item.theme === activeCluster);
-  }, [modeItems, activeCluster]);
+  }, [formatOptions, activeFormat]);
+
+  const filteredItems = useMemo(() => {
+    const clusterFiltered = activeCluster
+      ? modeItems.filter(item => item.theme === activeCluster)
+      : modeItems;
+
+    if (activeFormat === 'Alle') {
+      return clusterFiltered;
+    }
+
+    return clusterFiltered.filter(item => item.format === activeFormat);
+  }, [modeItems, activeCluster, activeFormat]);
 
   const gridItems: GridItem[] = useMemo(() => {
     const result: GridItem[] = [];
@@ -308,6 +325,19 @@ export default function FeedboardPage() {
                 </button>
               );
             })}
+          </div>
+
+          <div className="feedboard-format-chips" role="group" aria-label="Format Filter">
+            {formatOptions.map(format => (
+              <button
+                key={format}
+                type="button"
+                className={`feedboard-chip feedboard-chip--format ${activeFormat === format ? 'is-active' : ''}`}
+                onClick={() => setActiveFormat(format)}
+              >
+                {format}
+              </button>
+            ))}
           </div>
 
           {activeClusterConfig && (

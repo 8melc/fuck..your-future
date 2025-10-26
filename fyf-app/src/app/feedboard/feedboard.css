@@ -380,6 +380,19 @@
   margin-top: 4px;
 }
 
+.feedboard-format-chips {
+  grid-column: span 12;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.feedboard-chip--format {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
 
 
 .feedboard-grid {

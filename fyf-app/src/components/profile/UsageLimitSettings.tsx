@@ -1,7 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUsageStore } from '@/stores/usageStore';
+import { PenSquareIcon } from './icons';
 
-const UsageLimitSettings = () => {
+interface UsageLimitSettingsProps {
+  onEdit?: () => void;
+}
+
+const UsageLimitSettings = ({ onEdit }: UsageLimitSettingsProps) => {
   const {
     dailyLimitMinutes,
     todayUsageMinutes,
@@ -16,6 +21,7 @@ const UsageLimitSettings = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [selectedMinutes, setSelectedMinutes] = useState<number | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const toggleRef = useRef<HTMLInputElement>(null);
 
   // Load initial data
   useEffect(() => {
@@ -68,14 +74,29 @@ const UsageLimitSettings = () => {
   };
 
   return (
-    <div className="fyf-card motion-fade-up">
+    <div id="tageslimit" className="fyf-card motion-fade-up">
       <div className="flex flex-col gap-6">
-        <div>
-          <h3 className="fyf-subheading mb-2">Tageslimit</h3>
-          <p className="fyf-microcopy">
-            Setze ein tägliches Zeitlimit für deine FYF-Nutzung. Änderungen werden erst nach erneutem Anmelden aktiv.
-          </p>
-        </div>
+        <header className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="fyf-subheading mb-2">Tageslimit</h3>
+            <p className="fyf-microcopy">
+              Setze ein tägliches Zeitlimit für deine FYF-Nutzung. Änderungen werden erst nach erneutem Anmelden aktiv.
+            </p>
+          </div>
+          {onEdit && (
+            <button
+              type="button"
+              onClick={() => {
+                onEdit();
+                toggleRef.current?.focus();
+              }}
+              className="fyf-btn fyf-btn--ghost inline-flex items-center gap-2"
+            >
+              <PenSquareIcon className="h-4 w-4" aria-hidden="true" />
+              Bearbeiten
+            </button>
+          )}
+        </header>
 
         {/* Toggle */}
         <div className="flex items-center gap-3">
@@ -85,6 +106,7 @@ const UsageLimitSettings = () => {
             checked={isEnabled}
             onChange={(e) => handleToggleChange(e.target.checked)}
             disabled={isLoading || requiresReauth}
+            ref={toggleRef}
             className="w-5 h-5 rounded border-2 border-fyf-mint bg-transparent text-fyf-mint focus:ring-2 focus:ring-fyf-mint focus:ring-offset-2 focus:ring-offset-fyf-noir"
           />
           <label htmlFor="limit-toggle" className="text-fyf-cream font-medium">

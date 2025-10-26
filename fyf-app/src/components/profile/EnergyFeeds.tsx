@@ -1,18 +1,19 @@
 import { Profile } from '@/types/profile';
-import { ArrowUpRightIcon, ListIcon, UsersIcon } from './icons';
+import { ArrowUpRightIcon, ListIcon, UsersIcon, PenSquareIcon } from './icons';
 import MusicDNA from './MusicDNA';
 
 interface EnergyFeedsProps {
   profile: Profile;
   onConnectSpotify: () => void;
+  onEdit?: () => void;
 }
 
-const EnergyFeeds = ({ profile, onConnectSpotify }: EnergyFeedsProps) => {
+const EnergyFeeds = ({ profile, onConnectSpotify, onEdit }: EnergyFeedsProps) => {
   const topInterests = profile.interests.slice(0, 4);
   const projects = profile.projects ?? [];
 
   return (
-    <section className="fyf-card motion-fade-up" aria-labelledby="energy-feeds-heading">
+    <section id="energie-feeds" className="fyf-card motion-fade-up" aria-labelledby="energy-feeds-heading">
       <header className="flex items-center justify-between gap-4">
         <div>
           <h2 id="energy-feeds-heading" className="fyf-subheading">
@@ -20,6 +21,16 @@ const EnergyFeeds = ({ profile, onConnectSpotify }: EnergyFeedsProps) => {
           </h2>
           <p className="fyf-microcopy">Interessen, Projekte und Sounds, die dein System füttern.</p>
         </div>
+        {onEdit && (
+          <button
+            type="button"
+            onClick={onEdit}
+            className="fyf-btn fyf-btn--ghost inline-flex items-center gap-2"
+          >
+            <PenSquareIcon className="h-4 w-4" aria-hidden="true" />
+            Bearbeiten
+          </button>
+        )}
       </header>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">

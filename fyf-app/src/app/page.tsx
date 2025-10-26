@@ -70,7 +70,7 @@ export default function Home() {
               </div>
             </Link>
 
-            <Link href="/guide" className="group">
+            <Link href="/feedboard" className="group">
               <div className="bg-fyf-charcoal p-8 rounded-xl hover:bg-fyf-smoke transition-all duration-300 border border-fyf-smoke hover:border-fyf-mauve">
                 <h3 className="font-display text-2xl font-bold mb-4 text-fyf-mauve">
                   Guide

@@ -606,7 +606,7 @@ export default function LifeWeeksPage() {
                       />
                     )}
                   </div>
-                  <a href="/guide" className="metrics-cta-btn">
+                  <a href="/feedboard" className="metrics-cta-btn">
                     Los geht&apos;s zum Wochen-Guide
                   </a>
                   {(activeTab !== null || birthdate !== '1997-08-08' || targetAge !== '80') && (
@@ -662,7 +662,7 @@ export default function LifeWeeksPage() {
       <div className="container">
         <div className="navigation-section">
           <div className="nav-container">
-            <a href="/guide" className="nav-item">
+            <a href="/feedboard" className="nav-item">
               <span className="nav-text">GUIDE</span>
             </a>
             <a href="/people" className="nav-item">

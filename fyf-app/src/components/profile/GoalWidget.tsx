@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Profile } from '@/types/profile';
 import GoalBadge from './GoalBadge';
-import { CompassIcon, UsersIcon, TargetIcon, ArrowUpRightIcon } from './icons';
+import { CompassIcon, PenSquareIcon, ClockIcon, MusicIcon, GaugeIcon, TargetIcon } from './icons';
 
 interface GoalWidgetProps {
   profile: Profile;
@@ -10,9 +10,12 @@ interface GoalWidgetProps {
 
 const quickActions = [
   { href: '/life-weeks', label: 'Life in Weeks', icon: CompassIcon },
-  { href: '/people', label: 'People', icon: UsersIcon },
-  { href: '/access', label: 'Access', icon: TargetIcon },
-  { href: '/dashboard', label: 'Dashboard', icon: ArrowUpRightIcon },
+  { href: '#zeit-profil', label: 'Zeit-Profil', icon: ClockIcon },
+  { href: '#energie-feeds', label: 'Energie-Feeds', icon: MusicIcon },
+  { href: '#tageslimit', label: 'Tageslimit', icon: GaugeIcon },
+  { href: '#filter-todo', label: 'Filter-Funktion', icon: TargetIcon },
+  { href: '#journey', label: 'Journey', icon: CompassIcon },
+  { href: '#feedback', label: 'Feedback & Impulse', icon: PenSquareIcon },
 ];
 
 const GoalWidget = ({ profile, onEditGoal }: GoalWidgetProps) => {
@@ -22,7 +25,8 @@ const GoalWidget = ({ profile, onEditGoal }: GoalWidgetProps) => {
         <div className="flex flex-col gap-3">
           <span className="text-xs uppercase tracking-wide text-fyf-steel">Aktuelles Ziel</span>
           <GoalBadge goal={profile.goal.text} />
-          <button type="button" className="fyf-btn fyf-btn--ghost w-fit" onClick={onEditGoal}>
+          <button type="button" className="fyf-btn fyf-btn--ghost w-fit inline-flex items-center gap-2" onClick={onEditGoal}>
+            <PenSquareIcon className="h-4 w-4" aria-hidden="true" />
             Ziel bearbeiten
           </button>
         </div>
