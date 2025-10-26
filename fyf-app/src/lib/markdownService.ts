@@ -44,30 +44,20 @@ export async function loadMarkdownContent(filename: string): Promise<string> {
  */
 export async function loadSourcesContent(): Promise<MarkdownContent> {
   try {
-    // Lade beide Quellen-Dokumente
-    const [ethicsContent, transparencyContent] = await Promise.all([
-      loadMarkdownContent('FYF-Ethik-Quellen.md'),
-      loadMarkdownContent('FYF-TRANSPARENZ-Autonomie-als-System.md')
+    // Lade externe Versionen der Quellen-Dokumente
+    const [sourcesContent, transparencyContent] = await Promise.all([
+      loadMarkdownContent('FYF-Quellen-Extern.md'),
+      loadMarkdownContent('FYF-Transparenz-Extern.md')
     ]);
 
     // Kombiniere die Inhalte
-    const combinedContent = `# FYF Quellen & Transparenz
-
-## Wissenschaftliche Basis
-
-${ethicsContent}
+    const combinedContent = `${sourcesContent}
 
 ---
-
-## System-Transparenz
 
 ${transparencyContent}
 
 ---
-
-## Vollständige Quellen
-
-Alle verwendeten Methoden, Bücher, Essays und wissenschaftlichen Arbeiten sind in den obigen Dokumenten vollständig dokumentiert und verlinkt.
 
 **Letzte Aktualisierung:** ${new Date().toLocaleDateString('de-DE')}
 `;
