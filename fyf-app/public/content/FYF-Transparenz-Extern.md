@@ -72,6 +72,8 @@ FYF beschränkt absichtlich:
 
 **Funktion:** Guide kommentiert, fragt, spiegelt – niemals erzieht. Er übersetzt Daten in Bedeutung, nicht Bewertung. Wenn er spricht, hat das Grund, Rhythmus und Grenze.
 
+**Mehrwert:** *"ChatGPT gibt dir Antworten. Unser Guide stellt dir Fragen – damit du deine eigenen Antworten findest."*
+
 *"Guide als Spiegel, nicht Steuerungsinstanz."*
 
 ---

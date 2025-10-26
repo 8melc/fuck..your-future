@@ -141,7 +141,7 @@ Wenn diese erfüllt sind → intrinsische Motivation, Wohlbefinden, Wachstum.
 - **Website "Unsere Methoden"-Seite:** Kurzbeschreibung + Link zu Quellen
 - **Guide-Personality:** Basiert auf diesen Prinzipien (Transparenz, Autonomie, Substanz)
 - **Content-Kuratierung:** PERMA + Eisenhower + Ethical AI
-- **FAQ:** "Warum nicht ChatGPT?" → "Wir basieren auf nachvollziehbaren Methoden, nicht nur Algorithmen"
+- **FAQ:** "Warum nicht ChatGPT?" → "Unser Guide fragt – ChatGPT antwortet. Wir wollen, dass du denkst, nicht dass du konsumierst."
 
 ---
 
