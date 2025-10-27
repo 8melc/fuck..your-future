@@ -81,12 +81,6 @@ const statsTabs: StatTab[] = [
         metric: (stats: LifeStats) => formatNumber(stats.daysLived),
         body: 'Jeder Tag ist eine Gelegenheit, bewusst zu leben.' 
       },
-      { 
-        id: 'heartbeats', 
-        title: 'Herzschläge', 
-        metric: (stats: LifeStats) => formatNumber(stats.heartbeats),
-        body: 'Dein Herz-Kreislauf-System arbeitet unermüdlich für dich.' 
-      }
     ]
   },
   { 
@@ -113,12 +107,6 @@ const statsTabs: StatTab[] = [
         metric: (stats: LifeStats) => formatNumber(Math.floor(stats.daysLived / 365.25)),
         body: 'Jede Umrundung der Sonne ist ein neues Jahr voller Möglichkeiten.' 
       },
-      { 
-        id: 'cell-regeneration', 
-        title: 'Zellregeneration', 
-        metric: (stats: LifeStats) => 'Mehrfach',
-        body: 'Dein Körper hat sich mehrmals vollständig erneuert.' 
-      }
     ]
   },
   { 
@@ -157,19 +145,19 @@ const statsTabs: StatTab[] = [
         id: 'universe-percentage', 
         title: 'Universumsanteil', 
         metric: (stats: LifeStats) => `${(80/13800000000 * 100).toFixed(10)}%`,
-        body: 'Deine Existenz ist ein winziger Moment in der Geschichte des Universums.' 
+        body: 'Dein Anteil an der Geschichte des Universums? Radikal klein – und trotzdem alles, was du hast.' 
       },
       { 
         id: 'earth-travel', 
         title: 'Erdumlaufbahn', 
         metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 1.6 * 1000000))} km`,
-        body: 'Die Erde hat dich auf ihrer Reise um die Sonne transportiert.' 
+        body: 'So viele Kilometer warst du schon unterwegs – ohne irgendwas dafür zu tun. Zeit ist nicht nur Strecke. Sie ist Bewegung im Alltag.' 
       },
       { 
         id: 'galaxy-travel', 
         title: 'Milchstraßen-Reise', 
         metric: (stats: LifeStats) => `${formatNumber(Math.round(stats.daysLived * 24 * 828000))} km`,
-        body: 'Unser Sonnensystem bewegt sich durch die Spiralarme der Milchstraße.' 
+        body: 'Unser Sonnensystem dröhnt durchs All. Du bist ein winziger Passagier – und trotzdem Teil von allem.' 
       }
     ]
   },
@@ -219,6 +207,7 @@ export default function LifeWeeksPage() {
   const [birthdate, setBirthdate] = useState('1997-08-08');
   const [targetAge, setTargetAge] = useState('80');
   const [hoverInfo, setHoverInfo] = useState<{ visible: boolean; text: string }>({ visible: false, text: '' });
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [consentStatus, setConsentStatus] = useState<'accepted' | 'declined' | null>(null);
   const [isLegendOpen, setIsLegendOpen] = useState(false);
   const legendTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -390,7 +379,7 @@ export default function LifeWeeksPage() {
 
 
 
-  const showHoverInfo = (cellIndex: number) => {
+  const showHoverInfo = (cellIndex: number, event: React.MouseEvent) => {
     if (!currentStats) return;
 
     const totalWeeks = Math.max(0, currentStats.totalWeeks);
@@ -413,6 +402,21 @@ export default function LifeWeeksPage() {
       message += `<span class="steel">In ${weeksInFuture} Wochen</span>`;
     }
 
+    // Smart positioning: right of cursor or above grid
+    const gridBounds = event.currentTarget.getBoundingClientRect();
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+    
+    let x = mouseX + 12;
+    let y = mouseY - 8;
+    
+    // If too close to right edge, position above grid instead
+    if (x + 200 > gridBounds.right) {
+      x = gridBounds.right + 16;
+      y = Math.min(mouseY, gridBounds.top - 40);
+    }
+    
+    setTooltipPosition({ x, y });
     setHoverInfo({ visible: true, text: message });
   };
 
@@ -480,9 +484,32 @@ export default function LifeWeeksPage() {
   if (currentView === 'grid' && currentStats) {
     return (
       <div className="container">
-        <section className="life-weeks-shell">
-          {/* Left Column: Title + Tabs + Intro */}
-          <div className="left-column">
+        <section className="life-weeks-shell-v2">
+          {/* Vertical Tab Strip (left, 60px) */}
+          <div className="vertical-tab-strip">
+            {statsTabs.map(tab => {
+              const IconComponent = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  className="vertical-tab"
+                  data-active={activeTab === tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span className="tab-icon">
+                    <IconComponent />
+                  </span>
+                  <span className="tab-label-vertical">{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Main Grid Area (center, flex-grow) */}
+          <div className="grid-main-area">
             <div className="title-container">
               <h1 className="fyf-display">
                 <div className="coral">Life</div>
@@ -493,136 +520,65 @@ export default function LifeWeeksPage() {
 
             <div className="metrics-intro">
               <p className="font-roboto-mono text-sm uppercase tracking-[0.12em] text-fyf-steel/80">
-                Zahlen lügen nie. Was bedeutet deine Zeit?
+                Zahlen sagen immer die Wahrheit.
+                <br />Was machst du daraus?
               </p>
             </div>
 
-            <div className="metrics-tabs" role="tablist">
-              {statsTabs.map(tab => {
-                const IconComponent = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === tab.id}
-                    className={`metrics-tab ${activeTab === tab.id ? 'is-active' : ''}`}
-                    onClick={() => setActiveTab(tab.id)}
-                    data-tooltip={activeTab === tab.id ? "Tippe dich durch alle Perspektiven" : ""}
-                  >
-                    <IconComponent />
-                    <span>{tab.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Column: Weeks Grid + Panel */}
-          <div className="right-column">
             <div className={`week-grid-wrapper ${isPanelOpen ? 'week-grid-wrapper--muted' : ''}`}>
-              <WeekGrid 
-                currentStats={currentStats} 
-                onHover={showHoverInfo}
-                onLeave={hideHoverInfo}
-              />
+              <div className="grid-container-with-legend">
+                <WeekGrid 
+                  currentStats={currentStats} 
+                  onHover={showHoverInfo}
+                  onLeave={hideHoverInfo}
+                />
 
-              {hoverInfo.visible && (
-                <div className="hover-info">
-                  <p className="steel" dangerouslySetInnerHTML={{ __html: hoverInfo.text }}></p>
-                </div>
-              )}
-
-              <div className="metrics-footer">
-                <div
-                  className="metrics-legend-trigger"
-                  onMouseEnter={() => setIsLegendOpen(true)}
-                  onMouseLeave={() => setIsLegendOpen(false)}
-                >
-                  <button
-                    ref={legendTriggerRef}
-                    type="button"
-                    className="metrics-info-btn"
+                {/* Legend positioned right side of grid */}
+                <div className="grid-legend-overlay">
+                  <button 
+                    className="legend-toggle-btn"
+                    onClick={() => setIsLegendOpen(!isLegendOpen)}
                     aria-haspopup="dialog"
                     aria-expanded={isLegendOpen}
-                    aria-controls="metrics-legend-popover"
-                    onClick={() => setIsLegendOpen((prev) => !prev)}
-                    onFocus={() => setIsLegendOpen(true)}
-                    onBlur={(event) => {
-                      if (
-                        !legendPopoverRef.current?.contains(event.relatedTarget as Node)
-                      ) {
-                        setIsLegendOpen(false);
-                      }
-                    }}
+                    aria-controls="grid-legend-panel"
                   >
-                    <span aria-hidden="true">ℹ︎</span>
-                    <span className="sr-only">Legende anzeigen</span>
+                    <span>ℹ︎</span>
                   </button>
-                  <div
-                    ref={legendPopoverRef}
-                    id="metrics-legend-popover"
-                    role="dialog"
-                    aria-modal="false"
-                    className={`metrics-legend-popover ${isLegendOpen ? 'is-visible' : ''}`}
-                  >
-                    <p className="popover-title">Wie lese ich das Wochenraster?</p>
-                    <ul>
-                      <li>
-                        <span className="dot past" aria-hidden="true"></span>
-                        <span>Vergangene Wochen ({formatNumber(currentStats.weeksLived)})</span>
-                      </li>
-                      <li>
-                        <span className="dot present" aria-hidden="true"></span>
-                        <span>Aktuelle Woche</span>
-                      </li>
-                      <li>
-                        <span className="dot future" aria-hidden="true"></span>
-                        <span>Verbleibende Wochen ({formatNumber(currentStats.weeksRemaining)})</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="metrics-cta">
-                  <p className="metrics-cta-headline">
-                    Deine nächsten Wochen beginnen jetzt. Gestaltest du sie bewusst?
-                  </p>
-                  <div className="metrics-progress" aria-hidden="true">
-                    <span
-                      className="metrics-progress__segment past"
-                      style={{ width: `${progressShares.past}%` }}
-                    />
-                    {progressShares.present > 0 && (
-                      <span
-                        className="metrics-progress__segment present"
-                        style={{ width: `${progressShares.present}%` }}
-                      />
-                    )}
-                    {progressShares.future > 0 && (
-                      <span
-                        className="metrics-progress__segment future"
-                        style={{ width: `${progressShares.future}%` }}
-                      />
-                    )}
-                  </div>
-                  <a href="/feedboard" className="metrics-cta-btn">
-                    Los geht&apos;s zum Wochen-Guide
-                  </a>
-                  {(activeTab !== null || birthdate !== '1997-08-08' || targetAge !== '80') && (
-                    <button
-                      type="button"
-                      className="metrics-reset-btn"
-                      onClick={resetVisualization}
-                    >
-                      Visualisierung zurücksetzen
-                    </button>
+                  
+                  {isLegendOpen && (
+                    <div className="legend-panel" id="grid-legend-panel">
+                      <p className="legend-title">Wie lese ich das Wochenraster?</p>
+                      <ul className="legend-list">
+                        <li><span className="dot past" />Vergangene Wochen ({formatNumber(currentStats.weeksLived)})</li>
+                        <li><span className="dot present" />Aktuelle Woche</li>
+                        <li><span className="dot future" />Verbleibende Wochen ({formatNumber(currentStats.weeksRemaining)})</li>
+                      </ul>
+                    </div>
                   )}
                 </div>
               </div>
+
+              {hoverInfo.visible && (
+                <div 
+                  className="hover-info"
+                  style={{
+                    left: tooltipPosition.x,
+                    top: tooltipPosition.y,
+                  }}
+                >
+                  <p className="steel" dangerouslySetInnerHTML={{ __html: hoverInfo.text }}></p>
+                </div>
+              )}
             </div>
 
-            {/* Cards Panel */}
+            {/* CTA - Subtle button at bottom left */}
+            <a href="/onboarding" className="subtle-cta-button">
+              Bist du bereit FYF zu entdecken?
+            </a>
+          </div>
+
+          {/* Off-Canvas Panel (slides from left over grid) */}
+          <div className={`metrics-panel-offcanvas ${isPanelOpen ? 'is-open' : ''}`}>
             <CardsPanel 
               activeTab={activeTab}
               statsTabs={statsTabs}
@@ -766,7 +722,7 @@ function WeekGrid({
   onLeave,
 }: {
   currentStats: LifeStats;
-  onHover: (index: number) => void;
+  onHover: (index: number, event: React.MouseEvent) => void;
   onLeave: () => void;
 }) {
   const determineWeeksPerRow = (width: number, total: number) => {
@@ -857,7 +813,7 @@ function WeekGrid({
           <div
             key={cellIndex}
             className={className}
-            onMouseEnter={() => onHover(cellIndex)}
+            onMouseEnter={(e) => onHover(cellIndex, e)}
             onMouseLeave={onLeave}
           />
         );

@@ -23,14 +23,22 @@ const ProfileSummary = ({ profile, timeMetrics, onEditGoal }: ProfileSummaryProp
     <section className="fyf-card fyf-card--hero motion-fade-up" aria-labelledby="profile-summary-heading">
       <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-1 flex-col gap-6 lg:flex-row lg:items-center">
-          <div className="relative h-20 w-20 shrink-0 rounded-full border border-fyf-mint/60 bg-fyf-noir/60 text-2xl font-semibold uppercase tracking-wide text-fyf-mint shadow-lg shadow-fyf-mint/5">
-            <div className="flex h-full w-full items-center justify-center">
-              {identity.name
-                .split(' ')
-                .map((part) => part[0])
-                .join('')
-                .slice(0, 2)}
-            </div>
+          <div className="relative h-32 w-32 shrink-0 rounded-full border border-fyf-mint/60 bg-fyf-noir/60 text-4xl font-semibold uppercase tracking-wide text-fyf-mint shadow-lg shadow-fyf-mint/5 overflow-hidden">
+            {identity.avatarUrl ? (
+              <img 
+                src={identity.avatarUrl} 
+                alt={`${identity.name} Profilbild`}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                {identity.name
+                  .split(' ')
+                  .map((part) => part[0])
+                  .join('')
+                  .slice(0, 2)}
+              </div>
+            )}
             <span className="absolute -bottom-2 -right-1 flex h-5 w-5 items-center justify-center rounded-full border border-fyf-mint/60 bg-fyf-mint/20">
               <LocateIcon className="h-3 w-3 text-fyf-mint" />
             </span>

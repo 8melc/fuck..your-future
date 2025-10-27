@@ -82,9 +82,13 @@ export default function GuideConversationSection({ prompts }: GuideConversationS
             </div>
             
             <div className="guide-conversation-time">
-              <time dateTime={item.createdAt}>
-                {isClient ? (formattedDates[item.createdAt] || 'Lade...') : 'Lade...'}
-              </time>
+              {isClient ? (
+                <time dateTime={item.createdAt}>
+                  {formattedDates[item.createdAt] || 'Lade...'}
+                </time>
+              ) : (
+                <span>Lade...</span>
+              )}
             </div>
           </div>
         ))}

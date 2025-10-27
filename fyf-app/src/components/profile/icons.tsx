@@ -169,3 +169,43 @@ export const BadgeCheckIcon = createIcon(
     <path d="M12 21a9 9 0 1 1 9-9 9 9 0 0 1-9 9Z" />
   </>
 );
+
+export const CoinsIcon = createIcon(
+  <>
+    <circle cx="8" cy="8" r="6" />
+    <path d="M18.09 10.37A6 6 0 1 1 6.71 18" />
+    <path d="M7 6h1v4" />
+    <path d="M9.5 10a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
+    <path d="M16 8h1v4" />
+    <path d="M18.5 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
+  </>
+);
+
+export const TrendingUpIcon = createIcon(
+  <>
+    <polyline points="22,7 13.5,15.5 8.5,10.5 2,17" />
+    <polyline points="16,7 22,7 22,13" />
+  </>
+);
+
+export const GiftIcon = createIcon(
+  <>
+    <path d="M20 12v10H4V12" />
+    <path d="M2 7h20v5H2z" />
+    <path d="M12 22V7" />
+    <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+    <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+  </>
+);
+
+export const ChevronDownIcon = createIcon(
+  <>
+    <path d="m6 9 6 6 6-6" />
+  </>
+);
+
+export const ChevronUpIcon = createIcon(
+  <>
+    <path d="m18 15-6-6-6 6" />
+  </>
+);

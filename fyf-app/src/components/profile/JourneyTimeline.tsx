@@ -1,5 +1,6 @@
 import { Profile } from '@/types/profile';
 import { CompassIcon, MessageIcon, TargetIcon, UsersIcon, PenSquareIcon } from './icons';
+import { useState, useEffect } from 'react';
 
 interface JourneyTimelineProps {
   journey: Profile['journey'];
@@ -22,6 +23,12 @@ const formatTimestamp = (timestamp: string) =>
   }).format(new Date(timestamp));
 
 const JourneyTimeline = ({ journey, onEdit }: JourneyTimelineProps) => {
+  const [isClient, setIsClient] = useState(false);
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const items = [...journey].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   return (
@@ -62,7 +69,9 @@ const JourneyTimeline = ({ journey, onEdit }: JourneyTimelineProps) => {
               </span>
               <div className="flex flex-col gap-1">
                 <p className="text-sm text-fyf-cream">{item.description}</p>
-                <span className="text-xs uppercase tracking-wide text-fyf-steel">{formatTimestamp(item.timestamp)}</span>
+                <span className="text-xs uppercase tracking-wide text-fyf-steel">
+                  {isClient ? formatTimestamp(item.timestamp) : 'Lade...'}
+                </span>
               </div>
             </li>
           ))}

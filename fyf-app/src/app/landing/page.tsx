@@ -149,7 +149,7 @@ export default function LandingPage() {
       <footer className="py-12 px-6 border-t border-white/5">
         <div className="max-w-6xl mx-auto text-center opacity-60">
           <p className="font-roboto-mono text-fyf-steel/50 text-xs tracking-[0.15em] uppercase">
-            FYF Studio 2025 · <a href="mailto:hello@fyf.studio" className="hover:text-fyf-cream transition-colors">Kontakt</a> · <a href="/access" className="hover:text-fyf-cream transition-colors">Datenschutz</a>
+            FYF Studio 2025 · <a href="mailto:hello@fyf.studio" className="hover:text-fyf-cream transition-colors">Kontakt</a> · <a href="/access" className="hover:text-fyf-cream transition-colors">Access</a>
           </p>
         </div>
       </footer>

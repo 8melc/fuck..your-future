@@ -4,12 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 
 const SECTIONS = [
   { id: 'intro', label: 'Intro' },
-  { id: 'fokus', label: 'Fokus' },
-  { id: 'wissen', label: 'Wissen' },
-  { id: 'stimmen', label: 'Stimmen' },
-  { id: 'aktionen', label: 'Aktionen' },
-  { id: 'guide', label: 'Guide' },
-  { id: 'explore', label: 'Explore' },
+  { id: 'actions', label: 'Aktionen' },
+  { id: 'conversation', label: 'Conversation' },
+  { id: 'zeit-profil', label: 'Zeit-Profil' },
+  { id: 'energie-feeds', label: 'Energie-Feeds' },
+  { id: 'tageslimit', label: 'Tageslimit' },
+  { id: 'filter', label: 'Filter' },
+  { id: 'journey', label: 'Journey' },
+  { id: 'feedback', label: 'Feedback' },
 ];
 
 interface GuideSidebarProps {

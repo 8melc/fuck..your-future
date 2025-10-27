@@ -1,22 +1,131 @@
-import Link from 'next/link'
+'use client';
 
-export default function Access() {
+import { useState, useMemo } from 'react';
+import { fyfEvents } from '../../data/fyfEvents';
+import EventCard from '../../components/access/EventCard';
+import HeroEventCard from '../../components/access/HeroEventCard';
+import RestzeitDisplay from '../../components/access/RestzeitDisplay';
+import './access.css';
+
+export default function AccessPage() {
+  const [activeFormat, setActiveFormat] = useState<string>('Alle');
+
+  // Get all unique formats
+  const formatOptions = useMemo(() => {
+    const formats = new Set<string>();
+    fyfEvents.forEach(event => {
+      event.format.forEach(format => formats.add(format));
+    });
+    return ['Alle', ...Array.from(formats).sort()];
+  }, []);
+
+  // Filter events
+  const filteredEvents = useMemo(() => {
+    if (activeFormat === 'Alle') {
+      return fyfEvents;
+    }
+    return fyfEvents.filter(event => event.format.includes(activeFormat));
+  }, [activeFormat]);
+
+  // Separate highlight and regular events
+  const highlightEvents = useMemo(() => {
+    return filteredEvents.filter(event => event.isHighlight);
+  }, [filteredEvents]);
+
+  const regularEvents = useMemo(() => {
+    return filteredEvents.filter(event => !event.isHighlight);
+  }, [filteredEvents]);
+
   return (
-    <main className="min-h-screen bg-fyf-noir flex items-center justify-center">
-      <div className="max-w-2xl mx-auto text-center px-6">
-        <h1 className="font-display text-4xl font-bold mb-4 text-fyf-coral">
-          Access Denied
-        </h1>
-        <p className="text-fyf-steel text-lg mb-8">
-          You don't have access to this page. Please contact support if you believe this is an error.
+    <div className="access-page">
+      {/* Title */}
+      <h1 style={{
+        fontFamily: 'Space Grotesk, sans-serif',
+        fontSize: 'clamp(4rem, 8vw, 7rem)',
+        fontWeight: '900',
+        textTransform: 'uppercase',
+        letterSpacing: '-0.02em',
+        background: 'linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        textAlign: 'center',
+        marginBottom: '40px'
+      }}>
+        ACCESS
+      </h1>
+
+      {/* Editorial Intro */}
+      <div style={{
+        textAlign: 'center',
+        marginBottom: '40px',
+        maxWidth: '800px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+      }}>
+        <h2 style={{
+          fontFamily: 'Space Grotesk, sans-serif',
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          fontWeight: '700',
+          color: '#FFF8E7',
+          marginBottom: '20px',
+          lineHeight: '1.2'
+        }}>
+          Zeit wird Raum. ACCESS ist Erlebnis.
+        </h2>
+        <p style={{
+          fontSize: '1.2rem',
+          color: '#B8BCC8',
+          lineHeight: '1.6',
+          maxWidth: '600px',
+          margin: '0 auto'
+        }}>
+          Hier findest du Möglichkeiten, Zeit zu fühlen.<br />
+          Limitiert, stur, jenseits von Kalender und FOMO.
         </p>
-        <Link 
-          href="/"
-          className="bg-fyf-coral hover:bg-fyf-coral-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors"
-        >
-          Go Home
-        </Link>
       </div>
-    </main>
-  )
+
+      {/* Hero Event - Balance Check */}
+      {highlightEvents.length > 0 && (
+        <div className="access-hero-event">
+          {highlightEvents.map(event => (
+            <HeroEventCard key={event.id} event={event} />
+          ))}
+        </div>
+      )}
+
+      {/* Compact Restzeit Display */}
+      <div className="access-restzeit">
+        <RestzeitDisplay />
+      </div>
+
+      {/* Filter Controls */}
+      <div className="access-controls">
+        <div className="access-format-chips">
+          {formatOptions.map(format => (
+            <button
+              key={format}
+              type="button"
+              className={`access-chip ${activeFormat === format ? 'is-active' : ''}`}
+              onClick={() => setActiveFormat(format)}
+            >
+              {format}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Regular Events Grid */}
+      <div className="access-grid">
+        {regularEvents.map(event => (
+          <EventCard key={event.id} event={event} variant="standard" />
+        ))}
+
+        {filteredEvents.length === 0 && (
+          <div className="access-empty">
+            <p>Keine Events für dieses Format. Wähle ein anderes Terrain.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

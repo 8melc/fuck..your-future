@@ -1,131 +1,92 @@
-import Link from 'next/link'
+'use client';
 
-export default function Credits() {
+import React from 'react';
+import CreditsIntro from '@/components/credits/CreditsIntro';
+import CreditsCore from '@/components/credits/CreditsCore';
+import CreditsTable from '@/components/credits/CreditsTable';
+import CreditsSlider from '@/components/credits/CreditsSlider';
+import CreditsScenarios from '@/components/credits/CreditsScenarios';
+import CreditsEthic from '@/components/credits/CreditsEthic';
+import CreditsLanguage from '@/components/credits/CreditsLanguage';
+import CreditsFooter from '@/components/credits/CreditsFooter';
+
+export default function CreditsPage() {
   return (
-    <main className="min-h-screen bg-fyf-noir">
-      <header className="py-8 px-6 border-b border-fyf-charcoal">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="font-display text-2xl font-bold text-fyf-coral">
-            FYF
-          </Link>
-          <nav className="flex gap-6">
-            <Link href="/life-weeks" className="text-fyf-steel hover:text-fyf-mint transition-colors">
-              Life Weeks
-            </Link>
-            <Link href="/feedboard" className="text-fyf-steel hover:text-fyf-mint transition-colors">
-              Guide
-            </Link>
-          </nav>
-        </div>
-      </header>
+    <>
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
-      <div className="max-w-4xl mx-auto py-12 px-6">
-        <h1 className="font-display text-4xl font-bold mb-8 text-fyf-cream">
-          Credits & Monetization
-        </h1>
+        :root {
+          /* FYF Color System */
+          --fyf-noir: #0A0A0A;
+          --fyf-carbon: #1A1A1A;
+          --fyf-charcoal: #2D2D3F;
+          --fyf-coral: #FF6B6B;
+          --fyf-mint: #4ECDC4;
+          --fyf-cream: #FFF8E7;
+          --fyf-steel: #B8BCC8;
 
-        <div className="space-y-12">
-          {/* Credits Section */}
-          <div className="bg-fyf-charcoal p-8 rounded-xl border border-fyf-smoke">
-            <h2 className="font-display text-2xl font-bold mb-6 text-fyf-coral">
-              Credits
-            </h2>
-            
-            <div className="space-y-4 text-fyf-steel">
-              <p>
-                <strong className="text-fyf-cream">Concept Inspiration:</strong> The "Life in Weeks" visualization 
-                was inspired by Tim Urban's powerful TED talk and Wait But Why blog post.
-              </p>
-              
-              <p>
-                <strong className="text-fyf-cream">Design System:</strong> Custom FYF color palette and typography 
-                system created specifically for this project.
-              </p>
-              
-              <p>
-                <strong className="text-fyf-cream">Fonts:</strong> Space Grotesk and Inter fonts from Google Fonts.
-              </p>
-              
-              <p>
-                <strong className="text-fyf-cream">Technology Stack:</strong> Built with Next.js, React, TypeScript, 
-                and Tailwind CSS.
-              </p>
-            </div>
-          </div>
+          /* Gradients */
+          --gradient-dark: linear-gradient(135deg, #0A0A0A 0%, #2D2D3F 100%);
+          --gradient-coral-mint: linear-gradient(90deg, #FF6B6B 0%, #4ECDC4 100%);
 
-          {/* Monetization Section */}
-          <div className="bg-fyf-charcoal p-8 rounded-xl border border-fyf-smoke">
-            <h2 className="font-display text-2xl font-bold mb-6 text-fyf-mint">
-              Monetization & Support
-            </h2>
-            
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-display text-xl font-bold mb-3 text-fyf-cream">
-                  Premium Features
-                </h3>
-                <ul className="space-y-2 text-fyf-steel">
-                  <li>• Advanced goal tracking and analytics</li>
-                  <li>• Personalized content recommendations</li>
-                  <li>• Priority access to workshops and events</li>
-                  <li>• One-on-one coaching sessions</li>
-                  <li>• Export and backup your data</li>
-                </ul>
-              </div>
-              
-              <div>
-                <h3 className="font-display text-xl font-bold mb-3 text-fyf-cream">
-                  Support Options
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-fyf-carbon p-4 rounded-lg border border-fyf-smoke">
-                    <h4 className="font-semibold text-fyf-coral mb-2">Free</h4>
-                    <p className="text-fyf-steel text-sm">Basic life visualization and goal setting</p>
-                  </div>
-                  
-                  <div className="bg-fyf-carbon p-4 rounded-lg border border-fyf-smoke">
-                    <h4 className="font-semibold text-fyf-mint mb-2">Pro</h4>
-                    <p className="text-fyf-steel text-sm">€9.99/month - Advanced features and analytics</p>
-                  </div>
-                  
-                  <div className="bg-fyf-carbon p-4 rounded-lg border border-fyf-smoke">
-                    <h4 className="font-semibold text-fyf-mauve mb-2">Premium</h4>
-                    <p className="text-fyf-steel text-sm">€29.99/month - Coaching and personal support</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          /* Typography */
+          --font-display: 'Space Grotesk', sans-serif;
+          --font-body: 'Inter', -apple-system, sans-serif;
+        }
 
-          {/* Donation Section */}
-          <div className="bg-fyf-charcoal p-8 rounded-xl border border-fyf-smoke text-center">
-            <h2 className="font-display text-2xl font-bold mb-4 text-fyf-mauve">
-              Support Our Mission
-            </h2>
-            <p className="text-fyf-steel mb-6">
-              Help us keep FYF free and accessible to everyone. Your support allows us to 
-              continue developing tools that help people live more intentional lives.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-fyf-coral hover:bg-fyf-coral-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-                Donate €5
-              </button>
-              <button className="bg-fyf-mint hover:bg-fyf-mint-dark text-fyf-noir font-semibold px-6 py-3 rounded-lg transition-colors">
-                Donate €15
-              </button>
-              <button className="border-2 border-fyf-mauve text-fyf-mauve hover:bg-fyf-mauve hover:text-white font-semibold px-6 py-3 rounded-lg transition-colors">
-                Custom Amount
-              </button>
-            </div>
-          </div>
-        </div>
+        /* Title */
+        .about-title {
+          font-family: var(--font-display);
+          font-size: clamp(4rem, 8vw, 7rem);
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: -0.02em;
+          background: var(--gradient-coral-mint);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+
+        .subline {
+          font-family: var(--font-body);
+          font-size: 1.2rem;
+          color: var(--fyf-steel);
+          text-align: center;
+          margin-bottom: 60px;
+          font-weight: 400;
+          line-height: 1.5;
+        }
+
+        .header-container {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 60px 20px 0;
+        }
+      `}</style>
+      
+      <div className="header-container">
+        <h1 className="about-title">CREDITS</h1>
+        <p className="subline">
+          FYF führt eine eigene Logik von Wert ein:<br />
+          nicht Zeitverkauf, sondern Zeitbewusstsein.<br />
+          Jede Credit-Entscheidung ist freiwillig und transparent –<br />
+          weil Selbstverantwortung nicht manipuliert werden soll.
+        </p>
       </div>
-    </main>
-  )
+      
+      <main id="fyf-credits-page">
+        <CreditsIntro />
+        <CreditsCore />
+        <CreditsTable />
+        <CreditsSlider />
+        <CreditsScenarios />
+        <CreditsEthic />
+        <CreditsLanguage />
+        <CreditsFooter />
+      </main>
+    </>
+  );
 }
-
-
-
-
-
