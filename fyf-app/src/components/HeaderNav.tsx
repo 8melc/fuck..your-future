@@ -39,7 +39,7 @@ export default function HeaderNav() {
             href={isHomePage ? "/life-weeks" : "/guide/dashboard"} 
             className="cta-button"
           >
-            {isHomePage ? "Start" : "Dashboard"}
+            {isHomePage ? "Start" : "onboarding"}
           </Link>
         </div>
 

@@ -48,13 +48,10 @@ export default function HomePage() {
             <div className="hero-subline-box">
               <p className="hero-subline">
                 FYF ist kein Tool. Kein Produkt.<br />
-                Dein System, um Zeit als Vermögen zu verstehen – und bewusst einzusetzen.
+                Es ist dein System, um Zeit als Vermögen zu verstehen <br />
+                und zu lernen, sie bewusst einzusetzen.
               </p>
             </div>
-            
-            <p className="hero-claim">
-              „Keine App. Keine Anleitung. Haltung pur."
-            </p>
           </div>
         </div>
       </section>
