@@ -36,10 +36,10 @@ export default function HeaderNav() {
         {/* CTA Button - Rechts */}
         <div className="header-nav-cta">
           <Link 
-            href={isHomePage ? "/life-weeks" : "/guide/dashboard"} 
+            href={isHomePage ? "/life-weeks" : "/profile"} 
             className="cta-button"
           >
-            {isHomePage ? "Start" : "onboarding"}
+            {isHomePage ? "Start" : "Profile"}
           </Link>
         </div>
 
@@ -73,11 +73,11 @@ export default function HeaderNav() {
           </nav>
           <div className="mobile-cta">
             <Link 
-              href={isHomePage ? "/life-weeks" : "/guide/dashboard"} 
+              href={isHomePage ? "/life-weeks" : "/profile"} 
               className="mobile-cta-button" 
               onClick={toggleMobileMenu}
             >
-              {isHomePage ? "Start" : "Dashboard"}
+              {isHomePage ? "Start" : "Profile"}
             </Link>
           </div>
         </div>
