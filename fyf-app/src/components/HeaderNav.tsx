@@ -20,7 +20,7 @@ export default function HeaderNav() {
       <div className="header-nav-container">
         {/* Logo - Links */}
         <div className="header-nav-brand">
-          <Link href="/home" className="brand-link">
+          <Link href="/" className="brand-link">
             FYF
           </Link>
         </div>
@@ -61,7 +61,7 @@ export default function HeaderNav() {
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-content">
           <div className="mobile-brand">
-            <Link href="/home" className="mobile-brand-link" onClick={toggleMobileMenu}>
+            <Link href="/" className="mobile-brand-link" onClick={toggleMobileMenu}>
               FYF
             </Link>
           </div>

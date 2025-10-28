@@ -5,6 +5,28 @@
  * basierend auf der importierten Notion-Datenbank
  */
 
+export interface PartnerInfo {
+  name: string;
+  role: string;
+  statement: string;
+  contact: {
+    email?: string;
+    chat?: string;
+    video?: string;
+  };
+  offerDescription: string;
+}
+
+export interface EventInfo {
+  date: string;
+  location: string;
+  people: string[];
+  rsvp: {
+    limit: number;
+    application_hint: string;
+  };
+}
+
 export interface FeedItem {
   id: string;
   title: string;
@@ -21,6 +43,9 @@ export interface FeedItem {
   isSilence?: boolean;       // Markiert Silence Cards
   hasGlitch?: boolean;       // Markiert Cards mit Störungseffekt
   guideComment?: string;     // Neuer FYF-Untertitel
+  isPartner?: boolean;       // Markiert Partner Supported Cards
+  partnerInfo?: PartnerInfo; // Partner-spezifische Informationen
+  eventInfo?: EventInfo;     // Event-spezifische Informationen
 }
 
 export interface FeedData {
@@ -67,4 +92,51 @@ export interface TransparencyInfo {
   reason: string;
   algorithm: string;
   personalization: string[];
+}
+
+export interface GuideResponse {
+  id: string;
+  keywords: string[];
+  comment: string;
+  clusterId: string;
+  promptHook?: string;
+  followUpQuestion?: string;
+  recommendedTypes?: string[];
+}
+
+export interface GuideMatchReason {
+  itemId: string;
+  reason: string;
+}
+
+export interface GuideConversationTurn {
+  id: string;
+  prompt: string;
+  promptEcho: string;
+  comment: string;
+  followUp?: string;
+  matchReasons: GuideMatchReason[];
+  items: GuideItem[];
+  createdAt: string;
+}
+
+export interface GuideChatResponse {
+  conversationId: string;
+  turns: GuideConversationTurn[];
+  activeTurn: GuideConversationTurn;
+}
+
+export interface GuideChatContext {
+  conversationId: string;
+  turns: GuideConversationTurn[];
+}
+
+export interface GuideItem {
+  id: string;
+  title: string;
+  guideComment: string;
+  guideWhy: string;
+  link: string;
+  clusterId: string;
+  format: string;
 }

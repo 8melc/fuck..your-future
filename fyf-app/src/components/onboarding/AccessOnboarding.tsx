@@ -89,16 +89,16 @@ export default function AccessOnboarding() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(0)
   const [formData, setFormData] = useState<AccessFormData>({
-    name: 'Max Mustermann',
-    email: 'max.mustermann@example.com',
-    birthDate: '1997-08-08',
-    targetAge: '80',
+    name: '',
+    email: '',
+    birthDate: '',
+    targetAge: '',
     goal: '',
     goals: [],
-    timePhilosophy: 'währung',
-    musicTaste: 'Electronic',
-    lifestyle: 'remote',
-    interests: ['Technologie', 'Entrepreneurship', 'Kreativität']
+    timePhilosophy: '',
+    musicTaste: '',
+    lifestyle: '',
+    interests: []
   })
 
   const step = steps[currentStep]

@@ -19,7 +19,7 @@ export default function People() {
       ],
       cta: [
         { label: "Frage stellen", action: "openQuestionModal" },
-        { label: "Lernweg anzeigen", url: "/stories/sarah-chen" }
+        { label: "Profil anzeigen", url: "/profile" }
       ],
       category: "Brüche",
       isSpotlight: true,
@@ -403,22 +403,48 @@ export default function People() {
               </div>
               
               {/* CTA */}
-              <button style={{
-                padding: '14px 28px',
-                background: '#F08A8F',
-                color: '#0A0A0A',
-                border: 'none',
-                borderRadius: '8px',
-                fontFamily: 'Space Grotesk, sans-serif',
-                fontWeight: '600',
-                fontSize: '0.9rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                textAlign: 'center',
-                width: '100%'
-              }}>
-                Frage stellen
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <button style={{
+                  padding: '14px 28px',
+                  background: '#F08A8F',
+                  color: '#0A0A0A',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontWeight: '600',
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  textAlign: 'center',
+                  width: '100%'
+                }}>
+                  Frage stellen
+                </button>
+                
+                {spotlightProfile.cta.filter(cta => cta.action !== 'openQuestionModal').map((cta, ctaIndex) => (
+                  <a
+                    key={ctaIndex}
+                    href={cta.url}
+                    style={{
+                      padding: '12px 24px',
+                      background: 'transparent',
+                      color: '#F08A8F',
+                      border: '1px solid #F08A8F',
+                      borderRadius: '8px',
+                      fontFamily: 'Space Grotesk, sans-serif',
+                      fontWeight: '500',
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      textAlign: 'center',
+                      textDecoration: 'none',
+                      display: 'block'
+                    }}
+                  >
+                    {cta.label}
+                  </a>
+                ))}
+              </div>
             </div>
 
             {/* Right: Q&A */}
@@ -625,8 +651,9 @@ export default function People() {
               </button>
               
               {person.cta.filter(cta => cta.action !== 'openQuestionModal').map((cta, ctaIndex) => (
-                <button
+                <a
                   key={ctaIndex}
+                  href={cta.url}
                   style={{
                     padding: '10px 18px',
                     background: 'transparent',
@@ -638,11 +665,13 @@ export default function People() {
                     fontSize: '0.8rem',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    textDecoration: 'none',
+                    display: 'block'
                   }}
                 >
                   {cta.label}
-                </button>
+                </a>
               ))}
             </div>
           </div>

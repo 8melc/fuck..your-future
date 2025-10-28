@@ -204,7 +204,7 @@ export default function LifeWeeksPage() {
   const [currentView, setCurrentView] = useState<'input' | 'grid' | 'typewriter' | 'navigation'>('input');
   const [currentStats, setCurrentStats] = useState<LifeStats | null>(null);
   const [activeTab, setActiveTab] = useState<number | null>(null);
-  const [birthdate, setBirthdate] = useState('1997-08-08');
+  const [birthdate, setBirthdate] = useState('');
   const [targetAge, setTargetAge] = useState('80');
   const [hoverInfo, setHoverInfo] = useState<{ visible: boolean; text: string }>({ visible: false, text: '' });
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -427,7 +427,7 @@ export default function LifeWeeksPage() {
   const resetVisualization = () => {
     setCurrentStats(null);
     setActiveTab(null);
-    setBirthdate('1997-08-08');
+    setBirthdate('');
     setTargetAge('80');
     setCurrentView('input');
     setHoverInfo({ visible: false, text: '' });

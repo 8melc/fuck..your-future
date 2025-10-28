@@ -4,7 +4,11 @@ import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, FormEvent } from 'react';
 import { feedboardService } from '@/lib/feedboardService';
 import { CLUSTER_CONFIG } from '@/lib/clusterConfig';
-import { FeedItem } from '@/types/feedboard';
+import { FeedItem, GuideItem, GuideConversationTurn } from '@/types/feedboard';
+import { feedItems as FEED_ITEMS } from '@/data/feedItems';
+import { handlePrompt, resetConversationContext } from '@/lib/guideChatEngine';
+import GuideChatSidebar from '@/components/feedboard/GuideChatSidebar';
+import FeedNoticeBanner from '@/components/feedboard/FeedNoticeBanner';
 import './feedboard.css';
 
 type ModeKey = 'focus' | 'explore' | 'pulse';
@@ -76,13 +80,20 @@ export default function FeedboardPage() {
   );
   const [consumedMinutes, setConsumedMinutes] = useState(INITIAL_CONSUMED_MINUTES);
   const [isLimitReached, setIsLimitReached] = useState(false);
-  const [isHeaderOpen, setIsHeaderOpen] = useState(false);
+  const [isHeaderOpen, setIsHeaderOpen] = useState(true);
   const [activeMode, setActiveMode] = useState<ModeKey>('focus');
   const [activeCluster, setActiveCluster] = useState<string | null>(null);
   const [intentIndex, setIntentIndex] = useState(0);
-  const [isGuideOpen, setIsGuideOpen] = useState(false);
-  const [guidePrompt, setGuidePrompt] = useState('');
-  const [guideResults, setGuideResults] = useState<FeedItem[]>([]);
+  
+  // Guide Sidebar State
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [conversationTurns, setConversationTurns] = useState<GuideConversationTurn[]>([]);
+  const [activeTurn, setActiveTurn] = useState<GuideConversationTurn | null>(null);
+  const [prompt, setPrompt] = useState('');
+  const [isGuideLoading, setIsGuideLoading] = useState(false);
+  const [overrideItems, setOverrideItems] = useState<FeedItem[] | null>(null);
+  const [showBanner, setShowBanner] = useState(false);
+  
   const [isPersonalityOpen, setIsPersonalityOpen] = useState(false);
   const [activeFormat, setActiveFormat] = useState<string>('Alle');
 
@@ -99,18 +110,24 @@ export default function FeedboardPage() {
     }
   }, [activeMode, activeCluster]);
 
+  // Keyboard shortcut for sidebar (⌘/Ctrl+J)
   useEffect(() => {
-    if (!isGuideOpen) {
-      return;
-    }
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsGuideOpen(false);
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isModifierPressed = isMac ? event.metaKey : event.ctrlKey;
+      
+      if (isModifierPressed && event.key.toLowerCase() === 'j') {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsSidebarOpen(prev => !prev);
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isGuideOpen]);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     if (isLimitReached) return;
@@ -185,6 +202,14 @@ export default function FeedboardPage() {
     return standardItems.filter(item => clusters.includes(item.theme));
   }, [standardItems, activeMode]);
 
+  // Clear override when filters change
+  useEffect(() => {
+    if (overrideItems) {
+      setOverrideItems(null);
+      setShowBanner(false); // Hide banner when filters change
+    }
+  }, [activeMode, activeCluster, activeFormat]);
+
   useEffect(() => {
     if (activeFormat !== 'Alle' && !formatOptions.includes(activeFormat)) {
       setActiveFormat('Alle');
@@ -192,16 +217,25 @@ export default function FeedboardPage() {
   }, [formatOptions, activeFormat]);
 
   const filteredItems = useMemo(() => {
+    // Use override items if available, otherwise use normal filtering
+    const sourceItems = overrideItems || modeItems;
+    
+    // Always include partner items regardless of cluster filter
+    const partnerItems = FEED_ITEMS.filter(item => item.isPartner);
+    
     const clusterFiltered = activeCluster
-      ? modeItems.filter(item => item.theme === activeCluster)
-      : modeItems;
+      ? sourceItems.filter(item => !item.isPartner && item.theme === activeCluster)
+      : sourceItems.filter(item => !item.isPartner);
+
+    // Add partner items back to the filtered results
+    const itemsWithPartners = [...clusterFiltered, ...partnerItems];
 
     if (activeFormat === 'Alle') {
-      return clusterFiltered;
+      return itemsWithPartners;
     }
 
-    return clusterFiltered.filter(item => item.format === activeFormat);
-  }, [modeItems, activeCluster, activeFormat]);
+    return itemsWithPartners.filter(item => item.format === activeFormat);
+  }, [overrideItems, modeItems, activeCluster, activeFormat]);
 
   const gridItems: GridItem[] = useMemo(() => {
     const result: GridItem[] = [];
@@ -209,12 +243,25 @@ export default function FeedboardPage() {
       return result;
     }
 
-    const sorted = [...filteredItems].sort(
-      (a, b) => Number(Boolean(b.isHero)) - Number(Boolean(a.isHero)),
-    );
+    // Sort items (heroes first, then partners, then others)
+    const sortedItems = [...filteredItems].sort((a, b) => {
+      // Heroes first
+      if (a.isHero && !b.isHero) return -1;
+      if (!a.isHero && b.isHero) return 1;
+      
+      // Partners second (but not if they're heroes)
+      if (!a.isHero && !b.isHero) {
+        if (a.isPartner && !b.isPartner) return -1;
+        if (!a.isPartner && b.isPartner) return 1;
+      }
+      
+      return 0;
+    });
 
     let silenceCursor = 0;
-    sorted.forEach((item, index) => {
+
+    sortedItems.forEach((item, index) => {
+      // Add silence cards every 5 items
       if (index > 0 && index % 5 === 0 && silenceCards.length > 0) {
         const silence = silenceCards[silenceCursor % silenceCards.length];
         result.push({
@@ -225,6 +272,7 @@ export default function FeedboardPage() {
         silenceCursor += 1;
       }
 
+      // Add the item
       result.push({
         item,
         variant: item.isHero ? 'hero' : 'standard',
@@ -244,15 +292,66 @@ export default function FeedboardPage() {
 
   const activeClusterConfig = activeCluster ? CLUSTER_CONFIG[activeCluster] : undefined;
 
-  const handleGuideSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const prompt = guidePrompt.trim();
-    if (!prompt) {
+  // Guide Sidebar Handlers
+  const handleGuidePromptSubmit = async (promptText: string) => {
+    if (!promptText.trim()) {
       return;
     }
 
-    const searchResults = feedboardService.searchItems(prompt);
-    setGuideResults(searchResults.slice(0, 6));
+    setIsGuideLoading(true);
+
+    try {
+      const result = await handlePrompt(promptText.trim());
+      
+      // Update conversation state
+      setConversationTurns(result.turns);
+      setActiveTurn(result.activeTurn);
+      
+      // Convert GuideItems to FeedItems for override
+      const feedItems = result.activeTurn.items.map(item => ({
+        id: item.id,
+        title: item.title,
+        description: item.guideComment,
+        format: item.format as any,
+        theme: item.clusterId as any,
+        perma: 'Guide' as any,
+        link: item.link,
+        image: '',
+        guideWhy: item.guideWhy,
+        source: 'guide' as any,
+        chips: [],
+        guideComment: item.guideComment,
+        isHero: false,
+        isSilence: false
+      }));
+      
+      setOverrideItems(feedItems);
+      setPrompt('');
+      
+      // Show banner temporarily
+      setShowBanner(true);
+      setTimeout(() => {
+        setShowBanner(false);
+      }, 5000); // Hide after 5 seconds
+    } catch (error) {
+      console.error('Guide prompt error:', error);
+    } finally {
+      setIsGuideLoading(false);
+    }
+  };
+
+  const handleFollowUpSelect = (followUpText: string) => {
+    setPrompt(followUpText);
+    handleGuidePromptSubmit(followUpText);
+  };
+
+  const handleResetGuide = () => {
+    resetConversationContext();
+    setConversationTurns([]);
+    setActiveTurn(null);
+    setOverrideItems(null);
+    setPrompt('');
+    setShowBanner(false); // Hide banner when resetting
   };
 
   return (
@@ -265,7 +364,7 @@ export default function FeedboardPage() {
         onModeChange={mode => setActiveMode(mode)}
         onCycleIntent={() => setIntentIndex(index => (index + 1) % INTENT_STATEMENTS.length)}
         intent={activeIntent}
-        onOpenGuide={() => setIsGuideOpen(true)}
+        onOpenGuide={() => setIsSidebarOpen(true)}
         onSetFocus={() => setActiveMode('focus')}
       />
 
@@ -281,15 +380,18 @@ export default function FeedboardPage() {
         />
       )}
 
-      <PersonalitySection 
-        isOpen={isPersonalityOpen}
-        onToggle={() => setIsPersonalityOpen(!isPersonalityOpen)}
-      />
+{/* PersonalitySection temporarily disabled */}
 
-      <div className={`feedboard-shell ${isHeaderOpen ? 'header-open' : ''}`}>
+      <div className={`feedboard-shell ${isHeaderOpen ? 'header-open' : ''} ${isSidebarOpen ? 'has-sidebar' : ''}`}>
         <div className="feedboard-shell__background" aria-hidden="true" />
 
         <section className="feedboard-controls">
+          {showBanner && activeTurn && (
+            <FeedNoticeBanner 
+              activeTurn={activeTurn}
+            />
+          )}
+          
           <div className="feedboard-controls__mode">
             <span className="feedboard-controls__mode-label">
               {MODE_CONFIG[activeMode].emoji} {MODE_CONFIG[activeMode].label}
@@ -374,17 +476,16 @@ export default function FeedboardPage() {
         )}
       </div>
 
-      <GuideModal
-        open={isGuideOpen}
-        prompt={guidePrompt}
-        onPromptChange={setGuidePrompt}
-        onClose={() => {
-          setIsGuideOpen(false);
-          setGuidePrompt('');
-          setGuideResults([]);
-        }}
-        onSubmit={handleGuideSubmit}
-        results={guideResults}
+      <GuideChatSidebar
+        isOpen={isSidebarOpen}
+        turns={conversationTurns}
+        activeTurn={activeTurn}
+        prompt={prompt}
+        isLoading={isGuideLoading}
+        onPromptChange={setPrompt}
+        onSubmit={handleGuidePromptSubmit}
+        onFollowUpSelect={handleFollowUpSelect}
+        onReset={handleResetGuide}
       />
     </>
   );
@@ -422,11 +523,14 @@ function TickTockHeader({
         aria-expanded={isOpen}
         onClick={onToggle}
       >
-        <span className="ticktock-header__label">GUIDE</span>
-        <span className="ticktock-header__chevron" aria-hidden="true">
+        <span className="ticktock-header__label"> Dein Guide.</span>
+        <span className="ticktock-header__chevron" aria-hidden="true" style={{ fontSize: '2em', color: '#4ECDC4' }}>
           {isOpen ? '▾' : '▸'}
         </span>
-        <span className="ticktock-header__teaser">Dein Fokus-Feed. Für Mut statt Hustle.</span>
+        <span className="ticktock-header__teaser">Dein Feedboard.</span>
+        <div style={{ fontSize: '0.8em', color: '#4ECDC4', marginTop: '0.5rem' }}>
+          ⌘+J zum Chatten
+        </div>
       </button>
 
       <div className="ticktock-header__body">
@@ -533,9 +637,10 @@ type FeedCardProps = {
   item: FeedItem;
   variant: 'hero' | 'standard' | 'silence';
   size?: 'default' | 'compact';
+  onPartnerClick?: (item: FeedItem) => void;
 };
 
-function FeedCard({ item, variant, size = 'default' }: FeedCardProps) {
+function FeedCard({ item, variant, size = 'default', onPartnerClick }: FeedCardProps) {
   const cluster = CLUSTER_CONFIG[item.theme];
   const accent = cluster?.color ?? '#4ecdc4';
   const icon = cluster?.icon ?? '◯';
@@ -545,6 +650,7 @@ function FeedCard({ item, variant, size = 'default' }: FeedCardProps) {
     `feed-card--${variant}`,
     size === 'compact' ? 'feed-card--compact' : '',
     item.hasGlitch ? 'feed-card--glitch' : '',
+    item.isPartner ? 'feed-card--partner' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -566,6 +672,29 @@ function FeedCard({ item, variant, size = 'default' }: FeedCardProps) {
 
       <div className="feed-card__overlay" />
 
+      {item.isPartner && (
+        <button
+          className="feed-card__partner-badge"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onPartnerClick?.(item);
+          }}
+          title="Warum sehe ich das? Dieser Partner zahlt dafür, hier zu erscheinen. Du kannst ihn jederzeit ausblenden."
+          aria-label="Partner Supported - Warum sehe ich das? Dieser Partner zahlt dafür, hier zu erscheinen. Du kannst ihn jederzeit ausblenden."
+          tabIndex={0}
+        >
+          Partner Supported
+        </button>
+      )}
+
+      {item.format === 'Event' && item.eventInfo && (
+        <div className="feed-card__event-badge">
+          <span className="feed-card__event-date">{item.eventInfo.date}</span>
+          <span className="feed-card__event-location">{item.eventInfo.location}</span>
+        </div>
+      )}
+
       <div className="feed-card__body">
         <div className="feed-card__cluster" style={{ color: accent }}>
           <span aria-hidden="true">{icon}</span>
@@ -581,7 +710,12 @@ function FeedCard({ item, variant, size = 'default' }: FeedCardProps) {
         {item.chips?.length > 0 && (
           <div className="feed-card__chips">
             {item.chips.map(chip => (
-              <span key={chip}>{chip}</span>
+              <span 
+                key={chip}
+                className={chip === "Partner Supported" ? "partner-chip" : ""}
+              >
+                {chip}
+              </span>
             ))}
           </div>
         )}
@@ -605,69 +739,20 @@ function FeedCard({ item, variant, size = 'default' }: FeedCardProps) {
 
   return (
     <article className={cardClass} data-variant={variant}>
-      <a href={item.link} target="_blank" rel="noopener noreferrer" className="feed-card__link">
-        {content}
-      </a>
-    </article>
-  );
-}
-
-type GuideModalProps = {
-  open: boolean;
-  prompt: string;
-  onPromptChange: (value: string) => void;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  onClose: () => void;
-  results: FeedItem[];
-};
-
-function GuideModal({ open, prompt, onPromptChange, onSubmit, onClose, results }: GuideModalProps) {
-  if (!open) {
-    return null;
-  }
-
-  return (
-    <div className="guide-modal" role="dialog" aria-modal="true">
-      <div className="guide-modal__panel">
-        <div className="guide-modal__header">
-          <h2>Guide fragen</h2>
-          <button type="button" onClick={onClose} aria-label="Guide schließen">
-            ✕
-          </button>
+      {item.isPartner ? (
+        <div 
+          className="feed-card__link"
+          onClick={() => onPartnerClick?.(item)}
+          style={{ cursor: 'pointer' }}
+        >
+          {content}
         </div>
-
-        <form className="guide-modal__form" onSubmit={onSubmit}>
-          <label htmlFor="guide-input">Was blockiert dich?</label>
-          <textarea
-            id="guide-input"
-            value={prompt}
-            onChange={event => onPromptChange(event.target.value)}
-            placeholder="Frag den Guide ohne Filter."
-            rows={4}
-          />
-
-          <button type="submit" className="ttg-button ttg-button--solid">
-            Suche starten
-          </button>
-        </form>
-
-        {results.length > 0 && (
-          <div className="guide-modal__results">
-            <h3>Der Guide wirft dir das hin:</h3>
-            <ul>
-              {results.map(result => (
-                <li key={result.id}>
-                  <a href={result.link} target="_blank" rel="noopener noreferrer">
-                    {result.title}
-                  </a>
-                  <span>{result.guideComment ?? result.guideWhy}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </div>
+      ) : (
+        <a href={item.link} target="_blank" rel="noopener noreferrer" className="feed-card__link">
+          {content}
+        </a>
+      )}
+    </article>
   );
 }
 
@@ -777,5 +862,104 @@ function PersonalitySection({ isOpen, onToggle }: PersonalitySectionProps) {
         </div>
       </div>
     </section>
+  );
+}
+
+type PartnerModalProps = {
+  partner: FeedItem | null;
+  onClose: () => void;
+  onHidePartner: (partnerId: string) => void;
+};
+
+function PartnerModal({ partner, onClose, onHidePartner }: PartnerModalProps) {
+  if (!partner || !partner.isPartner || !partner.partnerInfo) {
+    return null;
+  }
+
+  const { partnerInfo } = partner;
+
+  return (
+    <div className="partner-modal" role="dialog" aria-modal="true">
+      <div className="partner-modal__panel">
+        <div className="partner-modal__header">
+          <div className="partner-modal__badge">Partner Supported</div>
+          <button
+            className="partner-modal__close"
+            onClick={onClose}
+            aria-label="Modal schließen"
+          >
+            ×
+          </button>
+        </div>
+
+        <img
+          src={partner.image}
+          alt={`Portrait von ${partnerInfo.name}`}
+          className="partner-modal__portrait"
+        />
+
+        <h2 className="partner-modal__name">{partnerInfo.name}</h2>
+        <p className="partner-modal__role">{partnerInfo.role}</p>
+
+        <blockquote className="partner-modal__statement">
+          „{partnerInfo.statement}"
+        </blockquote>
+
+        <div className="partner-modal__offer">
+          <p>{partnerInfo.offerDescription}</p>
+        </div>
+
+        <div className="partner-modal__contacts">
+          {partnerInfo.contact.email && (
+            <a
+              href={`mailto:${partnerInfo.contact.email}`}
+              className="partner-modal__contact"
+            >
+              <span className="partner-modal__contact-icon">✉</span>
+              <span>{partnerInfo.contact.email}</span>
+            </a>
+          )}
+          {partnerInfo.contact.chat && (
+            <div className="partner-modal__contact">
+              <span className="partner-modal__contact-icon">💬</span>
+              <span>{partnerInfo.contact.chat}</span>
+            </div>
+          )}
+          {partnerInfo.contact.video && (
+            <div className="partner-modal__contact">
+              <span className="partner-modal__contact-icon">📹</span>
+              <span>{partnerInfo.contact.video}</span>
+            </div>
+          )}
+        </div>
+
+        <div className="partner-modal__actions">
+          <button
+            className="partner-modal__action"
+            onClick={() => {
+              if (partnerInfo.contact.email) {
+                window.location.href = `mailto:${partnerInfo.contact.email}`;
+              }
+            }}
+          >
+            Kontakt aufnehmen
+          </button>
+          <button
+            className="partner-modal__action partner-modal__action--secondary"
+            onClick={() => onHidePartner(partner.id)}
+          >
+            Partner ausblenden
+          </button>
+        </div>
+
+        <div className="partner-modal__transparency">
+          <p>
+            <strong>FYF empfiehlt Partner nur in klar gekennzeichneter Form.</strong><br />
+            Kein versteckter Verkauf, kein Algorithmus-Fake. Dieser Partner zahlt für Sichtbarkeit, 
+            aber nur Substanz bleibt hier oben.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

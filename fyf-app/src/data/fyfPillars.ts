@@ -34,7 +34,7 @@ export const fyfPillars: FYFPillar[] = [
     key: "access",
     title: "ACCESS",
     subtitle: "Erlebnisse, die bleiben.",
-    text: "Workshops, Räume und reale Momente, die FYF körperlich machen.",
+    text: "Events, Räume und reale Momente, die FYF für dich kreiert.",
     action: "Erlebe es",
     link: "/access",
     accent: "white",

@@ -2,7 +2,7 @@
 
 import SystemIntro from './SystemIntro'
 import FYFColumns from './FYFColumns'
-import SystemOutro from './SystemOutro'
+// import SystemOutro from './SystemOutro' // commented out
 
 export default function OnboardingDone() {
   // Mock data für die Demo
@@ -24,7 +24,7 @@ export default function OnboardingDone() {
       <div className="system-divider"></div>
       
       <FYFColumns />
-      <SystemOutro />
+      {/* SystemOutro component commented out */}
     </div>
   )
 }

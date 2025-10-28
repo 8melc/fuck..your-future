@@ -161,7 +161,7 @@ export const feedItems: FeedItem[] = [
     perma: "Meaning",
     link: "https://www.oliverburkeman.com/fourhundredweeks",
     image: "/images/feed_visuals/fyf_zeit_endlichkeit_why_we_cant.jpg",
-    guideWhy: "Du siehst diesen Podcast, weil du die Illusion von Zeitmanagement hinterfragen willst, anstatt dich mit leeren Versprechen abzufinden.",
+    guideWhy: "Du siehst das, weil du die Illusion von Zeitmanagement hinterfragen willst. Dieser Podcast zeigt, warum Zeit nie dir gehört und wie du trotzdem Kontrolle gewinnst.",
     source: "feedboard",
     chips: [],
     guideComment: "Zeit gehört dir nie. Deine Aufmerksamkeit schon."
@@ -189,7 +189,7 @@ export const feedItems: FeedItem[] = [
     perma: "Positive Emotions",
     link: "https://fuckyourfuture.com/manifesto",
     image: "/images/feed_visuals/fyf_fokus_flow_begrenzung_ist_befreiung.jpg",
-    guideWhy: "Du siehst diesen Inhalt, weil du gerade eine klare Ansage brauchst, statt dich in endlosen Möglichkeiten zu verlieren.",
+    guideWhy: "Du siehst das, weil du gerade eine klare Ansage brauchst. Dieser Artikel macht Schluss mit endlosen Möglichkeiten und zeigt dir, warum Begrenzung Befreiung ist.",
     source: "feedboard",
     chips: [],
     guideComment: "Grenzen sind Fokus. Ohne sie säufst du ab."
@@ -203,7 +203,7 @@ export const feedItems: FeedItem[] = [
     perma: "Engagement",
     link: "https://calnewport.com/deep-work",
     image: "/images/feed_visuals/fyf_fokus_flow_deep_work_vs.jpg",
-    guideWhy: "Du siehst das, weil du mal wieder den Fokus verlierst und keine Lust auf oberflächliche Lösungen hast.",
+    guideWhy: "Du siehst das, weil du nach Wegen suchst, aus der Ablenkung rauszugehen. Dieser Podcast zeigt, warum Fokus eine echte Entscheidung und keine Technik ist.",
     source: "feedboard",
     chips: [],
     guideComment: "Fokus ist kein Hack. Er ist eine Entscheidung."
@@ -373,7 +373,7 @@ export const feedItems: FeedItem[] = [
     perma: "Positive Emotions",
     link: "#",
     image: "",
-    guideWhy: "",
+    guideWhy: "Du siehst das, weil du gerade zu viel Input hast und einen Moment der Stille brauchst, um das Gelesene zu verarbeiten.",
     source: "feedboard",
     chips: [],
     isSilence: true,
@@ -388,7 +388,7 @@ export const feedItems: FeedItem[] = [
     perma: "Meaning",
     link: "#",
     image: "",
-    guideWhy: "",
+    guideWhy: "Du siehst das, weil du gerade in der Selbstreflexion bist und Stille als Kraftquelle brauchst, nicht als Schwäche.",
     source: "feedboard",
     chips: [],
     isSilence: true,
@@ -403,10 +403,212 @@ export const feedItems: FeedItem[] = [
     perma: "Meaning",
     link: "#",
     image: "",
-    guideWhy: "",
+    guideWhy: "Du siehst das, weil du dir die Endlichkeit deiner Zeit bewusst machen willst und nicht mehr in der Illusion der endlosen Zeit leben möchtest.",
     source: "feedboard",
     chips: [],
     isSilence: true,
     guideComment: "4.000 Wochen. Zähl jetzt."
+  },
+  // Partner Supported Examples
+  {
+    id: "partner-anna-hansen-travel",
+    title: "Anna Hansen – Auszeit, die sitzt.",
+    description: "Reiseberaterin für radikale Auszeiten. Keine Flucht, sondern Möglichkeitsräume.",
+    format: "People",
+    theme: "Freiheit & Orte",
+    perma: "Engagement",
+    link: "#",
+    image: "/images/people/anna-hansen.jpg",
+    guideWhy: "Du siehst diese Empfehlung, weil sie zu 'Freiheit & Orte' passt und Anna Teil unseres echten Netzwerks für transformative Auszeiten ist.",
+    source: "feedboard",
+    chips: ["Partner Supported", "Auszeit-Advisor"],
+    guideComment: "Ich verkaufe keine Flucht, sondern Möglichkeitsräume – echtes Leben, kein Hochglanz.",
+    isPartner: true,
+    partnerInfo: {
+      name: "Anna Hansen",
+      role: "Reiseberaterin für radikale Auszeiten",
+      statement: "Ich verkaufe keine Flucht, sondern Möglichkeitsräume – echtes Leben, kein Hochglanz.",
+      contact: {
+        email: "anna@auszeit-advisor.de",
+        chat: "Telegram: @anna_auszeit",
+        video: "20-Min-Sparring buchbar"
+      },
+      offerDescription: "Persönliche Beratung für Auszeiten, die wirklich transformieren. Keine Standard-Pakete, sondern maßgeschneiderte Lösungen für Menschen, die bereit sind, ihr Leben radikal zu hinterfragen."
+    }
+  },
+  {
+    id: "partner-christopher-keller-finance",
+    title: "Christopher Keller – Vermögen als Zeit",
+    description: "Bankberater für Lebensplanung. Du kannst Geld absichern oder Zukunft gestalten.",
+    format: "People",
+    theme: "Geld & Wert",
+    perma: "Accomplishment",
+    link: "#",
+    image: "/images/people/christopher-keller.jpg",
+    guideWhy: "Du siehst diese Empfehlung, weil sie zu 'Geld & Wert' passt und Christopher Teil unseres echten Netzwerks für bewusste Finanzplanung ist.",
+    source: "feedboard",
+    chips: ["Partner Supported", "Finanz-Berater"],
+    guideComment: "Du kannst Geld absichern oder Zukunft gestalten. Ich helfe beim Schnitt.",
+    isPartner: true,
+    partnerInfo: {
+      name: "Christopher Keller",
+      role: "Bankberater für Lebensplanung",
+      statement: "Du kannst Geld absichern oder Zukunft gestalten. Ich helfe beim Schnitt.",
+      contact: {
+        email: "christopher@vermoegen-zeit.de",
+        chat: "WhatsApp: +49 123 456789",
+        video: "Kostenloses Erstgespräch"
+      },
+      offerDescription: "Finanzberatung, die deine Lebensziele in den Mittelpunkt stellt. Keine Produktverkäufe, sondern strategische Planung für Menschen, die Geld als Werkzeug für Freiheit verstehen."
+    }
+  },
+  {
+    id: "commercial-101",
+    title: "Ausbruch Travel – Reisebüro für radikale Auszeiten",
+    description: "Von Pauschalreisen halten wir nix. Hier geht's um echte Umbrüche: Sabbatical, Workation, Neu-Start.",
+    format: "People",
+    theme: "Freiheit & Orte",
+    perma: "Engagement",
+    link: "/partner/ausbruch-travel",
+    image: "/images/partner/ausbruch-travel.jpg",
+    guideWhy: "Du siehst diese Empfehlung, weil sie zu 'Freiheit & Orte' passt und Ausbruch Travel Teil unseres echten Netzwerks für transformative Reisen ist.",
+    source: "feedboard",
+    chips: ["Partner Supported", "Langzeitreise"],
+    guideComment: "Von Pauschalreisen halten wir nix. Hier geht's um echte Umbrüche: Sabbatical, Workation, Neu-Start.",
+    isPartner: true,
+    partnerInfo: {
+      name: "Ausbruch Travel",
+      role: "Reisebüro für radikale Auszeiten",
+      statement: "Von Pauschalreisen halten wir nix. Hier geht's um echte Umbrüche: Sabbatical, Workation, Neu-Start.",
+      contact: {
+        email: "kontakt@ausbruch-travel.de",
+        chat: "WhatsApp: +49 123 456789",
+        video: "Kostenlose Erstberatung"
+      },
+      offerDescription: "Exklusiv für FYF: Erstberatung kostenlos, Zugang zu Community-Events für Longterm-Aussteiger."
+    }
+  },
+  {
+    id: "commercial-102",
+    title: "Zeitkonto Digital – Banking, das nach Zeit rechnet",
+    description: "Banken reden von Rendite – hier zählt Lebensqualität. Zeitkonto statt Zinssatz.",
+    format: "People",
+    theme: "Geld & Wert",
+    perma: "Accomplishment",
+    link: "/partner/zeitkonto-digital",
+    image: "/images/partner/zeitkonto-digital.jpg",
+    guideWhy: "Du siehst diese Empfehlung, weil sie zu 'Zeit & Endlichkeit' passt und Zeitkonto Digital Teil unseres echten Netzwerks für bewusstes Banking ist.",
+    source: "feedboard",
+    chips: ["Partner Supported", "Zeitbonus"],
+    guideComment: "Banken reden von Rendite – hier zählt Lebensqualität. Zeitkonto statt Zinssatz.",
+    isPartner: true,
+    partnerInfo: {
+      name: "Zeitkonto Digital",
+      role: "Banking, das nach Zeit rechnet",
+      statement: "Banken reden von Rendite – hier zählt Lebensqualität. Zeitkonto statt Zinssatz.",
+      contact: {
+        email: "info@zeitkonto-digital.de",
+        chat: "Telegram: @zeitkonto_support",
+        video: "Zeitberatung buchbar"
+      },
+      offerDescription: "FYF-Bonus: Extra Zeitguthaben für kritische Lebensphasen, spezielle Beratung für Purpose-Investments."
+    }
+  },
+  {
+    id: "commercial-103",
+    title: "WorkFlow Cowork – Flexible Spaces für produktive Auszeit",
+    description: "Cozy Office kann jeder – hier gibt's Flow-Zonen für echte Durchstarter, Retreats mit Haltung.",
+    format: "People",
+    theme: "Fokus & Flow",
+    perma: "Engagement",
+    link: "/partner/workflow-cowork",
+    image: "/images/partner/workflow-cowork.jpg",
+    guideWhy: "Du siehst diese Empfehlung, weil sie zu 'Fokus & Flow' passt und WorkFlow Cowork Teil unseres echten Netzwerks für produktive Arbeitsräume ist.",
+    source: "feedboard",
+    chips: ["Partner Supported", "Retreat-Zone"],
+    guideComment: "Cozy Office kann jeder – hier gibt's Flow-Zonen für echte Durchstarter, Retreats mit Haltung.",
+    isPartner: true,
+    partnerInfo: {
+      name: "WorkFlow Cowork",
+      role: "Flexible Spaces für produktive Auszeit",
+      statement: "Cozy Office kann jeder – hier gibt's Flow-Zonen für echte Durchstarter, Retreats mit Haltung.",
+      contact: {
+        email: "hello@workflow-cowork.de",
+        chat: "Signal: +49 987 654321",
+        video: "Space-Tour buchbar"
+      },
+      offerDescription: "Aktion für FYF: 15% Rabatt auf Langzeitbuchungen, Zugang zu exklusiven Deep Work Sessions."
+    }
+  },
+  // FYF Events
+  {
+    id: "event-balance-check-zeit-edition",
+    title: "Balance Check: Zeit-Edition",
+    description: "Dein wichtigstes Konto ist im Minus. Live-Audit deines Zeit-Vermögens mit Experten, die deine Illusionen zerstören.",
+    format: "Event",
+    theme: "Zeit & Endlichkeit",
+    perma: "Accomplishment",
+    link: "/access",
+    image: "/images/balance-check-hero.jpg",
+    guideWhy: "Du siehst dieses Event, weil es zu 'Zeit & Endlichkeit' passt und dir einen echten Reality Check für dein Zeit-Vermögen bietet.",
+    source: "feedboard",
+    chips: ["Live Event", "3h Reality Check", "Beats"],
+    guideComment: "Wie viel Autopilot steckt in deinem Leben?",
+    isHero: true,
+    eventInfo: {
+      date: "22.11.2025 · Sa · 18:30",
+      location: "Köln, Altes Pfandhaus",
+      people: ["Jonas Geißler", "Prof. Dr. Lothar Seiwert", "Céleste Spahić"],
+      rsvp: {
+        limit: 50,
+        application_hint: "Warum ist der Balance Check jetzt für dich unverzichtbar? (1 Satz)"
+      }
+    }
+  },
+  {
+    id: "event-nach-uns-sintflut",
+    title: "Nach uns die Sintflut",
+    description: "Nächtlicher Rave + philosophischer Realitätscheck. Um 3 Uhr Pause für unbequeme Gedanken zur Vergänglichkeit.",
+    format: "Event",
+    theme: "Zeit & Endlichkeit",
+    perma: "Engagement",
+    link: "/access",
+    image: "/images/event-rave.jpg",
+    guideWhy: "Du siehst dieses Event, weil es zu 'Zeit & Endlichkeit' passt und dir einen unkonventionellen Zugang zur Vergänglichkeit bietet.",
+    source: "feedboard",
+    chips: ["Club-Night", "Talk"],
+    guideComment: "Noch 200 Partynächte im Leben. Tanzt du die nächste durch?",
+    eventInfo: {
+      date: "18.10.2025",
+      location: "Berlin, Club Endlos",
+      people: ["Techno-DJ", "Philosophin"],
+      rsvp: {
+        limit: 100,
+        application_hint: "Bewerbung mit 1 Satz: Was treibt dich nachts an?"
+      }
+    }
+  },
+  {
+    id: "event-uhrwerk-zukunft",
+    title: "Uhrwerk Zukunft",
+    description: "Du baust mit eigenen Händen Zeit. 80-jähriger Uhrmacher, Zukunftsforscherin: schrauben, denken, machen.",
+    format: "Event",
+    theme: "Fokus & Flow",
+    perma: "Accomplishment",
+    link: "/access",
+    image: "/images/event-workshop.jpg",
+    guideWhy: "Du siehst dieses Event, weil es zu 'Fokus & Flow' passt und dir zeigt, wie du mit eigenen Händen Zukunft gestaltest.",
+    source: "feedboard",
+    chips: ["Werkstatt", "Experiment"],
+    guideComment: "Noch 1000 Arbeitswochen im Leben. Baust du was Echtes?",
+    eventInfo: {
+      date: "15.06.2025",
+      location: "Leipzig, Alte Uhrenfabrik",
+      people: ["Uhrmacher (80)", "Zukunftsforscherin"],
+      rsvp: {
+        limit: 15,
+        application_hint: "Bewerbung mit 1 Satz: Was möchtest du unbedingt noch bauen?"
+      }
+    }
   }
 ];
